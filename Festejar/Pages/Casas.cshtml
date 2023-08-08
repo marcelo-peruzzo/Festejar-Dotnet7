@@ -1,0 +1,411 @@
+﻿@page
+@model Festejar.Pages.CasasModel
+@{
+}
+<html lang="en">
+<body>
+
+    <div class="breadcrumb-area section-bg-2 breadcrumb-padding">
+        <div class="container custom-container-one">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-contents">
+                        <h4 class="breadcrumb-contents-title"> Lista de casas disponíveis </h4>
+                        <ul class="breadcrumb-contents-list list-style-none">
+                            <li class="breadcrumb-contents-list-item"> <a href="index.html" class="breadcrumb-contents-list-item-link"> Home </a> </li>
+                            <li class="breadcrumb-contents-list-item"> Casas </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="responsive-overlay"></div>
+    <section class="hotel-list-area section-bg-2 pat-100 pab-100">
+        <div class="container">
+            <div class="banner-location bg-white radius-10">
+                <div class="banner-location-flex">
+                    <div class="banner-location-single">
+                        <div class="banner-location-single-flex">
+                            <div class="banner-location-single-icon">
+                                <i class="las la-map-marker-alt"></i>
+                            </div>
+                            <div class="banner-location-single-contents">
+                                <span class="banner-location-single-contents-subtitle"> Cidade </span>
+                                <div class="banner-location-single-contents-dropdown">
+                                    <select class="js-select select-style-two" id="cidadeSelect"
+                                            name="state">
+                                        @foreach (var cidade in Model.Cidades)
+                                        {
+                                            @*o atributo selected é adicionado a opção se o valor corresponde ao cidadeId selecionado na view Index*@
+                                            @if (cidade.Id == (int)ViewData["CidadeId"])
+                                            {
+
+                                                <option value="@cidade.Id" selected>@cidade.Nome</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@cidade.Id">@cidade.Nome</option>
+                                            }
+                                        }
+                                        <option value="1">Estático, New Mexico</option>
+                                        <option value="4">Estático, Paris</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="banner-location-single">
+                        <div class="banner-location-single-flex">
+                            <div class="banner-location-single-icon">
+                                <i class="las la-calendar"></i>
+                            </div>
+                            <div class="banner-location-single-contents">
+                                <span class="banner-location-single-contents-subtitle"> Data Inicio </span>
+                                <div class="banner-location-single-contents-dropdown custom-select">
+                                    <select class="js-select select-style-two" name="state" style="display: none;">
+                                        <option value="1">20 Jun 2022</option>
+                                        <option value="2">21 Jun 2022</option>
+                                        <option value="3">22 Jun 2022</option>
+                                        <option value="4">23 Jun 2022</option>
+                                    </select><div class="nice-select js-select select-style-two" tabindex="0"><span class="current">20 Jun 2022</span><div class="nice-select-search-box"><input type="text" class="nice-select-search" placeholder="Search..."></div><ul class="list"><li data-value="1" class="option selected">20 Jun 2022</li><li data-value="2" class="option">21 Jun 2022</li><li data-value="3" class="option">22 Jun 2022</li><li data-value="4" class="option">23 Jun 2022</li></ul></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="banner-location-single">
+                        <div class="banner-location-single-flex">
+                            <div class="banner-location-single-icon">
+                                <i class="las la-calendar"></i>
+                            </div>
+                            <div class="banner-location-single-contents">
+                                <span class="banner-location-single-contents-subtitle"> Data Fim </span>
+                                <div class="banner-location-single-contents-dropdown custom-select">
+                                    <select class="js-select select-style-two" name="state" style="display: none;">
+                                        <option value="1">20 Jul 2022</option>
+                                        <option value="2">21 Jul 2022</option>
+                                        <option value="3">22 Jul 2022</option>
+                                        <option value="4">23 Jul 2022</option>
+                                    </select><div class="nice-select js-select select-style-two" tabindex="0"><span class="current">20 Jul 2022</span><div class="nice-select-search-box"><input type="text" class="nice-select-search" placeholder="Search..."></div><ul class="list"><li data-value="1" class="option selected">20 Jul 2022</li><li data-value="2" class="option">21 Jul 2022</li><li data-value="3" class="option">22 Jul 2022</li><li data-value="4" class="option">23 Jul 2022</li></ul></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="banner-location-single-search">
+                        <div class="search-suggestions-wrapper">
+                            <div class="search-click-icon" onclick="var select = document.getElementById('cidadeSelect'); console.log('select:', select); if (select) { console.log('select.value:', select.value); location.href='@Url.Action("CasasCidades", "CasasCidades")?cidadeId=' + select.value; }">
+                                <i class="las la-search"></i>
+                            </div>
+                            <div class="search-show">
+                                <div class="search-show-inner">
+                                    <form action="#">
+                                        <div class="search-show-form">
+                                            <input autocomplete="off" class="form--control" id="search_form_input" type="text" placeholder="Search here....">
+                                            <button type="submit"> <i class="las la-search"></i> </button>
+                                            <span class="suggestions-icon-close"> <i class="las la-times"></i> </span>
+                                        </div>
+                                        <div class="search-product" id="search_suggestions_wrap">
+                                            <div class="search-product-inner">
+                                                <h6 class="search-product-title">Product Suggestions</h6>
+                                                <ul class="search-product-list mt-4">
+                                                    <li class="search-product-list-item">
+                                                        <a href="javascript:void(0)" class="search-product-list-link">
+                                                            <div class="search-product-list-image"><img src="assets/img/search_suggestion/s1.jpg" alt="img"></div>
+                                                            <div class="search-product-list-info">
+                                                                <div class="search-product-list-info-top">
+                                                                    <h6 class="earch-product-list-info-title"> Apple Original Air pod Collection for most popular and best price item in market </h6>
+                                                                </div>
+                                                                <div class="search-product-list-info-price mt-2">
+                                                                    <div class="search-product-list-info-price-through">
+                                                                        <span class="flash-price"> $330.00 </span>
+                                                                        <span class="old-price"> $300.00 </span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </a>
+                                                    </li>
+                                                    <li class="search-product-list-item">
+                                                        <a href="javascript:void(0)" class="search-product-list-link">
+                                                            <div class="search-product-list-image"><img src="assets/img/search_suggestion/s2.jpg" alt="img"></div>
+                                                            <div class="search-product-list-info">
+                                                                <div class="search-product-list-info-top">
+                                                                    <h6 class="earch-product-list-info-title"> Apple Original Airpod Collection </h6>
+                                                                </div>
+                                                                <div class="search-product-list-info-price mt-2">
+                                                                    <span class="main-price fw-500 color-light">$269.00</span>
+                                                                </div>
+                                                            </div>
+                                                        </a>
+                                                    </li>
+                                                    <li class="search-product-list-item">
+                                                        <a href="javascript:void(0)" class="search-product-list-link">
+                                                            <div class="search-product-list-image"><img src="assets/img/search_suggestion/s3.jpg" alt="img"></div>
+                                                            <div class="search-product-list-info">
+                                                                <div class="search-product-list-info-top">
+                                                                    <h6 class="earch-product-list-info-title"> Apple Original Airpod Collection </h6>
+                                                                </div>
+                                                                <div class="search-product-list-info-price mt-2">
+                                                                    <span class="main-price fw-500 color-light">$499.00</span>
+                                                                    <span class="stock-out"> Stock Out </span>
+                                                                </div>
+                                                            </div>
+                                                        </a>
+                                                    </li>
+                                                    <li class="search-product-list-item">
+                                                        <a href="javascript:void(0)" class="search-product-list-link">
+                                                            <div class="search-product-list-image"><img src="assets/img/search_suggestion/s4.jpg" alt="img"></div>
+                                                            <div class="search-product-list-info">
+                                                                <div class="search-product-list-info-top">
+                                                                    <h6 class="earch-product-list-info-title"> Apple Original Airpod Collection </h6>
+                                                                </div>
+                                                                <div class="search-product-list-info-price mt-2">
+                                                                    <span class="main-price fw-500 color-light">$499.00</span>
+                                                                </div>
+                                                            </div>
+                                                        </a>
+                                                    </li>
+                                                    <li class="search-product-list-item">
+                                                        <a href="javascript:void(0)" class="search-product-list-link">
+                                                            <div class="search-product-list-image"><img src="assets/img/search_suggestion/s5.jpg" alt="img"></div>
+                                                            <div class="search-product-list-info">
+                                                                <div class="search-product-list-info-top">
+                                                                    <h6 class="earch-product-list-info-title"> Apple Original Airpod Collection </h6>
+                                                                </div>
+                                                                <div class="search-product-list-info-price mt-2">
+                                                                    <span class="main-price fw-500 color-light">$499.00</span>
+                                                                </div>
+                                                            </div>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="search-suggestion-overlay"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="shop-contents-wrapper mt-5">
+                <div class="shop-icon">
+                    <div class="shop-icon-sidebar">
+                        <i class="las la-bars"></i>
+                    </div>
+                </div>
+                <div class="shop-sidebar-content">
+                    <div class="shop-close-content">
+                        <div class="shop-close-content-icon"> <i class="las la-times"></i> </div>
+                        <div class="single-shop-left bg-white radius-10">
+                            <div class="single-shop-left-title open">
+                                <h5 class="title"> Preços </h5>
+                                <div class="single-shop-left-inner mt-4">
+                                    <form class="price-range-slider" method="post" data-start-min="0" data-start-max="10000" data-min="0" data-max="10000" data-step="5">
+                                        <div class="ui-range-slider noUi-target noUi-ltr noUi-horizontal noUi-background"><div class="noUi-base"><div class="noUi-origin noUi-connect" style="left: 0%;"><div class="noUi-handle noUi-handle-lower"></div></div><div class="noUi-origin noUi-background" style="left: 100%;"><div class="noUi-handle noUi-handle-upper"></div></div></div></div>
+                                        <div class="ui-range-slider-footer">
+                                            <div class="ui-range-values">
+                                                <span class="ui-price-title"> Preço: </span>
+                                                <div class="ui-range-value-min">
+                                                    $<span class="min_price">0</span>
+                                                    <input type="hidden" value="0">
+                                                </div>-
+                                                <div class="ui-range-value-max">
+                                                    $<span class="max_price">10000</span>
+                                                    <input type="hidden" value="10000">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="single-shop-left bg-white radius-10 mt-4">
+                            <div class="single-shop-left-title open">
+                                <h5 class="title"> Inclusos </h5>
+                                <div class="single-shop-left-inner margin-top-15">
+                                    <ul class="single-shop-left-list active-list list-style-none">
+                                        <li class="item-search">
+                                            <input type="text" class="form--control" placeholder="Comodidades de pesquisa">
+                                            <div class="item-search-icon"> <i class="las la-search"></i> </div>
+                                        </li>
+                                        <li class="item"> <a href="javascript:void(0)"> Estacionamento </a> </li>
+                                        <li class="item active"> <a href="javascript:void(0)"> Churrasqueira </a> </li>
+                                        <li class="item"> <a href="javascript:void(0)"> Wi-Fi Grátis </a> </li>
+                                        <li class="item"> <a href="javascript:void(0)"> Piscina aquecida </a> </li>
+                                        <li class="item"> <a href="javascript:void(0)"> Mesa de sinuca </a> </li>
+                                        <li class="item"> <a href="javascript:void(0)"> Piscina de bolinhas </a> </li>
+                                        <li class="item"> <a href="javascript:void(0)"> Cama elástica </a> </li>
+                                        <li class="item"> <a href="javascript:void(0)"> Decorações Festas </a> </li>
+                                        <li class="more-amenities"> <a href="javascript:void(0)"> Mostrar mais </a> </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="single-shop-left bg-white radius-10 mt-4">
+                            <div class="single-shop-left-title open">
+                                <h5 class="title"> Filtrar por classificação </h5>
+                                <div class="single-shop-left-inner">
+                                    <ul class="single-shop-left-filter-list active-list mt-3">
+                                        <li class="item active">
+                                            <a href="javascript:void(0)"> <i class="las la-star"></i> </a>
+                                            <a href="javascript:void(0)"> <i class="las la-star"></i> </a>
+                                            <a href="javascript:void(0)"> <i class="las la-star"></i> </a>
+                                            <a href="javascript:void(0)"> <i class="las la-star"></i> </a>
+                                            <a href="javascript:void(0)"> <i class="las la-star"></i> </a>
+                                        </li>
+                                        <li class="item">
+                                            <a href="javascript:void(0)"> <i class="las la-star"></i> </a>
+                                            <a href="javascript:void(0)"> <i class="las la-star"></i> </a>
+                                            <a href="javascript:void(0)"> <i class="las la-star"></i> </a>
+                                            <a href="javascript:void(0)"> <i class="las la-star"></i> </a>
+                                            <a href="javascript:void(0)"> <i class="lar la-star"></i> </a>
+                                        </li>
+                                        <li class="item">
+                                            <a href="javascript:void(0)"> <i class="las la-star"></i> </a>
+                                            <a href="javascript:void(0)"> <i class="las la-star"></i> </a>
+                                            <a href="javascript:void(0)"> <i class="las la-star"></i> </a>
+                                            <a href="javascript:void(0)"> <i class="lar la-star"></i> </a>
+                                            <a href="javascript:void(0)"> <i class="lar la-star"></i> </a>
+                                        </li>
+                                        <li class="item">
+                                            <a href="javascript:void(0)"> <i class="las la-star"></i> </a>
+                                            <a href="javascript:void(0)"> <i class="las la-star"></i> </a>
+                                            <a href="javascript:void(0)"> <i class="lar la-star"></i> </a>
+                                            <a href="javascript:void(0)"> <i class="lar la-star"></i> </a>
+                                            <a href="javascript:void(0)"> <i class="lar la-star"></i> </a>
+                                        </li>
+                                        <li class="item">
+                                            <a href="javascript:void(0)"> <i class="las la-star"></i> </a>
+                                            <a href="javascript:void(0)"> <i class="lar la-star"></i> </a>
+                                            <a href="javascript:void(0)"> <i class="lar la-star"></i> </a>
+                                            <a href="javascript:void(0)"> <i class="lar la-star"></i> </a>
+                                            <a href="javascript:void(0)"> <i class="lar la-star"></i> </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="shop-grid-contents">
+                    <div class="grid-list-contents">
+                        <div class="grid-list-contents-flex">
+                            <p class="grid-list-contents-para"> Showing 1-4 of 16 results </p>
+                        </div>
+                    </div>
+
+                    <div id="tab-list" class="tab-content-item mt-4 active">
+                        <div class="row gy-4">
+                            @if (Model.Casas != null)
+                            {
+                                @foreach (var casas in Model.Casas)
+                                {
+                                    <div class="col-12">
+                                        <div class="hotel-view bg-white radius-20">
+                                            <div class="hotel-view-flex">
+                                                <a href="/InternoCasas/InternoCasa" class="hotel-view-thumb hotel-view-list-thumb bg-image" style="background-image: url(/img/shots/img3.jpeg);">
+                                                </a>
+                                                <div class="hotel-view-contents">
+                                                    <div class="hotel-view-contents-header">
+                                                        <div class="hotel-view-contents-header-flex d-flex flex-wrap gap-3 align-items-center justify-content-between">
+                                                            <span class="hotel-view-contents-review"> <i class="las la-star"></i> 4.5 <span class="hotel-view-contents-review-count"> (380) </span> </span>
+                                                            <form method="post">
+                                                            <div class="btn-wrapper">
+                                                                    <input type="hidden" name="casaId" value="@casas.Id" />
+                                                                    <button type="submit" asp-page-handler="ReservarAgora" class="cmn-btn btn-bg-1 btn-small">Reserve Agora</button>
+                                                            </div>
+                                                            </form>
+                                                        </div>
+                                                        <h3 class="hotel-view-contents-title"> <a href="/InternoCasas/InternoCasa"> @casas.Titulo </a> </h3>
+                                                        <div class="hotel-view-contents-location mt-2">
+                                                            <span class="hotel-view-contents-location-icon"> <i class="las la-map-marker-alt"></i> </span>
+                                                            <span class="hotel-view-contents-location-para"> @casas.Endereco </span>
+                                                        </div>
+                                                    </div>
+
+                                                    
+                                                            <div class="hotel-view-contents-middle">
+                                                                <div class="hotel-view-contents-flex">
+                                                            @foreach (var comodidade in (IEnumerable<dynamic>)ViewData["Comodidades"])
+                                                            {
+                                                                if (comodidade.Key == casas.Id)
+                                                                {
+                                                                    foreach (var item in comodidade)
+                                                                    {
+                                                                        <div class="hotel-view-contents-icon d-flex gap-1">
+                                                                            <span> <i class="las la-Piscina de Bolinha"></i> </span>
+                                                                            <p class="hotel-view-contents-icon-title flex-fill">@item.Titulo</p>
+                                                                        </div>
+                                                                    }
+                                                                }
+                                                            }
+                                                            <div class="hotel-view-contents-icon d-flex gap-1">
+                                                                <a class="hotel-view-contents-icon-more" href="javascript:void(0)"> +8 More </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>                                                
+                                                    
+                                                    <div class="hotel-view-contents-bottom">
+                                                        <div class="hotel-view-contents-bottom-flex">
+                                                            <div class="hotel-view-contents-bottom-contents d-flex flex-wrap gap-4 gap-sm-1">
+                                                                <h4 class="hotel-view-contents-bottom-title"> R$600  <sub>/Night</sub> </h4>
+                                                                <p class="hotel-view-contents-bottom-para"> (4 Nights, 2 Rooms, 4 Persons) </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+
+                        </div>
+                        <div class="row mt-5">
+                            <div class="col">
+                                <div class="pagination-wrapper">
+                                    <ul class="pagination-list list-style-none">
+                                        <li class="pagination-list-item-prev">
+                                            <a href="javascript:void(0)" class="pagination-list-item-button"> Prev </a>
+                                        </li>
+                                        <li class="pagination-list-item">
+                                            <a href="javascript:void(0)" class="pagination-list-item-link"> 1 </a>
+                                        </li>
+                                        <li class="pagination-list-item active">
+                                            <a href="javascript:void(0)" class="pagination-list-item-link"> 2 </a>
+                                        </li>
+                                        <li class="pagination-list-item">
+                                            <a href="javascript:void(0)" class="pagination-list-item-link"> 3 </a>
+                                        </li>
+                                        <li class="pagination-list-item">
+                                            <a href="javascript:void(0)" class="pagination-list-item-link"> 4 </a>
+                                        </li>
+                                        <li class="pagination-list-item">
+                                            <a href="javascript:void(0)" class="pagination-list-item-link"> 5 </a>
+                                        </li>
+                                        <li class="pagination-list-item-next">
+                                            <a href="javascript:void(0)" class="pagination-list-item-button"> Next </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="back-to-top" style="display: none;">
+        <span class="back-top"> <i class="las la-angle-up"></i> </span>
+    </div>
+
+
+    <div class="mouse-move mouse-outer" style="visibility: visible; transform: translate(1906px, 592px);"></div>
+    <div class="mouse-move mouse-inner" style="visibility: visible; transform: translate(1906px, 592px);"></div>
+
+</body>
+</html>

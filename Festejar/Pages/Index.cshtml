@@ -1,0 +1,682 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<body>
+    <div class="banner-area banner-area-one">
+        <div class="container-fluid p-0">
+            <div class="row align-items-center flex-column-reverse flex-lg-row">
+                <div class="col-lg-6">
+                    <div class="banner-single banner-single-one percent-padding">
+                        <div class="banner-single-content">
+                            <h2 class="banner-single-content-title fw-700">
+                                Aproveite feriados, férias e tempo com a família.
+                            </h2>
+                            <p class="banner-single-content-para mt-3">
+                                Amet minim mollit non deserunt ullamco est sit aliqua dolor do
+                                amet sint. Velit officia consequat duis enim.
+                            </p>
+                            <div class="banner-location banner-location-one bg-white radius-5 mt-5">
+                                <div class="banner-location-flex">
+                                    <div class="banner-location-single">
+                                        <div class="banner-location-single-flex">
+                                            <div class="banner-location-single-icon">
+                                                <i class="las la-map-marker-alt"></i>
+                                            </div>
+                                            <div class="banner-location-single-contents">
+                                                <span class="banner-location-single-contents-subtitle">
+                                                    Cidade
+                                                </span>
+                                                <div class="banner-location-single-contents-dropdown">
+                                                    <select class="js-select select-style-two" id="cidadeSelect"
+                                                            name="state">
+                                                        <option value="">Selecione uma cidade</option>
+                                                        @foreach (var cidade in Model.Cidades)
+                                                        {
+                                                            <option value="@cidade.Id">@cidade.Nome</option>
+                                                        }
+                                                        <option value="1">Estático, New Mexico</option>
+                                                        <option value="4">Estático, Paris</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="banner-location-single ban_date">
+                                        <div class="banner-location-single-flex">
+                                            <div class="banner-location-single-icon">
+                                                <i class="las la-calendar"></i>
+                                            </div>
+                                            <div class="single-input">
+                                                <label class="details-sidebar-dropdown-title"> Data de entrada </label>
+                                                <input class="form--control date-picker flatpickr-input" type="hidden" placeholder="Data de entrada" value="13-06-2023 12:00">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="banner-location-single ban_date">
+                                        <div class="banner-location-single-flex">
+                                            <div class="banner-location-single-icon">
+                                                <i class="las la-calendar"></i>
+                                            </div>
+                                            <div class="single-input">
+                                                <label class="details-sidebar-dropdown-title"> Data de saída </label>
+                                                <input class="form--control date-picker flatpickr-input" type="hidden" placeholder="Data de saída" value="20-06-2023 12:00">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="banner-location-single-search">
+                                        <div class="search-suggestions-wrapper">
+                                            <div class="search-click-icon">
+                                                <!-- Altera a âncora para um botão que executa a função JavaScript -->
+                                                <button class="las la-search" onclick="searchCasa()"></button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 bg-image bg-home banner-right-bg radius-20"
+                     style="background-image: url(/img/banner/ban2.jpg)"></div>
+            </div>
+        </div>
+    </div>
+
+    <section class="booking-area pat-100 pab-50">
+        <div class="container">
+            <div class="section-title center-text">
+                <h2 class="title">Por que reservar nossas casas de festas?</h2>
+                <div class="section-title-shapes"></div>
+            </div>
+            <div class="row gy-4 mt-5">
+                <div class="col-xl-3 col-lg-4 col-md-6 wow fadeInRight"
+                     data-wow-delay=".2s">
+                    <div class="single-why center-text bg-white single-why-border radius-10">
+                        <div class="single-why-icon">
+                            <img src="~/img/icons/b1.svg" alt="icon" />
+                        </div>
+                        <div class="single-why-contents mt-3">
+                            <h4 class="single-why-contents-title">
+                                <a href="javascript:void(0)"> Reserva sem complicações </a>
+                            </h4>
+                            <p class="single-why-contents-para mt-3">
+                                Reserve sua casa de festas em nosso site sem complicações.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 wow zoomIn"
+                     data-wow-delay=".4s">
+                    <div class="single-why center-text bg-white single-why-border radius-10">
+                        <div class="single-why-icon">
+                            <img src="~/img/icons/b2.svg" alt="icon" />
+                        </div>
+                        <div class="single-why-contents mt-3">
+                            <h4 class="single-why-contents-title">
+                                <a href="javascript:void(0)"> Clientes satisfeitos </a>
+                            </h4>
+                            <p class="single-why-contents-para mt-3">
+                                Reserve sua casa de festas em nosso site sem complicações.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 wow fadeInLeft"
+                     data-wow-delay=".2s">
+                    <div class="single-why center-text bg-white single-why-border radius-10">
+                        <div class="single-why-icon">
+                            <img src="~/img/icons/b3.svg" alt="icon" />
+                        </div>
+                        <div class="single-why-contents mt-3">
+                            <h4 class="single-why-contents-title">
+                                <a href="javascript:void(0)"> Cancelamento grátis </a>
+                            </h4>
+                            <p class="single-why-contents-para mt-3">
+                                Reserve sua casa de festas em nosso site sem complicações.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 wow fadeInLeft"
+                     data-wow-delay=".2s">
+                    <div class="single-why center-text bg-white single-why-border radius-10">
+                        <div class="single-why-icon">
+                            <img src="~/img/icons/b4.svg" alt="icon" />
+                        </div>
+                        <div class="single-why-contents mt-3">
+                            <h4 class="single-why-contents-title">
+                                <a href="javascript:void(0)"> Contato via WhatsApp </a>
+                            </h4>
+                            <p class="single-why-contents-para mt-3">
+                                Reserve sua casa de festas em nosso site sem complicações.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="attraction-area pat-50 pab-50">
+        <div class="container">
+            <div class="section-title text-left append-flex">
+                <h2 class="title">Alguns de nossos ambientes</h2>
+                <div class="append-attraction"></div>
+            </div>
+            <div class="row mt-5">
+                <div class="col-12">
+                    <div class="global-slick-init attraction-slider nav-style-one slider-inner-margin"
+                         data-appendarrows=".append-attraction"
+                         data-infinite="true"
+                         data-arrows="true"
+                         data-dots="false"
+                         data-slidestoshow="4"
+                         data-swipetoslide="true"
+                         data-autoplay="true"
+                         data-autoplayspeed="2500"
+                         data-prevarrow='<div class="prev-icon"><i class="las la-angle-left"></i></div>'
+                         data-nextarrow='<div class="next-icon"><i class="las la-angle-right"></i></div>'
+                         data-responsive='[{"breakpoint": 1400,"settings": {"slidesToShow": 4}},{"breakpoint": 1200,"settings": {"slidesToShow": 3}},{"breakpoint": 992,"settings": {"slidesToShow": 2}},{"breakpoint": 480, "settings": {"slidesToShow": 1} }]'>
+                        <div class="attraction-item">
+                            <div class="single-attraction radius-20">
+                                <div class="single-attraction-thumb">
+                                    <a href="hotel_details.html">
+                                        <img src="/img/shots/img1.png" alt="img" />
+                                    </a>
+                                </div>
+                                <div class="single-attraction-contents">
+                                    <h4 class="single-attraction-contents-title">
+                                        <a href="hotel_details.html"> Festejar Eventos Ampére </a>
+                                    </h4>
+                                    <p class="single-attraction-contents-para">
+                                        We have over 28K reviews to assure you top notch service.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="attraction-item">
+                            <div class="single-attraction radius-20">
+                                <div class="single-attraction-thumb">
+                                    <a href="hotel_details.html">
+                                        <img src="/img/shots/img2.png" alt="img" />
+                                    </a>
+                                </div>
+                                <div class="single-attraction-contents">
+                                    <h4 class="single-attraction-contents-title">
+                                        <a href="hotel_details.html"> Festejar Eventos Santo Antônio </a>
+                                    </h4>
+                                    <p class="single-attraction-contents-para">
+                                        We have over 28K reviews to assure you top notch service.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="attraction-item">
+                            <div class="single-attraction radius-20">
+                                <div class="single-attraction-thumb">
+                                    <a href="hotel_details.html">
+                                        <img src="/img/shots/img3.jpeg" alt="img" />
+                                    </a>
+                                </div>
+                                <div class="single-attraction-contents">
+                                    <h4 class="single-attraction-contents-title">
+                                        <a href="hotel_details.html"> Festejar Eventos Navegantes - SC </a>
+                                    </h4>
+                                    <p class="single-attraction-contents-para">
+                                        We have over 28K reviews to assure you top notch service.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="attraction-item">
+                            <div class="single-attraction radius-20">
+                                <div class="single-attraction-thumb">
+                                    <a href="hotel_details.html">
+                                        <img src="/img/shots/img4.jpeg" alt="img" />
+                                    </a>
+                                </div>
+                                <div class="single-attraction-contents">
+                                    <h4 class="single-attraction-contents-title">
+                                        <a href="hotel_details.html"> Festejar Eventos Realeza </a>
+                                    </h4>
+                                    <p class="single-attraction-contents-para">
+                                        We have over 28K reviews to assure you top notch service.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="attraction-item">
+                            <div class="single-attraction radius-20">
+                                <div class="single-attraction-thumb">
+                                    <a href="hotel_details.html">
+                                        <img src="/img/shots/img5.jpeg" alt="img" />
+                                    </a>
+                                </div>
+                                <div class="single-attraction-contents">
+                                    <h4 class="single-attraction-contents-title">
+                                        <a href="hotel_details.html"> Festejar Eventos Santa Izabel </a>
+                                    </h4>
+                                    <p class="single-attraction-contents-para">
+                                        We have over 28K reviews to assure you top notch service.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="guest-area pat-50 pab-50">
+        <div class="container">
+            <div class="section-title center-text">
+                <h2 class="title">O que nossos clientes pensam</h2>
+                <div class="section-title-shapes"></div>
+            </div>
+            <div class="custom-tab guest-wrapper mt-5">
+                <div class="guest-wrapper-shapes">
+                    <img src="~/img/guest/guest-shape.png" />
+                </div>
+                <div class="custom-tab-menu">
+                    <ul class="tab-menu guest-wrapper-images list-style-none">
+                        <li class="guest-wrapper-images-single active">
+                            <img src="~/img/guest/guest1.jpg" />
+                        </li>
+                        <li class="guest-wrapper-images-single">
+                            <img src="~/img/guest/guest2.jpg" />
+                        </li>
+                        <li class="guest-wrapper-images-single">
+                            <img src="~/img/guest/guest3.jpg" />
+                        </li>
+                        <li class="guest-wrapper-images-single">
+                            <img src="~/img/guest/guest4.jpg" />
+                        </li>
+                        <li class="guest-wrapper-images-single">
+                            <img src="~/img/guest/guest5.jpg" />
+                        </li>
+                        <li class="guest-wrapper-images-single">
+                            <img src="~/img/guest/guest6.jpg" />
+                        </li>
+                    </ul>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-xxl-5 col-lg-6 col-md-8">
+                        <div class="tab-area">
+                            <div class="single-guest tab-item active center-text">
+                                <div class="single-guest-thumb">
+                                    <img src="~/img/guest/guest1.jpg" />
+                                </div>
+                                <div class="single-guest-contents mt-4">
+                                    <p class="single-guest-contents-para">
+                                        Amet minim mollit non deserunt ullamco est sit aliqua
+                                        dolor do amet sint. Velit officia consequat duis enim
+                                        velit mollit. Exercitation veniam consequat sunt nostrud
+                                        amet.
+                                    </p>
+                                    <h4 class="single-guest-contents-title mt-3">
+                                        Susana Chadwick
+                                    </h4>
+                                </div>
+                            </div>
+                            <div class="single-guest tab-item center-text">
+                                <div class="single-guest-thumb">
+                                    <img src="~/img/guest/guest2.jpg" />
+                                </div>
+                                <div class="single-guest-contents mt-4">
+                                    <p class="single-guest-contents-para">
+                                        Amet minim mollit non deserunt ullamco est sit aliqua
+                                        dolor do amet sint. Velit officia consequat duis enim
+                                        velit mollit. Exercitation veniam consequat sunt nostrud
+                                        amet.
+                                    </p>
+                                    <h4 class="single-guest-contents-title mt-3">
+                                        Riyad Hossain
+                                    </h4>
+                                </div>
+                            </div>
+                            <div class="single-guest tab-item center-text">
+                                <div class="single-guest-thumb">
+                                    <img src="~/img/guest/guest3.jpg" />
+                                </div>
+                                <div class="single-guest-contents mt-4">
+                                    <p class="single-guest-contents-para">
+                                        Amet minim mollit non deserunt ullamco est sit aliqua
+                                        dolor do amet sint. Velit officia consequat duis enim
+                                        velit mollit. Exercitation veniam consequat sunt nostrud
+                                        amet.
+                                    </p>
+                                    <h4 class="single-guest-contents-title mt-3">
+                                        Arafat Hossain
+                                    </h4>
+                                </div>
+                            </div>
+                            <div class="single-guest tab-item center-text">
+                                <div class="single-guest-thumb">
+                                    <img src="~/img/guest/guest4.jpg" />
+                                </div>
+                                <div class="single-guest-contents mt-4">
+                                    <p class="single-guest-contents-para">
+                                        Amet minim mollit non deserunt ullamco est sit aliqua
+                                        dolor do amet sint. Velit officia consequat duis enim
+                                        velit mollit. Exercitation veniam consequat sunt nostrud
+                                        amet.
+                                    </p>
+                                    <h4 class="single-guest-contents-title mt-3">
+                                        Rajia Akter
+                                    </h4>
+                                </div>
+                            </div>
+                            <div class="single-guest tab-item center-text">
+                                <div class="single-guest-thumb">
+                                    <img src="~/img/guest/guest5.jpg" />
+                                </div>
+                                <div class="single-guest-contents mt-4">
+                                    <p class="single-guest-contents-para">
+                                        Amet minim mollit non deserunt ullamco est sit aliqua
+                                        dolor do amet sint. Velit officia consequat duis enim
+                                        velit mollit. Exercitation veniam consequat sunt nostrud
+                                        amet.
+                                    </p>
+                                    <h4 class="single-guest-contents-title mt-3">
+                                        Sumaiya Akter
+                                    </h4>
+                                </div>
+                            </div>
+                            <div class="single-guest tab-item center-text">
+                                <div class="single-guest-thumb">
+                                    <img src="~/img/guest/guest6.jpg" />
+                                </div>
+                                <div class="single-guest-contents mt-4">
+                                    <p class="single-guest-contents-para">
+                                        Amet minim mollit non deserunt ullamco est sit aliqua
+                                        dolor do amet sint. Velit officia consequat duis enim
+                                        velit mollit. Exercitation veniam consequat sunt nostrud
+                                        amet.
+                                    </p>
+                                    <h4 class="single-guest-contents-title mt-3">Riya Akter</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="shots-area pat-50 pab-50">
+        <div class="container">
+            <div class="section-title center-text">
+                <h2 class="title">Fotos de nossos ambientes</h2>
+                <div class="section-title-shapes"></div>
+            </div>
+            <div class="imgLoaded mt-5">
+                <div class="row g-4 masonry-grid">
+                    <div class="col-lg-2 col-md-4 col-sm-6 grid-item">
+                        <div class="single-shots bg-image"
+                             style="background-image: url(/img/shots/img1.png)">
+                            <a href="/img/shots/img1.png"
+                               class="single-shots-icon gallery-popup-two">
+                                <i class="las la-image"></i>
+                            </a>
+                            <div class="single-shots-contents">
+                                <h4 class="single-shots-contents-title">
+                                    <a href="hotel_details.html"> Festejar Eventos </a>
+                                </h4>
+                                <p class="single-shots-contents-para">
+                                    We have over 28K reviews to assure you top notch service. We
+                                    have over 28K reviews to assure you top notch service.We
+                                    have over 28K reviews to assure you top notch service. We
+                                    have over 28K reviews to assure you top notch service.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 grid-item">
+                        <div class="single-shots bg-image"
+                             style="background-image: url(/img/shots/img2.png) ">
+                            <a href="/img/shots/img2.png"
+                               class="single-shots-icon gallery-popup-two">
+                                <i class="las la-image"></i>
+                            </a>
+                            <div class="single-shots-contents">
+                                <h4 class="single-shots-contents-title">
+                                    <a href="hotel_details.html"> Festejar Eventos </a>
+                                </h4>
+                                <p class="single-shots-contents-para">
+                                    We have over 28K reviews to assure you top notch service.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 grid-item">
+                        <div class="single-shots bg-image"
+                             style="background-image: url(/img/shots/img3.jpeg)">
+                            <a href="/img/shots/img3.jpeg"
+                               class="single-shots-icon gallery-popup-two">
+                                <i class="las la-image"></i>
+                            </a>
+                            <div class="single-shots-contents">
+                                <h4 class="single-shots-contents-title">
+                                    <a href="hotel_details.html"> Festejar Eventos </a>
+                                </h4>
+                                <p class="single-shots-contents-para">
+                                    We have over 28K reviews to assure you top notch service.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-sm-6 grid-item">
+                        <div class="single-shots bg-image"
+                             style="background-image: url(/img/shots/img4.jpeg)">
+                            <a href="/img/shots/img4.jpeg"
+                               class="single-shots-icon gallery-popup-two">
+                                <i class="las la-image"></i>
+                            </a>
+                            <div class="single-shots-contents">
+                                <h4 class="single-shots-contents-title">
+                                    <a href="hotel_details.html"> Festejar Eventos </a>
+                                </h4>
+                                <p class="single-shots-contents-para">
+                                    We have over 28K reviews to assure you top notch service.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 grid-item">
+                        <div class="single-shots bg-image"
+                             style="background-image: url(/img/shots/img5.jpeg)">
+                            <a href="/img/shots/img5.jpeg"
+                               class="single-shots-icon gallery-popup-two">
+                                <i class="las la-image"></i>
+                            </a>
+                            <div class="single-shots-contents">
+                                <h4 class="single-shots-contents-title">
+                                    <a href="hotel_details.html"> Festejar Eventos </a>
+                                </h4>
+                                <p class="single-shots-contents-para">
+                                    We have over 28K reviews to assure you top notch service.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-sm-6 grid-item">
+                        <div class="single-shots bg-image"
+                             style="background-image: url(/img/shots/img6.jpeg)">
+                            <a href="/img/shots/img6.jpeg"
+                               class="single-shots-icon gallery-popup-two">
+                                <i class="las la-image"></i>
+                            </a>
+                            <div class="single-shots-contents">
+                                <h4 class="single-shots-contents-title">
+                                    <a href="hotel_details.html"> Festejar Eventos </a>
+                                </h4>
+                                <p class="single-shots-contents-para">
+                                    We have over 28K reviews to assure you top notch service.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 grid-item">
+                        <div class="single-shots bg-image"
+                             style="background-image: url(/img/shots/img7.jpeg)">
+                            <a href="/img/shots/img7.jpeg"
+                               class="single-shots-icon gallery-popup-two">
+                                <i class="las la-image"></i>
+                            </a>
+                            <div class="single-shots-contents">
+                                <h4 class="single-shots-contents-title">
+                                    <a href="hotel_details.html"> Festejar Eventos </a>
+                                </h4>
+                                <p class="single-shots-contents-para">
+                                    We have over 28K reviews to assure you top notch service.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-sm-6 grid-item">
+                        <div class="single-shots bg-image"
+                             style="background-image: url(/img/shots/img9.jpeg)">
+                            <a href="/img/shots/img9.jpeg"
+                               class="single-shots-icon gallery-popup-two">
+                                <i class="las la-image"></i>
+                            </a>
+                            <div class="single-shots-contents">
+                                <h4 class="single-shots-contents-title">
+                                    <a href="hotel_details.html"> Festejar Eventos </a>
+                                </h4>
+                                <p class="single-shots-contents-para">
+                                    We have over 28K reviews to assure you top notch service.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="question-area pat-50 pab-50">
+        <div class="container">
+            <div class="section-title center-text">
+                <h2 class="title">Perguntas frequentes</h2>
+                <div class="section-title-shapes"></div>
+            </div>
+            <div class="row g-4 mt-4">
+                <div class="col-xl-8 col-lg-7">
+                    <div class="faq-wrapper">
+                        <div class="faq-contents">
+                            <div class="faq-item wow fadeInLeft" data-wow-delay=".1s">
+                                <h3 class="faq-title">Como isso funciona?</h3>
+                                <div class="faq-panel">
+                                    <p class="faq-para">
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                        Non ipsum purus erat aliquam fermentum, tincidunt. Massa
+                                        id faucibus orci nunc sed turpis nibh neque. Ut tellus
+                                        curabitur arcu, mollis malesuada arcu.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="faq-item active open wow fadeInLeft"
+                                 data-wow-delay=".2s">
+                                <h3 class="faq-title">Recebo reembolso total se cancelar?</h3>
+                                <div class="faq-panel">
+                                    <p class="faq-para">
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                        Non ipsum purus erat aliquam fermentum, tincidunt. Massa
+                                        id faucibus orci nunc sed turpis nibh neque. Ut tellus
+                                        curabitur arcu, mollis malesuada arcu.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="faq-item wow fadeInLeft" data-wow-delay=".3s">
+                                <h3 class="faq-title">Posso levar quantos convidados?</h3>
+                                <div class="faq-panel">
+                                    <p class="faq-para">
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                        Non ipsum purus erat aliquam fermentum, tincidunt. Massa
+                                        id faucibus orci nunc sed turpis nibh neque. Ut tellus
+                                        curabitur arcu, mollis malesuada arcu.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="faq-item wow fadeInLeft" data-wow-delay=".1s">
+                                <h3 class="faq-title">Qual horario de entrada e de saída?</h3>
+                                <div class="faq-panel">
+                                    <p class="faq-para">
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                        Non ipsum purus erat aliquam fermentum, tincidunt. Massa
+                                        id faucibus orci nunc sed turpis nibh neque. Ut tellus
+                                        curabitur arcu, mollis malesuada arcu.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="faq-item wow fadeInLeft" data-wow-delay=".1s">
+                                <h3 class="faq-title">E se eu quiser cancelar?</h3>
+                                <div class="faq-panel">
+                                    <p class="faq-para">
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                        Non ipsum purus erat aliquam fermentum, tincidunt. Massa
+                                        id faucibus orci nunc sed turpis nibh neque. Ut tellus
+                                        curabitur arcu, mollis malesuada arcu.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg-5">
+                    <div class="faq-question faq-question-border radius-10 sticky-top">
+                        <h3 class="faq-question-title">Still got questions?</h3>
+                        <div class="faq-question-form custom-form mat-20">
+                            <form action="#">
+                                <div class="single-input">
+                                    <label class="label-title"> Nome </label>
+                                    <input type="text"
+                                           class="form--control radius-10"
+                                           placeholder="Seu Nome" />
+                                </div>
+                                <div class="single-input">
+                                    <label class="label-title"> Email </label>
+                                    <input type="text"
+                                           class="form--control radius-10"
+                                           placeholder="Seu Email" />
+                                </div>
+                                <div class="single-input">
+                                    <label class="label-title"> Dúvidas </label>
+                                    <textarea name="message"
+                                              class="form--control form-message radius-10"
+                                              placeholder="Sua duvida..."></textarea>
+                                </div>
+                                <button class="submit-btn w-100 radius-10" type="submit">
+                                    Enviar
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Função para redirecionar para a página "Casas.cshtml" com o ID selecionado
+        function searchCasa() {
+            var selectedId = document.getElementById('cidadeSelect').value;
+            if (selectedId !== '') {
+                window.location.href = "/Casas?cidadeId=" + selectedId;
+            }
+        }
+    </script>
+
+    <div class="back-to-top">
+        <span class="back-top"> <i class="las la-angle-up"></i> </span>
+    </div>
+
+    <div class="mouse-move mouse-outer"></div>
+    <div class="mouse-move mouse-inner"></div>
+</body>

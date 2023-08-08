@@ -1,0 +1,577 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\obj\\Debug\\net7.0\\scopedcss\\projectbundle\\Festejar.bundle.scp.css",
+      "PackagePath": "staticwebassets\\Festejar.bundle.scp.css"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\css\\animate.css",
+      "PackagePath": "staticwebassets\\css\\animate.css"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\css\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\css\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\css\\flatpicker.css",
+      "PackagePath": "staticwebassets\\css\\flatpicker.css"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\css\\intlTelInput.css",
+      "PackagePath": "staticwebassets\\css\\intlTelInput.css"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\css\\line-awesome.min.css",
+      "PackagePath": "staticwebassets\\css\\line-awesome.min.css"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\css\\magnific-popup.css",
+      "PackagePath": "staticwebassets\\css\\magnific-popup.css"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\css\\nice-select.css",
+      "PackagePath": "staticwebassets\\css\\nice-select.css"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\css\\site.css",
+      "PackagePath": "staticwebassets\\css\\site.css"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\css\\slick.css",
+      "PackagePath": "staticwebassets\\css\\slick.css"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\css\\style.css",
+      "PackagePath": "staticwebassets\\css\\style.css"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\favicon.ico",
+      "PackagePath": "staticwebassets\\favicon.ico"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\fonts\\la-brands-400.ttf",
+      "PackagePath": "staticwebassets\\fonts\\la-brands-400.ttf"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\fonts\\la-brands-400.woff",
+      "PackagePath": "staticwebassets\\fonts\\la-brands-400.woff"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\fonts\\la-brands-400.woff2",
+      "PackagePath": "staticwebassets\\fonts\\la-brands-400.woff2"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\fonts\\la-solid-900.ttf",
+      "PackagePath": "staticwebassets\\fonts\\la-solid-900.ttf"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\fonts\\la-solid-900.woff",
+      "PackagePath": "staticwebassets\\fonts\\la-solid-900.woff"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\fonts\\la-solid-900.woff2",
+      "PackagePath": "staticwebassets\\fonts\\la-solid-900.woff2"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\img\\attraction\\a1.jpg",
+      "PackagePath": "staticwebassets\\img\\attraction\\a1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\img\\attraction\\a2.jpg",
+      "PackagePath": "staticwebassets\\img\\attraction\\a2.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\img\\attraction\\a3.jpg",
+      "PackagePath": "staticwebassets\\img\\attraction\\a3.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\img\\attraction\\a4.jpg",
+      "PackagePath": "staticwebassets\\img\\attraction\\a4.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\img\\attraction\\a5.jpg",
+      "PackagePath": "staticwebassets\\img\\attraction\\a5.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\img\\banner\\PiscinaVerde.jpg.jpg",
+      "PackagePath": "staticwebassets\\img\\banner\\PiscinaVerde.jpg.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\img\\banner\\ban2.jpg",
+      "PackagePath": "staticwebassets\\img\\banner\\ban2.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\img\\banner\\banner.jpg",
+      "PackagePath": "staticwebassets\\img\\banner\\banner.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\img\\festejar_logo.svg",
+      "PackagePath": "staticwebassets\\img\\festejar_logo.svg"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\img\\guest\\guest-shape.png",
+      "PackagePath": "staticwebassets\\img\\guest\\guest-shape.png"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\img\\guest\\guest1.jpg",
+      "PackagePath": "staticwebassets\\img\\guest\\guest1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\img\\guest\\guest2.jpg",
+      "PackagePath": "staticwebassets\\img\\guest\\guest2.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\img\\guest\\guest3.jpg",
+      "PackagePath": "staticwebassets\\img\\guest\\guest3.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\img\\guest\\guest4.jpg",
+      "PackagePath": "staticwebassets\\img\\guest\\guest4.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\img\\guest\\guest5.jpg",
+      "PackagePath": "staticwebassets\\img\\guest\\guest5.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\img\\guest\\guest6.jpg",
+      "PackagePath": "staticwebassets\\img\\guest\\guest6.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\img\\icons\\b1.svg",
+      "PackagePath": "staticwebassets\\img\\icons\\b1.svg"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\img\\icons\\b2.svg",
+      "PackagePath": "staticwebassets\\img\\icons\\b2.svg"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\img\\icons\\b3.svg",
+      "PackagePath": "staticwebassets\\img\\icons\\b3.svg"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\img\\icons\\b4.svg",
+      "PackagePath": "staticwebassets\\img\\icons\\b4.svg"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\img\\logo-favicon.png",
+      "PackagePath": "staticwebassets\\img\\logo-favicon.png"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\img\\logo.png",
+      "PackagePath": "staticwebassets\\img\\logo.png"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\img\\search_suggestion\\s1.jpg",
+      "PackagePath": "staticwebassets\\img\\search_suggestion\\s1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\img\\search_suggestion\\s2.jpg",
+      "PackagePath": "staticwebassets\\img\\search_suggestion\\s2.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\img\\search_suggestion\\s3.jpg",
+      "PackagePath": "staticwebassets\\img\\search_suggestion\\s3.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\img\\search_suggestion\\s4.jpg",
+      "PackagePath": "staticwebassets\\img\\search_suggestion\\s4.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\img\\search_suggestion\\s5.jpg",
+      "PackagePath": "staticwebassets\\img\\search_suggestion\\s5.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\img\\section-shapes1.svg",
+      "PackagePath": "staticwebassets\\img\\section-shapes1.svg"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\img\\shots\\img1.png",
+      "PackagePath": "staticwebassets\\img\\shots\\img1.png"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\img\\shots\\img2.png",
+      "PackagePath": "staticwebassets\\img\\shots\\img2.png"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\img\\shots\\img3.jpeg",
+      "PackagePath": "staticwebassets\\img\\shots\\img3.jpeg"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\img\\shots\\img4.jpeg",
+      "PackagePath": "staticwebassets\\img\\shots\\img4.jpeg"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\img\\shots\\img5.jpeg",
+      "PackagePath": "staticwebassets\\img\\shots\\img5.jpeg"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\img\\shots\\img6.jpeg",
+      "PackagePath": "staticwebassets\\img\\shots\\img6.jpeg"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\img\\shots\\img7.jpeg",
+      "PackagePath": "staticwebassets\\img\\shots\\img7.jpeg"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\img\\shots\\img8.jpeg",
+      "PackagePath": "staticwebassets\\img\\shots\\img8.jpeg"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\img\\shots\\img9.jpeg",
+      "PackagePath": "staticwebassets\\img\\shots\\img9.jpeg"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\img\\shots\\shot1.jpg",
+      "PackagePath": "staticwebassets\\img\\shots\\shot1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\img\\shots\\shot10.jpg",
+      "PackagePath": "staticwebassets\\img\\shots\\shot10.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\img\\shots\\shot11.jpg",
+      "PackagePath": "staticwebassets\\img\\shots\\shot11.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\img\\shots\\shot12.jpg",
+      "PackagePath": "staticwebassets\\img\\shots\\shot12.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\img\\shots\\shot2.jpg",
+      "PackagePath": "staticwebassets\\img\\shots\\shot2.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\img\\shots\\shot3.jpg",
+      "PackagePath": "staticwebassets\\img\\shots\\shot3.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\img\\shots\\shot4.jpg",
+      "PackagePath": "staticwebassets\\img\\shots\\shot4.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\img\\shots\\shot5.jpg",
+      "PackagePath": "staticwebassets\\img\\shots\\shot5.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\img\\shots\\shot6.jpg",
+      "PackagePath": "staticwebassets\\img\\shots\\shot6.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\img\\shots\\shot7.jpg",
+      "PackagePath": "staticwebassets\\img\\shots\\shot7.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\img\\shots\\shot8.jpg",
+      "PackagePath": "staticwebassets\\img\\shots\\shot8.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\img\\shots\\shot9.jpg",
+      "PackagePath": "staticwebassets\\img\\shots\\shot9.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\js\\bootstrap.bundle.min.js",
+      "PackagePath": "staticwebassets\\js\\bootstrap.bundle.min.js"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\js\\flatpicker.js",
+      "PackagePath": "staticwebassets\\js\\flatpicker.js"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\js\\imagesloaded.pkgd.min.js",
+      "PackagePath": "staticwebassets\\js\\imagesloaded.pkgd.min.js"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\js\\intlTelInput.js",
+      "PackagePath": "staticwebassets\\js\\intlTelInput.js"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\js\\isotope.pkgd.min.js",
+      "PackagePath": "staticwebassets\\js\\isotope.pkgd.min.js"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\js\\jquery-3.6.0.min.js",
+      "PackagePath": "staticwebassets\\js\\jquery-3.6.0.min.js"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\js\\jquery-migrate.min.js",
+      "PackagePath": "staticwebassets\\js\\jquery-migrate.min.js"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\js\\jquery-ripples.js",
+      "PackagePath": "staticwebassets\\js\\jquery-ripples.js"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\js\\jquery.magnific-popup.js",
+      "PackagePath": "staticwebassets\\js\\jquery.magnific-popup.js"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\js\\jquery.nice-select.js",
+      "PackagePath": "staticwebassets\\js\\jquery.nice-select.js"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\js\\main.js",
+      "PackagePath": "staticwebassets\\js\\main.js"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\js\\nouislider-8.5.1.min.js",
+      "PackagePath": "staticwebassets\\js\\nouislider-8.5.1.min.js"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\js\\site.js",
+      "PackagePath": "staticwebassets\\js\\site.js"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\js\\slick.js",
+      "PackagePath": "staticwebassets\\js\\slick.js"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\js\\wow.js",
+      "PackagePath": "staticwebassets\\js\\wow.js"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\bootstrap\\LICENSE",
+      "PackagePath": "staticwebassets\\lib\\bootstrap"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.css"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.js"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.js.map"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.min.js"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\jquery-validation\\LICENSE.md",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\LICENSE.md"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\additional-methods.js"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\additional-methods.min.js"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\jquery.validate.js"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\jquery.validate.min.js"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\jquery\\LICENSE.txt",
+      "PackagePath": "staticwebassets\\lib\\jquery\\LICENSE.txt"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\jquery\\dist\\jquery.js",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.js"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\jquery\\dist\\jquery.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.js"
+    },
+    {
+      "Id": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.Festejar.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.build.Festejar.props",
+      "PackagePath": "build\\Festejar.props"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.buildMultiTargeting.Festejar.props",
+      "PackagePath": "buildMultiTargeting\\Festejar.props"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.buildTransitive.Festejar.props",
+      "PackagePath": "buildTransitive\\Festejar.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
