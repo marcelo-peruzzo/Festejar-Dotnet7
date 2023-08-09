@@ -16,6 +16,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // Register as Interfaces do contexto DB
 builder.Services.AddScoped<ICidadesRepository, CidadesRepository>();
 builder.Services.AddScoped<ICasasRepository, CasasRepository>();
+builder.Services.AddScoped<IDiariasRepository, DiariasRepository>();
 
 var app = builder.Build();
 

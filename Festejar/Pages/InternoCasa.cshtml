@@ -89,7 +89,7 @@
                                 <div class="hotel-view-contents-bottom">
                                     <div class="hotel-view-contents-bottom-flex">
                                         <div class="hotel-view-contents-bottom-contents">
-                                            <h4 class="hotel-view-contents-bottom-title"> $230 <sub>/Diaria</sub> </h4>
+                                            <h4 class="hotel-view-contents-bottom-title"> @ViewData["ValorDiaria"] <sub>/Diaria</sub> </h4>
                                             <p class="hotel-view-contents-bottom-para"> (4 Nights, 2 Rooms, 4 Persons) </p>
                                         </div>
                                         <div class="btn-wrapper">
@@ -105,14 +105,7 @@
                                 </ul>
                                 <div id="about" class="tab-content-item active">
                                     <div class="about-tab-contents">
-                                        <p class="about-tab-contents-para"> One morning, when Gregor Samsa woke from troubled dreams, he found himself transformed in his bed into a horrible vermin. He lay on his armour-like back. </p>
-                                        <p class="about-tab-contents-para mt-4">
-                                            He lifted his head a little he could see his brown belly, slightly domed and divided by arches into stiff sections. The bedding was hardly able to cover it and seemed ready to slide off any moment. His many legs,
-                                            pitifully thin compared with the size of the rest of him.
-                                        </p>
-                                        <p class="about-tab-contents-para mt-4">
-                                            So many legs pitifully thin compared with the size of the rest of him waved about helplessly as he looked What's happened to me.
-                                        </p>
+                                        <p class="about-tab-contents-para"> @Model.InternoCasa.Descricao </p>
                                     </div>
                                 </div>
                                 <div id="reviews" class="tab-content-item">
@@ -205,7 +198,7 @@
                                     <div class="hotel-view-contents-bottom">
                                         <div class="hotel-view-contents-bottom-flex">
                                             <div class="hotel-view-contents-bottom-contents d-flex flex-wrap gap-4">
-                                                <h4 class="hotel-view-contents-bottom-title"> $230 <sub>/Diaria</sub> </h4>
+                                                <h4 class="hotel-view-contents-bottom-title"> @ViewData["ValorDiaria"] <sub>/Diaria</sub> </h4>
                                                 <p class="hotel-view-contents-bottom-para"> (4 Nights, 2 Rooms, 4 Persons) </p>
                                             </div>
                                         </div>
@@ -219,15 +212,14 @@
                     <div class="sticky-top">
                         <div class="hotel-details-widget hotel-details-widget-padding widget bg-white radius-10">
                             <div class="details-sidebar">
+                                <form id="dataForm" method="post">
                                 <div class="details-sidebar-dropdown custom-form">
-                                    <form action="#">
+                                    
                                         <div class="single-input">
                                             <label class="details-sidebar-dropdown-title"> Selecione uma data: </label>
-                                            <input class="form--control date-picker" type="text" placeholder="Data desejada:" onchange="setDataReserva(this.value)" />
-                                        </div>
-                                    </form>
-                                </div>
-                                <form method="post">
+                                            <input id="dataInput" class="form--control date-picker" type="text" name="dataReserva" placeholder="Data desejada:" />
+                                        </div>                                   
+                                </div>                               
                                     <div class="details-sidebar-quantity pt-4">
                                         <div class="details-sidebar-quantity-flex">
                                             <div class="details-sidebar-quantity-item">
@@ -296,7 +288,7 @@
                                     <div class="hotel-view-contents-bottom">
                                         <div class="hotel-view-contents-bottom-flex">
                                             <div class="hotel-view-contents-bottom-contents">
-                                                <h4 class="hotel-view-contents-bottom-title"> $230 <sub>/Diaria</sub> </h4>
+                                                <h4 class="hotel-view-contents-bottom-title"> @ViewData["ValorDiaria"] <sub>/Diaria</sub> </h4>
                                                 <p class="hotel-view-contents-bottom-para"> (4 Nights, 2 Rooms, 4 Persons) </p>
                                             </div>
                                             <div class="btn-wrapper">
@@ -337,6 +329,16 @@
     <div class="mouse-move mouse-inner"></div>
 
     <script>
+
+        // Seleciona o campo de entrada de data
+        var dataInput = document.getElementById("dataInput");
+
+        // Adiciona um evento para detectar quando o valor do campo é alterado
+        dataInput.addEventListener("change", function () {
+            // Envia automaticamente o formulário quando o valor do campo é alterado
+            document.getElementById("dataForm").submit();
+        });
+
         function setDataReserva(dataReserva) {
             // Armazena o valor de dataReserva em um cookie
             $.ajax({
