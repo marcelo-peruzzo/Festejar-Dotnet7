@@ -51,14 +51,14 @@ namespace Festejar.Pages
 
         public IActionResult OnPost(int id, decimal ?valorDiaria)
         {
-            // Aqui você pode acessar o valor da data selecionada pelo usuário através da propriedade DataReserva
-            // ...
+            
             DateTime data = DataReserva;
 
             bool existeDiaria = _diariasRepository.Diarias.Any(diaria => diaria.Casa_id == id &&
                                                   diaria.Ano == data.Year &&
                                                   diaria.Mes == data.Month &&
-                                                  diaria.Dia == data.Day);
+                                                  diaria.Dia == data.Day &&
+                                                  diaria.Deleted_at == null);
             if (existeDiaria)
             {
                 var diaria = _diariasRepository.Diarias.First(diaria => diaria.Casa_id == id &&
@@ -67,7 +67,6 @@ namespace Festejar.Pages
                                                   diaria.Dia == data.Day);
 
                  valorDiaria = diaria.Valor;
-                //fazer
             }
 
             return RedirectToPage(new { id, valorDiaria });

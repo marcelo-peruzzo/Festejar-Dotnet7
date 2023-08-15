@@ -162,6 +162,7 @@
     </section>
 
     <section class="attraction-area pat-50 pab-50">
+                                  {
         <div class="container">
             <div class="section-title text-left append-flex">
                 <h2 class="title">Alguns de nossos ambientes</h2>
@@ -181,91 +182,24 @@
                          data-prevarrow='<div class="prev-icon"><i class="las la-angle-left"></i></div>'
                          data-nextarrow='<div class="next-icon"><i class="las la-angle-right"></i></div>'
                          data-responsive='[{"breakpoint": 1400,"settings": {"slidesToShow": 4}},{"breakpoint": 1200,"settings": {"slidesToShow": 3}},{"breakpoint": 992,"settings": {"slidesToShow": 2}},{"breakpoint": 480, "settings": {"slidesToShow": 1} }]'>
-                        <div class="attraction-item">
-                            <div class="single-attraction radius-20">
-                                <div class="single-attraction-thumb">
-                                    <a href="hotel_details.html">
-                                        <img src="/img/shots/img1.png" alt="img" />
-                                    </a>
-                                </div>
-                                <div class="single-attraction-contents">
-                                    <h4 class="single-attraction-contents-title">
-                                        <a href="hotel_details.html"> Festejar Eventos Ampére </a>
-                                    </h4>
-                                    <p class="single-attraction-contents-para">
-                                        We have over 28K reviews to assure you top notch service.
-                                    </p>
-                                </div>
+                        @foreach (var casas in Model.Casas)
+                        {
+                            <div class="attraction-item">
+                                <div class="single-attraction radius-20">
+                                    <div class="single-attraction-thumb">
+                                        <a asp-page-handler="RedirectCasa" asp-route-casaId="@casas.Id" class="cmn-btn btn-bg-1 btn-small"><img src="/img/shots/img1.png" alt="img" /></a>
+                                    </div>
+                                    <div class="single-attraction-contents">
+                                        <h4 class="single-attraction-contents-title">
+                                            <a asp-page-handler="RedirectCasa" asp-route-casaId="@casas.Id">@casas.Titulo</a>
+                                        </h4>
+                                        <p class="single-attraction-contents-para">
+                                            We have over 28K reviews to assure you top notch service.
+                                        </p>
+                                    </div>
+                                </div>                               
                             </div>
-                        </div>
-                        <div class="attraction-item">
-                            <div class="single-attraction radius-20">
-                                <div class="single-attraction-thumb">
-                                    <a href="hotel_details.html">
-                                        <img src="/img/shots/img2.png" alt="img" />
-                                    </a>
-                                </div>
-                                <div class="single-attraction-contents">
-                                    <h4 class="single-attraction-contents-title">
-                                        <a href="hotel_details.html"> Festejar Eventos Santo Antônio </a>
-                                    </h4>
-                                    <p class="single-attraction-contents-para">
-                                        We have over 28K reviews to assure you top notch service.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="attraction-item">
-                            <div class="single-attraction radius-20">
-                                <div class="single-attraction-thumb">
-                                    <a href="hotel_details.html">
-                                        <img src="/img/shots/img3.jpeg" alt="img" />
-                                    </a>
-                                </div>
-                                <div class="single-attraction-contents">
-                                    <h4 class="single-attraction-contents-title">
-                                        <a href="hotel_details.html"> Festejar Eventos Navegantes - SC </a>
-                                    </h4>
-                                    <p class="single-attraction-contents-para">
-                                        We have over 28K reviews to assure you top notch service.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="attraction-item">
-                            <div class="single-attraction radius-20">
-                                <div class="single-attraction-thumb">
-                                    <a href="hotel_details.html">
-                                        <img src="/img/shots/img4.jpeg" alt="img" />
-                                    </a>
-                                </div>
-                                <div class="single-attraction-contents">
-                                    <h4 class="single-attraction-contents-title">
-                                        <a href="hotel_details.html"> Festejar Eventos Realeza </a>
-                                    </h4>
-                                    <p class="single-attraction-contents-para">
-                                        We have over 28K reviews to assure you top notch service.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="attraction-item">
-                            <div class="single-attraction radius-20">
-                                <div class="single-attraction-thumb">
-                                    <a href="hotel_details.html">
-                                        <img src="/img/shots/img5.jpeg" alt="img" />
-                                    </a>
-                                </div>
-                                <div class="single-attraction-contents">
-                                    <h4 class="single-attraction-contents-title">
-                                        <a href="hotel_details.html"> Festejar Eventos Santa Izabel </a>
-                                    </h4>
-                                    <p class="single-attraction-contents-para">
-                                        We have over 28K reviews to assure you top notch service.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
+                        }
                     </div>
                 </div>
             </div>
@@ -416,145 +350,27 @@
             </div>
             <div class="imgLoaded mt-5">
                 <div class="row g-4 masonry-grid">
-                    <div class="col-lg-2 col-md-4 col-sm-6 grid-item">
-                        <div class="single-shots bg-image"
-                             style="background-image: url(/img/shots/img1.png)">
-                            <a href="/img/shots/img1.png"
-                               class="single-shots-icon gallery-popup-two">
-                                <i class="las la-image"></i>
-                            </a>
-                            <div class="single-shots-contents">
-                                <h4 class="single-shots-contents-title">
-                                    <a href="hotel_details.html"> Festejar Eventos </a>
-                                </h4>
-                                <p class="single-shots-contents-para">
-                                    We have over 28K reviews to assure you top notch service. We
-                                    have over 28K reviews to assure you top notch service.We
-                                    have over 28K reviews to assure you top notch service. We
-                                    have over 28K reviews to assure you top notch service.
-                                </p>
+                    @foreach (var imagem in Model.Imagens_casas)
+                    {
+                        <div class="col-lg-2 col-md-4 col-sm-6 grid-item">
+                            <div class="single-shots bg-image" style="background-image: url(@imagem.Caminho)">
+                                <a href="@imagem.Caminho" class="single-shots-icon gallery-popup-two">
+                                    <i class="las la-image"></i>
+                                </a>
+                                <div class="single-shots-contents">
+                                    <h4 class="single-shots-contents-title">
+                                        <a href="hotel_details.html"> Festejar Eventos </a>
+                                    </h4>
+                                    <p class="single-shots-contents-para">
+                                        We have over 28K reviews to assure you top notch service. We
+                                        have over 28K reviews to assure you top notch service.We
+                                        have over 28K reviews to assure you top notch service. We
+                                        have over 28K reviews to assure you top notch service.
+                                    </p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 grid-item">
-                        <div class="single-shots bg-image"
-                             style="background-image: url(/img/shots/img2.png) ">
-                            <a href="/img/shots/img2.png"
-                               class="single-shots-icon gallery-popup-two">
-                                <i class="las la-image"></i>
-                            </a>
-                            <div class="single-shots-contents">
-                                <h4 class="single-shots-contents-title">
-                                    <a href="hotel_details.html"> Festejar Eventos </a>
-                                </h4>
-                                <p class="single-shots-contents-para">
-                                    We have over 28K reviews to assure you top notch service.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 grid-item">
-                        <div class="single-shots bg-image"
-                             style="background-image: url(/img/shots/img3.jpeg)">
-                            <a href="/img/shots/img3.jpeg"
-                               class="single-shots-icon gallery-popup-two">
-                                <i class="las la-image"></i>
-                            </a>
-                            <div class="single-shots-contents">
-                                <h4 class="single-shots-contents-title">
-                                    <a href="hotel_details.html"> Festejar Eventos </a>
-                                </h4>
-                                <p class="single-shots-contents-para">
-                                    We have over 28K reviews to assure you top notch service.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-4 col-sm-6 grid-item">
-                        <div class="single-shots bg-image"
-                             style="background-image: url(/img/shots/img4.jpeg)">
-                            <a href="/img/shots/img4.jpeg"
-                               class="single-shots-icon gallery-popup-two">
-                                <i class="las la-image"></i>
-                            </a>
-                            <div class="single-shots-contents">
-                                <h4 class="single-shots-contents-title">
-                                    <a href="hotel_details.html"> Festejar Eventos </a>
-                                </h4>
-                                <p class="single-shots-contents-para">
-                                    We have over 28K reviews to assure you top notch service.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 grid-item">
-                        <div class="single-shots bg-image"
-                             style="background-image: url(/img/shots/img5.jpeg)">
-                            <a href="/img/shots/img5.jpeg"
-                               class="single-shots-icon gallery-popup-two">
-                                <i class="las la-image"></i>
-                            </a>
-                            <div class="single-shots-contents">
-                                <h4 class="single-shots-contents-title">
-                                    <a href="hotel_details.html"> Festejar Eventos </a>
-                                </h4>
-                                <p class="single-shots-contents-para">
-                                    We have over 28K reviews to assure you top notch service.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-4 col-sm-6 grid-item">
-                        <div class="single-shots bg-image"
-                             style="background-image: url(/img/shots/img6.jpeg)">
-                            <a href="/img/shots/img6.jpeg"
-                               class="single-shots-icon gallery-popup-two">
-                                <i class="las la-image"></i>
-                            </a>
-                            <div class="single-shots-contents">
-                                <h4 class="single-shots-contents-title">
-                                    <a href="hotel_details.html"> Festejar Eventos </a>
-                                </h4>
-                                <p class="single-shots-contents-para">
-                                    We have over 28K reviews to assure you top notch service.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 grid-item">
-                        <div class="single-shots bg-image"
-                             style="background-image: url(/img/shots/img7.jpeg)">
-                            <a href="/img/shots/img7.jpeg"
-                               class="single-shots-icon gallery-popup-two">
-                                <i class="las la-image"></i>
-                            </a>
-                            <div class="single-shots-contents">
-                                <h4 class="single-shots-contents-title">
-                                    <a href="hotel_details.html"> Festejar Eventos </a>
-                                </h4>
-                                <p class="single-shots-contents-para">
-                                    We have over 28K reviews to assure you top notch service.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-4 col-sm-6 grid-item">
-                        <div class="single-shots bg-image"
-                             style="background-image: url(/img/shots/img9.jpeg)">
-                            <a href="/img/shots/img9.jpeg"
-                               class="single-shots-icon gallery-popup-two">
-                                <i class="las la-image"></i>
-                            </a>
-                            <div class="single-shots-contents">
-                                <h4 class="single-shots-contents-title">
-                                    <a href="hotel_details.html"> Festejar Eventos </a>
-                                </h4>
-                                <p class="single-shots-contents-para">
-                                    We have over 28K reviews to assure you top notch service.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+                    }
                 </div>
             </div>
         </div>

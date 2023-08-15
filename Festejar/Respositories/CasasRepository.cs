@@ -17,7 +17,8 @@ namespace Festejar.Respositories
 
         public List<Casas> GetAllCasas()
         {
-            return _context.Casas.ToList();
+            //retorna casas com status A que siginifica casas "Ativas" no BD
+            return _context.Casas.Where(casa => casa.Status == "A").ToList();
         }
     }
 }

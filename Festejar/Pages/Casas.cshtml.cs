@@ -50,7 +50,13 @@ namespace Festejar.Pages
             ViewData["CidadeId"] = cidadeId;
         }
 
+        //Metodo que direcionar para a casa clicada pelo botão reservar agora.
         public IActionResult OnPostReservarAgora(int casaId)
+        {
+            return RedirectToPage("/InternoCasa", new { id = casaId });
+        }
+        //Metodo que direcionar para a casa clicada pelas tags <a> no frontend
+        public IActionResult OnGetRedirectCasa(int casaId)
         {
             return RedirectToPage("/InternoCasa", new { id = casaId });
         }

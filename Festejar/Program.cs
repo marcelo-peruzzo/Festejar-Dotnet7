@@ -17,6 +17,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<ICidadesRepository, CidadesRepository>();
 builder.Services.AddScoped<ICasasRepository, CasasRepository>();
 builder.Services.AddScoped<IDiariasRepository, DiariasRepository>();
+builder.Services.AddScoped<IImagens_casasRepository, Imagens_casasRepository>();
 
 var app = builder.Build();
 

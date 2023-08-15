@@ -1,4 +1,6 @@
-﻿namespace Festejar.Models
+﻿using Google.Protobuf.WellKnownTypes;
+
+namespace Festejar.Models
 {
     public class Casas
     {

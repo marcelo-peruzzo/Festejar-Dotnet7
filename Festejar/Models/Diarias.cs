@@ -1,4 +1,6 @@
-﻿namespace Festejar.Models
+﻿using Google.Protobuf.WellKnownTypes;
+
+namespace Festejar.Models
 {
     public class Diarias
     {
@@ -10,5 +12,6 @@
         public int Dia { get; set; }
         public int Prioridade { get; set; }
         public decimal Valor { get; set; }
+        public DateTime? Deleted_at { get; set; }
     }
 }
