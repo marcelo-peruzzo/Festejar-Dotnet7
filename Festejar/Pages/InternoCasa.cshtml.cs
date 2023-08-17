@@ -2,6 +2,10 @@ using Festejar.Models;
 using Festejar.Respositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Net.Http;
 
 namespace Festejar.Pages
 {
@@ -9,7 +13,8 @@ namespace Festejar.Pages
     {
         private readonly ICasasRepository _casasRepository;
         private readonly IDiariasRepository _diariasRepository;
-
+        private static readonly HttpClient client = new HttpClient();
+        private static readonly CultureInfo culture = new CultureInfo("pt-BR");
         public InternoCasaModel(ICasasRepository casasRepository, IDiariasRepository diariasRepository)
         {
             _casasRepository = casasRepository;
@@ -20,7 +25,7 @@ namespace Festejar.Pages
         [BindProperty]
        public DateTime DataReserva { get; set; }
 
-        public void OnGet(int id, decimal? valorDiaria)
+        public void OnGet(int id, decimal? valorDiaria, DateTime? dataSelecionada)
         {
             var casa = _casasRepository.Casas.FirstOrDefault(casas => casas.Id == id);
 
@@ -39,6 +44,11 @@ namespace Festejar.Pages
                 };
             }
 
+            if (dataSelecionada != null)
+            {
+                ViewData["DataSelecionada"] = dataSelecionada;
+            }
+
             if (valorDiaria != null)
             {
                 ViewData["ValorDiaria"] = valorDiaria;
@@ -49,33 +59,46 @@ namespace Festejar.Pages
             }
         }
 
-        public IActionResult OnPost(int id, decimal ?valorDiaria)
+
+
+        public async Task<IActionResult> OnPost(int id, decimal? valorDiaria)
         {
-            
             DateTime data = DataReserva;
-
-            bool existeDiaria = _diariasRepository.Diarias.Any(diaria => diaria.Casa_id == id &&
-                                                  diaria.Ano == data.Year &&
-                                                  diaria.Mes == data.Month &&
-                                                  diaria.Dia == data.Day &&
-                                                  diaria.Deleted_at == null);
-            if (existeDiaria)
+            string start = data.ToString("yyyy-MM-dd");
+            string end = data.ToString("yyyy-MM-dd");
+            string url = $"https://painel.globalprodutos.com/api/RetornaDiasMesByPrioridade?start={start}T00%3A00%3A00-03%3A00&end={end}T00%3A00%3A00-03%3A00";
+            var response = await client.GetAsync(url);
+            if (response.IsSuccessStatusCode)
             {
-                var diaria = _diariasRepository.Diarias.First(diaria => diaria.Casa_id == id &&
-                                                  diaria.Ano == data.Year &&
-                                                  diaria.Mes == data.Month &&
-                                                  diaria.Dia == data.Day);
-
-                 valorDiaria = diaria.Valor;
+                var content = await response.Content.ReadAsStringAsync();
+                var apiResponse = JsonConvert.DeserializeObject<ApiResponse>(content);
+                if (apiResponse.Events.Count > 0)
+                {
+                    string title = apiResponse.Events[0].Title;
+                    valorDiaria = decimal.Parse(title, NumberStyles.Currency, culture);
+                }
             }
-
-            return RedirectToPage(new { id, valorDiaria });
+            //string valorFormatado = valorDiaria.Value.ToString("C", culture);
+            return RedirectToPage(new { id, valorDiaria, dataSelecionada = data });
         }
 
 
         public IActionResult OnPostCheckout(int casaId, DateTime dataReserva)
         {
-            return RedirectToPage("/Checkout", new { id = casaId, data = dataReserva });
+            return RedirectToPage("/Checkout", new { id = casaId, data = dataReserva});
+        }
+
+        public class Event
+        {
+            public string Title { get; set; }
+            public string Start { get; set; }
+            public string End { get; set; }
+            public bool AllDay { get; set; }
+        }
+
+        public class ApiResponse
+        {
+            public List<Event> Events { get; set; }
         }
     }
 }

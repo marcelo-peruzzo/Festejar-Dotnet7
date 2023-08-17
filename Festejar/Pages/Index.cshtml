@@ -184,22 +184,27 @@
                          data-responsive='[{"breakpoint": 1400,"settings": {"slidesToShow": 4}},{"breakpoint": 1200,"settings": {"slidesToShow": 3}},{"breakpoint": 992,"settings": {"slidesToShow": 2}},{"breakpoint": 480, "settings": {"slidesToShow": 1} }]'>
                         @foreach (var casas in Model.Casas)
                         {
-                            <div class="attraction-item">
-                                <div class="single-attraction radius-20">
-                                    <div class="single-attraction-thumb">
-                                        <a asp-page-handler="RedirectCasa" asp-route-casaId="@casas.Id" class="cmn-btn btn-bg-1 btn-small"><img src="/img/shots/img1.png" alt="img" /></a>
+                            var imagem = Model.Imagens_casas.FirstOrDefault(i => i.Casa_id == casas.Id && i.Ordem == 0);
+                            if (imagem != null)
+                            {
+                                <div class="attraction-item">
+                                    <div class="single-attraction radius-20">
+                                        <div class="single-attraction-thumb">
+                                            <a asp-page-handler="RedirectCasa" asp-route-casaId="@casas.Id" class="cmn-btn btn-bg-1 btn-small"><img src="@imagem.Caminho" alt="img" /></a>
+                                        </div>
+                                        <div class="single-attraction-contents">
+                                            <h4 class="single-attraction-contents-title">
+                                                <a asp-page-handler="RedirectCasa" asp-route-casaId="@casas.Id">@casas.Titulo</a>
+                                            </h4>
+                                            <p class="single-attraction-contents-para">
+                                                Festejar Eventos, a melhor escolha para o seu lazer
+                                            </p>
+                                        </div>
                                     </div>
-                                    <div class="single-attraction-contents">
-                                        <h4 class="single-attraction-contents-title">
-                                            <a asp-page-handler="RedirectCasa" asp-route-casaId="@casas.Id">@casas.Titulo</a>
-                                        </h4>
-                                        <p class="single-attraction-contents-para">
-                                            We have over 28K reviews to assure you top notch service.
-                                        </p>
-                                    </div>
-                                </div>                               
-                            </div>
+                                </div>
+                            }
                         }
+
                     </div>
                 </div>
             </div>
@@ -362,10 +367,7 @@
                                         <a href="hotel_details.html"> Festejar Eventos </a>
                                     </h4>
                                     <p class="single-shots-contents-para">
-                                        We have over 28K reviews to assure you top notch service. We
-                                        have over 28K reviews to assure you top notch service.We
-                                        have over 28K reviews to assure you top notch service. We
-                                        have over 28K reviews to assure you top notch service.
+                                        Escolha nossos ambientes para confraternizações e festas entre amigos e famímlia
                                     </p>
                                 </div>
                             </div>

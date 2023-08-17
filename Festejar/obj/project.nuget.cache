@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "11FfgofPIJID66T9d3HXceby5FlcpWXtxlD79gAJtPxqbyVrGyTyQmG2FaTJ7LcJQuKEcpLYyQTdavYtfS6Wew==",
+  "dgSpecHash": "HKWubivL2gUkUTEz7cw7DqTvgDEST28Gxy3KwyMq9HPVURF6SKEaxkYA59NONrpxBQCUGGTuDhoqng3R3PN6vg==",
   "success": true,
   "projectFilePath": "C:\\Users\\Marcelo Peruzzo\\Desktop\\Dev\\Festejar\\Festejar\\Festejar.csproj",
   "expectedPackageFiles": [
@@ -31,6 +31,7 @@
     "C:\\Users\\Marcelo Peruzzo\\.nuget\\packages\\mono.texttemplating\\2.2.1\\mono.texttemplating.2.2.1.nupkg.sha512",
     "C:\\Users\\Marcelo Peruzzo\\.nuget\\packages\\mysql.data\\8.1.0\\mysql.data.8.1.0.nupkg.sha512",
     "C:\\Users\\Marcelo Peruzzo\\.nuget\\packages\\mysql.entityframeworkcore\\7.0.5\\mysql.entityframeworkcore.7.0.5.nupkg.sha512",
+    "C:\\Users\\Marcelo Peruzzo\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\Marcelo Peruzzo\\.nuget\\packages\\portable.bouncycastle\\1.9.0\\portable.bouncycastle.1.9.0.nupkg.sha512",
     "C:\\Users\\Marcelo Peruzzo\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",
     "C:\\Users\\Marcelo Peruzzo\\.nuget\\packages\\system.codedom\\4.4.0\\system.codedom.4.4.0.nupkg.sha512",

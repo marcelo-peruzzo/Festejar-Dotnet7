@@ -217,7 +217,7 @@
                                     
                                         <div class="single-input">
                                             <label class="details-sidebar-dropdown-title"> Selecione uma data: </label>
-                                            <input id="dataInput" class="form--control date-picker" type="text" name="dataReserva" placeholder="Data desejada:" />
+                                            <input id="dataInput" class="form--control date-picker" type="text" name="dataReserva" placeholder="@((ViewData["DataSelecionada"] != null) ? ((DateTime)ViewData["DataSelecionada"]).ToString("dd/MM/yyy") : "Data desejada:")" />
                                         </div>                                   
                                 </div>                               
                                     <div class="details-sidebar-quantity pt-4">

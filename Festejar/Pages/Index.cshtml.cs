@@ -25,7 +25,11 @@ namespace Festejar.Pages
         {
             Cidades = _cidadeRepository.GetAllCidades();
             Casas = _casasRepository.GetAllCasas();
-            Imagens_casas = _imagensCasasRepository.GetAllImagensCasas();
+            Imagens_casas = _imagensCasasRepository.GetAllImagensCasas().OrderBy(imagem => imagem.Ordem).ToList();
+            foreach (var imagem in Imagens_casas)
+            {
+                imagem.Caminho = "https://painel.globalprodutos.com/storage/" + imagem.Caminho;
+            }
         }
 
         //Metodo para direcionar até a InternoCasa com base em qual card o usuario clicou na pagina Index.
