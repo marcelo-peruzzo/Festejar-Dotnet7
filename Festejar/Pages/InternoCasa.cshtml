@@ -56,34 +56,17 @@
                                 </div>
                                 <div class="hotel-view-contents-middle">
                                     <div class="hotel-view-contents-flex">
-                                        <div class="hotel-view-contents-icon d-flex gap-1">
-                                            <span> <i class="las la-parking"></i> </span>
-                                            <p class="hotel-view-contents-icon-title flex-fill"> Parking </p>
-                                        </div>
-                                        <div class="hotel-view-contents-icon d-flex gap-1">
-                                            <span> <i class="las la-wifi"></i> </span>
-                                            <p class="hotel-view-contents-icon-title flex-fill"> Wifi </p>
-                                        </div>
-                                        <div class="hotel-view-contents-icon d-flex gap-1">
-                                            <span> <i class="las la-coffee"></i> </span>
-                                            <p class="hotel-view-contents-icon-title flex-fill"> Breakfast </p>
-                                        </div>
-                                        <div class="hotel-view-contents-icon d-flex gap-1">
-                                            <span> <i class="las la-quidditch"></i> </span>
-                                            <p class="hotel-view-contents-icon-title flex-fill"> Room Service </p>
-                                        </div>
-                                        <div class="hotel-view-contents-icon d-flex gap-1">
-                                            <span> <i class="las la-swimming-pool"></i> </span>
-                                            <p class="hotel-view-contents-icon-title flex-fill"> Pool </p>
-                                        </div>
-                                        <div class="hotel-view-contents-icon d-flex gap-1">
-                                            <span> <i class="las la-receipt"></i> </span>
-                                            <p class="hotel-view-contents-icon-title flex-fill"> Reception </p>
-                                        </div>
-                                        <div class="hotel-view-contents-icon d-flex gap-1">
-                                            <span> <i class="las la-dumbbell"></i> </span>
-                                            <p class="hotel-view-contents-icon-title flex-fill"> Gym </p>
-                                        </div>
+                                        @*percorre a variavel Comodidades da viewdata que possui o join no backend*@
+                                        @foreach (var comodidade in (IEnumerable<dynamic>)ViewData["Comodidades"])
+                                        {                                         
+                                                foreach (var item in comodidade)
+                                                {
+                                                    <div class="hotel-view-contents-icon d-flex gap-1">
+                                                        <span> <i class="las la-Piscina de Bolinha"></i> </span>
+                                                        <p class="hotel-view-contents-icon-title flex-fill">@item.Titulo</p>
+                                                    </div>
+                                                }                                          
+                                        }
                                     </div>
                                 </div>
                                 <div class="hotel-view-contents-bottom">
@@ -143,69 +126,37 @@
                             </div>
                         </div>
                         <div class="hotel-view bg-white radius-20 mt-4">
-                            <div class="hotel-view-flex">
-                                <a href="hotel_details.html" class="hotel-view-thumb hotel-view-list-thumb bg-image" style="background-image: url(/img/shots/img9.jpeg);">
-                                </a>
-                                <div class="hotel-view-contents">
-                                    <div class="hotel-view-contents-header">
-                                        <div class="hotel-view-contents-header-flex d-flex flex-wrap gap-3 align-items-center justify-content-between">
-                                            <span class="hotel-view-contents-review"> <i class="las la-star"></i> 4.5 <span class="hotel-view-contents-review-count"> (380) </span> </span>
-                                            <div class="btn-wrapper">
-                                                <a href="javascript:void(0)" class="cmn-btn btn-bg-1 btn-small"> Reserve Now </a>
-                                            </div>
-                                        </div>
-                                        <h3 class="hotel-view-contents-title"> <a href="hotel_details.html"> @Model.InternoCasa.Titulo </a> </h3>
-                                        <div class="hotel-view-contents-location mt-2">
-                                            <span class="hotel-view-contents-location-icon"> <i class="las la-map-marker-alt"></i> </span>
-                                            <span class="hotel-view-contents-location-para"> @Model.InternoCasa.Endereco </span>
-                                        </div>
-                                    </div>
-                                    <div class="hotel-view-contents-middle">
-                                        <div class="hotel-view-contents-flex">
-                                            <div class="hotel-view-contents-icon d-flex gap-1">
-                                                <span> <i class="las la-parking"></i> </span>
-                                                <p class="hotel-view-contents-icon-title flex-fill"> Parking </p>
-                                            </div>
-                                            <div class="hotel-view-contents-icon d-flex gap-1">
-                                                <span> <i class="las la-wifi"></i> </span>
-                                                <p class="hotel-view-contents-icon-title flex-fill"> Wifi </p>
-                                            </div>
-                                            <div class="hotel-view-contents-icon d-flex gap-1">
-                                                <span> <i class="las la-coffee"></i> </span>
-                                                <p class="hotel-view-contents-icon-title flex-fill"> Breakfast </p>
-                                            </div>
-                                            <div class="hotel-view-contents-icon d-flex gap-1">
-                                                <span> <i class="las la-quidditch"></i> </span>
-                                                <p class="hotel-view-contents-icon-title flex-fill"> Room Service </p>
-                                            </div>
-                                            <div class="hotel-view-contents-icon d-flex gap-1">
-                                                <span> <i class="las la-swimming-pool"></i> </span>
-                                                <p class="hotel-view-contents-icon-title flex-fill"> Pool </p>
-                                            </div>
-                                            <div class="hotel-view-contents-icon d-flex gap-1">
-                                                <span> <i class="las la-receipt"></i> </span>
-                                                <p class="hotel-view-contents-icon-title flex-fill"> Reception </p>
-                                            </div>
-                                            <div class="hotel-view-contents-icon d-flex gap-1">
-                                                <span> <i class="las la-dumbbell"></i> </span>
-                                                <p class="hotel-view-contents-icon-title flex-fill"> Gym </p>
-                                            </div>
-                                            <div class="hotel-view-contents-icon d-flex gap-1">
-                                                <a class="hotel-view-contents-icon-more" href="javascript:void(0)"> +8 More </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="hotel-view-contents-bottom">
-                                        <div class="hotel-view-contents-bottom-flex">
-                                            <div class="hotel-view-contents-bottom-contents d-flex flex-wrap gap-4">
-                                                <h4 class="hotel-view-contents-bottom-title"> @ViewData["ValorDiaria"] <sub>/Diaria</sub> </h4>
-                                                <p class="hotel-view-contents-bottom-para"> (4 Nights, 2 Rooms, 4 Persons) </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="hotel">
+
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Item Decoração</th>
+                                            <th scope="col">Preço</th>
+                                            <th scope="col">Quantidade Disponivel</th>
+                                            <th scope="col">Quantidade Desejada</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var casaRecurso in (IEnumerable<dynamic>)ViewData["CasasRecursos"])
+                                        {
+                                        <tr>                                         
+                                            <td>@casaRecurso.Titulo</td>
+                                            <td>@casaRecurso.Valor</td>
+                                            <td>@casaRecurso.Quantidade</td>
+                                                <td>
+                                                    <button type="button" class="btn btn-danger decrement">-</button>
+                                                    <input style="width: 30px;" type="text" class="quantity" value="0" data-max="@casaRecurso.Quantidade">
+                                                    <button type="button" class="btn btn-danger increment">+</button>
+                                                </td>
+                                        </tr>
+                                        }
+                                    </tbody>
+                                </table>
+
                             </div>
                         </div>
+
                     </div>
                 </div>
                 <div class="col-xl-4 col-lg-5">
@@ -329,6 +280,31 @@
     <div class="mouse-move mouse-inner"></div>
 
     <script>
+
+        const decrementButtons = document.querySelectorAll('.decrement');
+        const incrementButtons = document.querySelectorAll('.increment');
+        const quantityInputs = document.querySelectorAll('.quantity');
+
+        decrementButtons.forEach((decrementButton, index) => {
+            decrementButton.addEventListener('click', () => {
+                const currentValue = parseInt(quantityInputs[index].value) || 0;
+                if (currentValue > 0) {
+                    quantityInputs[index].value = currentValue - 1;
+                }
+
+            });
+        });
+
+        incrementButtons.forEach((incrementButton, index) => {
+            incrementButton.addEventListener('click', () => {
+                const currentValue = parseInt(quantityInputs[index].value) || 0;
+                const maxQuantity = parseInt(quantityInputs[index].dataset.max);
+                if (currentValue < maxQuantity) {
+                    quantityInputs[index].value = currentValue + 1;
+                }
+            });
+        });
+
 
         // Seleciona o campo de entrada de data
         var dataInput = document.getElementById("dataInput");

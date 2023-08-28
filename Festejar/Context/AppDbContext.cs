@@ -15,5 +15,7 @@ namespace Festejar.Context
         public DbSet<Casa_comodidade> Casa_comodidade { get; set; }
         public DbSet<Diarias> Diarias { get; set; }
         public DbSet<Imagens_casas> Imagens_casas { get; set; }
+        public DbSet<Recursos> Recursos { get; set; }
+        public DbSet<Casa_recurso> Casa_recurso { get; set; }
     }
 }

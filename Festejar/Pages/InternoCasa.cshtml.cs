@@ -1,7 +1,9 @@
+using Festejar.Context;
 using Festejar.Models;
 using Festejar.Respositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Globalization;
@@ -13,12 +15,14 @@ namespace Festejar.Pages
     {
         private readonly ICasasRepository _casasRepository;
         private readonly IDiariasRepository _diariasRepository;
+        private readonly AppDbContext _context;
         private static readonly HttpClient client = new HttpClient();
         private static readonly CultureInfo culture = new CultureInfo("pt-BR");
-        public InternoCasaModel(ICasasRepository casasRepository, IDiariasRepository diariasRepository)
+        public InternoCasaModel(ICasasRepository casasRepository, IDiariasRepository diariasRepository, AppDbContext context)
         {
             _casasRepository = casasRepository;
             _diariasRepository = diariasRepository;
+            _context = context;
         }
         public Casas InternoCasa { get; set; }
 
@@ -57,6 +61,30 @@ namespace Festejar.Pages
             {
                 ViewData["ValorDiaria"] = 500;
             }
+            //join para listar as comodidades da casa
+            var comodidades = _context.Casa_comodidade
+                .Where(cc => cc.Casa_id == id)
+                .Join(_context.Comodidades,
+                    casaComodidade => casaComodidade.Id,
+                    comodidades => comodidades.Id,
+                    (casaComodidade, comodidades) => new { casaComodidade.Casa_id, comodidades.Titulo })
+                .AsEnumerable() // Avalia a consulta no lado do cliente
+                .GroupBy(grupo => grupo.Casa_id);
+
+            var casasRecursos = _context.Casa_recurso
+                .Where(cr => cr.Casa_id == id)
+                .Join(_context.Recursos,
+                    casaRecurso => casaRecurso.Id,
+                    recursos => recursos.Id,
+                    (casaRecurso, recursos) => new { casaRecurso.Recurso_id, recursos.Titulo, recursos.Valor, recursos.Quantidade })
+                .GroupBy(grupo => grupo.Recurso_id)
+                .Select(g => new { Titulo = g.First().Titulo, Valor = g.Sum(x => x.Valor), Quantidade = g.Sum(x => x.Quantidade) });
+
+
+
+
+            ViewData["Comodidades"] = comodidades;
+            ViewData["CasasRecursos"] = casasRecursos;
         }
 
 

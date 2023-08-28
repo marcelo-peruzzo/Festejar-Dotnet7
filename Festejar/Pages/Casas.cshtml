@@ -334,18 +334,16 @@
                                                     
                                                             <div class="hotel-view-contents-middle">
                                                                 <div class="hotel-view-contents-flex">
+                                                                    @*percorre a variavel Comodidades da viewdata que possui o join no backend*@
                                                             @foreach (var comodidade in (IEnumerable<dynamic>)ViewData["Comodidades"])
                                                             {
-                                                                if (comodidade.Key == casas.Id)
-                                                                {
                                                                     foreach (var item in comodidade)
                                                                     {
                                                                         <div class="hotel-view-contents-icon d-flex gap-1">
                                                                             <span> <i class="las la-Piscina de Bolinha"></i> </span>
                                                                             <p class="hotel-view-contents-icon-title flex-fill">@item.Titulo</p>
                                                                         </div>
-                                                                    }
-                                                                }
+                                                                    }                                                               
                                                             }
                                                             <div class="hotel-view-contents-icon d-flex gap-1">
                                                                 <a class="hotel-view-contents-icon-more" href="javascript:void(0)"> +8 More </a>
