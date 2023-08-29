@@ -11,15 +11,24 @@ C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\bin\Debug\net7.0\Humanize
 C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\bin\Debug\net7.0\K4os.Compression.LZ4.dll
 C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\bin\Debug\net7.0\K4os.Compression.LZ4.Streams.dll
 C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\bin\Debug\net7.0\K4os.Hash.xxHash.dll
+C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\bin\Debug\net7.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\bin\Debug\net7.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\bin\Debug\net7.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\bin\Debug\net7.0\Microsoft.AspNetCore.Identity.UI.dll
 C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.dll
 C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Abstractions.dll
 C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Design.dll
 C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Relational.dll
 C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\bin\Debug\net7.0\Microsoft.Extensions.DependencyModel.dll
+C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\bin\Debug\net7.0\Microsoft.Extensions.FileProviders.Embedded.dll
+C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\bin\Debug\net7.0\Microsoft.Extensions.Identity.Core.dll
+C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\bin\Debug\net7.0\Microsoft.Extensions.Identity.Stores.dll
+C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\bin\Debug\net7.0\Microsoft.Extensions.Options.dll
 C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\bin\Debug\net7.0\Microsoft.Win32.SystemEvents.dll
 C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\bin\Debug\net7.0\Mono.TextTemplating.dll
 C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\bin\Debug\net7.0\MySql.Data.dll
 C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\bin\Debug\net7.0\MySql.EntityFrameworkCore.dll
+C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\bin\Debug\net7.0\Newtonsoft.Json.dll
 C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\bin\Debug\net7.0\BouncyCastle.Crypto.dll
 C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\bin\Debug\net7.0\System.CodeDom.dll
 C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\bin\Debug\net7.0\System.Configuration.ConfigurationManager.dll
@@ -43,6 +52,7 @@ C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\obj\Debug\net7.0\Festejar
 C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\obj\Debug\net7.0\Festejar.AssemblyInfoInputs.cache
 C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\obj\Debug\net7.0\Festejar.AssemblyInfo.cs
 C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\obj\Debug\net7.0\Festejar.csproj.CoreCompileInputs.cache
+C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\obj\Debug\net7.0\Festejar.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\obj\Debug\net7.0\Festejar.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\obj\Debug\net7.0\Festejar.RazorAssemblyInfo.cache
 C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\obj\Debug\net7.0\Festejar.RazorAssemblyInfo.cs
@@ -62,4 +72,3 @@ C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\obj\Debug\net7.0\refint\F
 C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\obj\Debug\net7.0\Festejar.pdb
 C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\obj\Debug\net7.0\Festejar.genruntimeconfig.cache
 C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\obj\Debug\net7.0\ref\Festejar.dll
-C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\bin\Debug\net7.0\Newtonsoft.Json.dll

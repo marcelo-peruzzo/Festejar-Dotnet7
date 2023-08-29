@@ -40,8 +40,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW50ZXJub0Nhc2EuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Marcelo Peruzzo/Desktop/Dev/Festejar/Festejar/Pages/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTG9naW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Marcelo Peruzzo/Desktop/Dev/Festejar/Festejar/Pages/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJpdmFjeS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Marcelo Peruzzo/Desktop/Dev/Festejar/Festejar/Pages/RegisterLogin.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVnaXN0ZXJMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Marcelo Peruzzo/Desktop/Dev/Festejar/Festejar/Pages/Shared/_ValidationScriptsPartial.cshtml]

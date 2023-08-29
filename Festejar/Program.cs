@@ -2,6 +2,7 @@ using Festejar.Context;
 using Festejar.Respositories.Interfaces;
 using Festejar.Respositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,13 @@ builder.Services.AddRazorPages();
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySQL(connectionString));
+
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders();
+
+
+
 
 // Register as Interfaces do contexto DB
 builder.Services.AddScoped<ICidadesRepository, CidadesRepository>();
@@ -37,11 +45,13 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();
