@@ -10,20 +10,25 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="~/css/style-login.css" />
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" />
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <title>Login</title>
 </head>
 <body>
     <div class="wrapper">
         <form method="post">
-            <h1>Login</h1>
+            <h1>Login</h1>          
+            <input type="hidden" asp-for="LoginInput.ReturnUrl" />
             <div class="input-box">
-                <input type="text" placeholder="Nome de usuário" />
+                <input asp-for="LoginInput.UserName" type="text" placeholder="E-mail" />
+                <span asp-validation-for="LoginInput.UserName" class="text-danger"></span>
                 <i class='bx bxs-user'></i>
             </div>
             <div class="input-box">
-                <input type="password" placeholder="Senha" />
+                <input asp-for="LoginInput.Password" type="password" placeholder="Senha" />
+                <span asp-validation-for="LoginInput.Password" class="text-danger"></span>
                 <i class='bx bxs-lock-alt'></i>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>              
             </div>
 
             <div class="remember-forgot">
@@ -33,7 +38,7 @@
                 <a href="#">Esqueceu a senha?</a>
             </div>
 
-            <button type="submit" class="btn">Entrar</button>
+            <button type="submit" asp-page-handler="Login" class="btn">Entrar</button>
             <button type="submit" asp-page-handler="Cancelar" class="btn">Sair</button>
 
             <div class="registrer-link">
@@ -41,5 +46,8 @@
             </div>
         </form>
     </div>
+
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 </body>
 </html>

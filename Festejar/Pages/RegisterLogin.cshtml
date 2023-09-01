@@ -10,24 +10,28 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="~/css/style-login.css" />
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" />
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <title>Login</title>
+    <title>Registre-se</title>
 </head>
 <body>
     <div class="wrapper">
         <form method="post">
             <h1>Crie sua conta</h1>
             <div class="input-box">
-                <input type="text" placeholder="Usar seu e-mail" />
+                <input asp-for="RegisterInput.UserName" type="text" placeholder="Usar seu e-mail" />
+                <span asp-validation-for="RegisterInput.UserName" class="text-danger"></span>
                 <i class='bx bx-user-plus'></i>
             </div>
             <div class="input-box">
-                <input type="password" placeholder="Crie uma senha forte" />
+                <input asp-for="RegisterInput.Password" type="password" placeholder="Crie uma senha forte" />
+                <span asp-validation-for="RegisterInput.Password" class="text-danger"></span>
                 <i class='bx bxs-lock'></i>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             </div>
 
 
-            <button type="submit" class="btn">Criar conta</button>
+            <button type="submit" asp-page-handler="Register" class="btn">Criar conta</button>
             <button type="submit" asp-page-handler="Cancelar" class="btn">Cancelar</button>
 
             <div class="registrer-link">
@@ -35,5 +39,8 @@
             </div>
         </form>
     </div>
+
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 </body>
 </html>

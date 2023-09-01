@@ -9,61 +9,61 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Festejar
 build_property.RootNamespace = Festejar
-build_property.ProjectDir = C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\
+build_property.ProjectDir = c:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\
 build_property.RazorLangVersion = 7.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar
+build_property.MSBuildProjectDirectory = c:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/Marcelo Peruzzo/Desktop/Dev/Festejar/Festejar/Pages/About.cshtml]
+[c:/Users/Marcelo Peruzzo/Desktop/Dev/Festejar/Festejar/Pages/About.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWJvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Marcelo Peruzzo/Desktop/Dev/Festejar/Festejar/Pages/Casas.cshtml]
+[c:/Users/Marcelo Peruzzo/Desktop/Dev/Festejar/Festejar/Pages/Casas.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2FzYXMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Marcelo Peruzzo/Desktop/Dev/Festejar/Festejar/Pages/Checkout.cshtml]
+[c:/Users/Marcelo Peruzzo/Desktop/Dev/Festejar/Festejar/Pages/Checkout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2hlY2tvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Marcelo Peruzzo/Desktop/Dev/Festejar/Festejar/Pages/Error.cshtml]
+[c:/Users/Marcelo Peruzzo/Desktop/Dev/Festejar/Festejar/Pages/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Marcelo Peruzzo/Desktop/Dev/Festejar/Festejar/Pages/Index.cshtml]
+[c:/Users/Marcelo Peruzzo/Desktop/Dev/Festejar/Festejar/Pages/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Marcelo Peruzzo/Desktop/Dev/Festejar/Festejar/Pages/InternoCasa.cshtml]
+[c:/Users/Marcelo Peruzzo/Desktop/Dev/Festejar/Festejar/Pages/InternoCasa.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW50ZXJub0Nhc2EuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Marcelo Peruzzo/Desktop/Dev/Festejar/Festejar/Pages/Login.cshtml]
+[c:/Users/Marcelo Peruzzo/Desktop/Dev/Festejar/Festejar/Pages/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTG9naW4uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Marcelo Peruzzo/Desktop/Dev/Festejar/Festejar/Pages/Privacy.cshtml]
+[c:/Users/Marcelo Peruzzo/Desktop/Dev/Festejar/Festejar/Pages/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJpdmFjeS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Marcelo Peruzzo/Desktop/Dev/Festejar/Festejar/Pages/RegisterLogin.cshtml]
+[c:/Users/Marcelo Peruzzo/Desktop/Dev/Festejar/Festejar/Pages/RegisterLogin.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVnaXN0ZXJMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Marcelo Peruzzo/Desktop/Dev/Festejar/Festejar/Pages/Shared/_ValidationScriptsPartial.cshtml]
+[c:/Users/Marcelo Peruzzo/Desktop/Dev/Festejar/Festejar/Pages/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Marcelo Peruzzo/Desktop/Dev/Festejar/Festejar/Pages/_ViewImports.cshtml]
+[c:/Users/Marcelo Peruzzo/Desktop/Dev/Festejar/Festejar/Pages/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Marcelo Peruzzo/Desktop/Dev/Festejar/Festejar/Pages/_ViewStart.cshtml]
+[c:/Users/Marcelo Peruzzo/Desktop/Dev/Festejar/Festejar/Pages/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Marcelo Peruzzo/Desktop/Dev/Festejar/Festejar/Pages/Shared/_Layout.cshtml]
+[c:/Users/Marcelo Peruzzo/Desktop/Dev/Festejar/Festejar/Pages/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-6eyblvettl

@@ -73,6 +73,10 @@
               "target": "Package",
               "version": "[7.0.10, )"
             },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[7.0.9, )"
+            },
             "MySql.EntityFrameworkCore": {
               "target": "Package",
               "version": "[7.0.5, )"
