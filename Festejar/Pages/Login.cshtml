@@ -18,28 +18,29 @@
     <div class="wrapper">
         <form method="post">
             <h1>Login</h1>          
-            <input type="hidden" asp-for="LoginInput.ReturnUrl" />
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
             <div class="input-box">
-                <input asp-for="LoginInput.UserName" type="text" placeholder="E-mail" />
+                <input asp-for="LoginInput.UserName" class="form-control" autocomplete="username" aria-required="true" placeholder="E-mail" />
                 <span asp-validation-for="LoginInput.UserName" class="text-danger"></span>
                 <i class='bx bxs-user'></i>
             </div>
             <div class="input-box">
-                <input asp-for="LoginInput.Password" type="password" placeholder="Senha" />
+                <input asp-for="LoginInput.Password" type="password" autocomplete="current-password" aria-required="true" placeholder="Senha" />
                 <span asp-validation-for="LoginInput.Password" class="text-danger"></span>
                 <i class='bx bxs-lock-alt'></i>
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>              
+                @*<div asp-validation-summary="ModelOnly" class="text-danger"></div>*@              
             </div>
 
             <div class="remember-forgot">
-                <label>
-                    <input type="checkbox"/> Salvar acesso
+                <label asp-for="LoginInput.RememberMe" class="form-label">
+                    <input class="form-check-input" asp-for="LoginInput.RememberMe" />
+                    @Html.DisplayNameFor(m => m.LoginInput.RememberMe)
                 </label>
-                <a href="#">Esqueceu a senha?</a>
+                <a id="forgot-password" asp-page="./ForgotPassword">Esqueceu a senha?</a>
             </div>
 
-            <button type="submit" asp-page-handler="Login" class="btn">Entrar</button>
-            <button type="submit" asp-page-handler="Cancelar" class="btn">Sair</button>
+            <button type="submit" asp-page-handler="Login" class="w-100 btn btn-lg btn-primary">Entrar</button>
+            <button type="submit" asp-page-handler="Cancelar" class="w-100 btn btn-lg btn-danger">Sair</button>
 
             <div class="registrer-link">
                 <p>Não possui uma conta? <a asp-page-handler="RedirectRegister">Registrar-se</a> </p>
@@ -49,5 +50,9 @@
 
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+    }
 </body>
 </html>

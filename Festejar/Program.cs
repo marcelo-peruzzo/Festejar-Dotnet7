@@ -3,6 +3,7 @@ using Festejar.Respositories.Interfaces;
 using Festejar.Respositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,9 +15,11 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySQL(connectionString));
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<AppDbContext>()
-    .AddDefaultTokenProviders();
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<AppDbContext>();
+
+//builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
+//    .AddEntityFrameworkStores<AppDbContext>()
+//    .AddDefaultTokenProviders();
 
 
 
@@ -26,6 +29,9 @@ builder.Services.AddScoped<ICidadesRepository, CidadesRepository>();
 builder.Services.AddScoped<ICasasRepository, CasasRepository>();
 builder.Services.AddScoped<IDiariasRepository, DiariasRepository>();
 builder.Services.AddScoped<IImagens_casasRepository, Imagens_casasRepository>();
+
+// implementação da interface IEmailSender como um serviço
+builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 var app = builder.Build();
 

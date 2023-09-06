@@ -7,58 +7,59 @@ namespace Festejar.Pages
 {
     public class LoginModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly ILogger<LoginModel> _logger;
 
         [BindProperty]
         public Logins LoginInput { get; set; }
-        public LoginModel(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+        public LoginModel(SignInManager<IdentityUser> signInManager, ILogger<LoginModel> logger)
         {
-            _userManager = userManager;
             _signInManager = signInManager;
+            _logger = logger;
         }
 
         public void OnGetLogin(string returnUrl)
         {
         }
 
-        public async Task<IActionResult> OnPostLogin()
+        public async Task<IActionResult> OnPostLogin(string returnUrl = null)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return Page();
-            }
+                returnUrl ??= Url.Content("~/");
 
-            var user = await _userManager.FindByNameAsync(LoginInput.UserName);
-            if (user != null)
-            {
-                var result = await _signInManager.PasswordSignInAsync(user, LoginInput.Password, false, false);
+                var result = await _signInManager.PasswordSignInAsync(LoginInput.UserName, LoginInput.Password, LoginInput.RememberMe, false);
                 if (result.Succeeded)
                 {
-                    await _signInManager.SignInAsync(user, false);
-                    if (string.IsNullOrEmpty(LoginInput.ReturnUrl))
-                    {
-                        return RedirectToAction("Index");
-                    }
-                    return Redirect(LoginInput.ReturnUrl);
+                    _logger.LogInformation("Usuario logado");
+                    return LocalRedirect(returnUrl);
                 }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Dados incorretos, falha ao realizar login!");
+                    return Page();
+                }
+                    //if (string.IsNullOrEmpty(LoginInput.ReturnUrl))
+                    //    {
+                    //        return RedirectToPage("Index");
+                    //    }
+                    //    return Redirect(LoginInput.ReturnUrl);
             }
-
-            ModelState.AddModelError("", "*Dados incorretos, falha ao realizar login!");
+            //ModelState.AddModelError("", "Dados incorretos, falha ao realizar login!");
             return Page();
         }
 
 
-        //Metodo que direcionar para a index clicada pelo botão Sair no forms de login.
-        public IActionResult OnPostCancelar()
-        {
-            return RedirectToPage("Index");
-        }
+            //Metodo que direcionar para a index clicada pelo botão Sair no forms de login.
+            public IActionResult OnPostCancelar()
+            {
+                return RedirectToPage("Index");
+            }
 
-        //Metodo que direcionar para a pagina RegisterLogin clicada pelas tags <a> no frontend
-        public IActionResult OnGetRedirectRegister()
-        {
-            return RedirectToPage ("RegisterLogin");
+            //Metodo que direcionar para a pagina RegisterLogin clicada pelas tags <a> no frontend
+            public IActionResult OnGetRedirectRegister()
+            {
+                return RedirectToPage("RegisterLogin");
+            }
         }
-    }
-}
+    } 

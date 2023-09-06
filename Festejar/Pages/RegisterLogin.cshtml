@@ -16,31 +16,67 @@
 </head>
 <body>
     <div class="wrapper">
-        <form method="post">
-            <h1>Crie sua conta</h1>
+
+        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <h1>Crie sua conta.</h1>
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
             <div class="input-box">
-                <input asp-for="RegisterInput.UserName" type="text" placeholder="Usar seu e-mail" />
-                <span asp-validation-for="RegisterInput.UserName" class="text-danger"></span>
+                <input asp-for="RegisterInput.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="nome@exemplo.com" />
+                <span asp-validation-for="RegisterInput.Email" class="text-danger"></span>
                 <i class='bx bx-user-plus'></i>
             </div>
             <div class="input-box">
-                <input asp-for="RegisterInput.Password" type="password" placeholder="Crie uma senha forte" />
+                <input asp-for="RegisterInput.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Senha" />
                 <span asp-validation-for="RegisterInput.Password" class="text-danger"></span>
                 <i class='bx bxs-lock'></i>
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            </div>
+            <div class="input-box">
+                <input asp-for="RegisterInput.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Confirme sua senha" />
+                <span asp-validation-for="RegisterInput.ConfirmPassword" class="text-danger"></span>
+                <i class='bx bxs-lock'></i>
+            </div>
+            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+            <button type="submit" asp-page-handler="Cancelar" class="w-100 btn btn-lg btn-danger">Cancelar</button>
+            <div class="registrer-link">
+                <p>Já possui uma conta? <a asp-page-handler="RedirectLogin">Entrar</a> </p>
+            </div>
+        </form>
+
+       @* <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <h1>Crie sua conta</h1>
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+            <div class="input-box">
+                <input asp-for="RegisterInput.Email" type="text" class="form-control" autocomplete="username" aria-required="true" placeholder="Usar seu e-mail" />
+                <span asp-validation-for="RegisterInput.Email" class="text-danger"></span>
+                <i class='bx bx-user-plus'></i>
+            </div>
+            <div class="input-box">
+                <input asp-for="RegisterInput.Password" type="password" autocomplete="current-password" aria-required="true" placeholder="Crie uma senha forte" />
+                <span asp-validation-for="RegisterInput.Password" class="text-danger"></span>
+                <i class='bx bxs-lock'></i>
+
+            </div>
+            <div class="input-box">
+                <input asp-for="RegisterInput.Password" type="password" autocomplete="current-password" aria-required="true" placeholder="Confirme sua senha" />
+                <span asp-validation-for="RegisterInput.ConfirmPassword" class="text-danger"></span>
+                <i class='bx bxs-lock'></i>
             </div>
 
 
-            <button type="submit" asp-page-handler="Register" class="btn">Criar conta</button>
+            <button id="registerSubmit" type="submit" class="btn">Registrar-se</button>
             <button type="submit" asp-page-handler="Cancelar" class="btn">Cancelar</button>
 
             <div class="registrer-link">
                 <p>Já possui uma conta? <a asp-page-handler="RedirectLogin">Entrar</a> </p>
             </div>
-        </form>
+        </form>*@
     </div>
 
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+    }
 </body>
 </html>
