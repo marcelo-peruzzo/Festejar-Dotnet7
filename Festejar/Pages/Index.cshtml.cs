@@ -1,5 +1,6 @@
 ﻿using Festejar.Models;
 using Festejar.Respositories.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -10,11 +11,15 @@ namespace Festejar.Pages
         private readonly ICidadesRepository _cidadeRepository;
         private readonly ICasasRepository _casasRepository;
         private readonly IImagens_casasRepository _imagensCasasRepository;
-        public IndexModel(ICidadesRepository cidadeRepository, ICasasRepository casasRepository, IImagens_casasRepository imagensCasasRepository)
+        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly ILogger<LogoutModel> _logger;
+        public IndexModel(ICidadesRepository cidadeRepository, ICasasRepository casasRepository, IImagens_casasRepository imagensCasasRepository, SignInManager<IdentityUser> signInManager, ILogger<LogoutModel> logger)
         {
             _cidadeRepository = cidadeRepository;
             _casasRepository = casasRepository;
             _imagensCasasRepository = imagensCasasRepository;
+            _signInManager = signInManager;
+            _logger = logger;
         }
 
         //Lista de cidades consultadas no banco pela interface ICidadesRepository
@@ -36,6 +41,22 @@ namespace Festejar.Pages
         public IActionResult OnGetRedirectCasa(int casaId)
         {
             return RedirectToPage("/InternoCasa", new { id = casaId });
+        }
+
+        public async Task<IActionResult> OnPost(string returnUrl = null)
+        {
+            await _signInManager.SignOutAsync();
+            _logger.LogInformation("Usuário desconectado.");
+            if (returnUrl != null)
+            {
+                return LocalRedirect(returnUrl);
+            }
+            else
+            {
+                // This needs to be a redirect so that the browser performs a new
+                // request and the identity for the user gets updated.
+                return RedirectToPage();
+            }
         }
 
     }

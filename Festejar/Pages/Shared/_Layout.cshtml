@@ -57,20 +57,41 @@
                             <li><a class="nav-link text-dark" asp-area="" asp-controller="MinhasReservas" asp-action="MinhasReservas">Minhas Reservas</a></li>
                         </ul>
                     </div>
+                
+                    @if (User.Identity.IsAuthenticated)
+                    {
                     <div class="navbar-right-content show-nav-content">
                         <div class="single-right-content">
                             <div class="navbar-right-flex">
                                 <div class="navbar-right-btn">
-                                <a asp-page="Login"> Log In </a>
+                                    <span class="navbar-text text-dark">Olá, @User.Identity.Name!</span>
                                 </div>
                                 <div class="btn-wrapper">
-                                    <a href="signup.html" class="cmn-btn btn-bg-1 radius-10">
-                                        Sign Up
-                                    </a>
+                                    <form method="post" asp-page="/Index">
+                                        <button type="submit" class="cmn-btn btn-bg-1 radius-10">Sair</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    }
+                    else
+                    {
+                        <div class="navbar-right-content show-nav-content">
+                            <div class="single-right-content">
+                                <div class="navbar-right-flex">
+                                    <div class="navbar-right-btn">
+                                        <a asp-page="Login"> Entrar </a>
+                                    </div>
+                                    <div class="btn-wrapper">
+                                    <a asp-page="RegisterLogin" class="cmn-btn btn-bg-1 radius-10">
+                                            Registre-se
+                                    </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }              
                 </div>
             </nav>
         </header>
