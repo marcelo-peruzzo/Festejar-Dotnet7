@@ -5,7 +5,7 @@ namespace Festejar.Pages
 {
     public class CheckoutModel : PageModel
     {
-        public void OnGet(int id)
+        public void OnGet(int id, DateTime dataReserva)
         {
 
         }

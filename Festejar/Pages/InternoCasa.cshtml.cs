@@ -1,6 +1,7 @@
 using Festejar.Context;
 using Festejar.Models;
 using Festejar.Respositories.Interfaces;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -94,7 +95,7 @@ namespace Festejar.Pages
             DateTime data = DataReserva;
             string start = data.ToString("yyyy-MM-dd");
             string end = data.ToString("yyyy-MM-dd");
-            string url = $"https://painel.globalprodutos.com/api/RetornaDiasMesByPrioridade?start={start}T00%3A00%3A00-03%3A00&end={end}T00%3A00%3A00-03%3A00";
+            string url = $"https://festejar.firo.com.br/api/RetornaDiasMesByPrioridade?start={start}T00%3A00%3A00-03%3A00&end={end}T00%3A00%3A00-03%3A00";
             var response = await client.GetAsync(url);
             if (response.IsSuccessStatusCode)
             {
@@ -103,17 +104,19 @@ namespace Festejar.Pages
                 if (apiResponse.Events.Count > 0)
                 {
                     string title = apiResponse.Events[0].Title;
+                    CultureInfo culture = new CultureInfo("pt-BR");
+                    culture.NumberFormat.CurrencyDecimalSeparator = ".";
                     valorDiaria = decimal.Parse(title, NumberStyles.Currency, culture);
+
                 }
             }
             //string valorFormatado = valorDiaria.Value.ToString("C", culture);
             return RedirectToPage(new { id, valorDiaria, dataSelecionada = data });
         }
 
-
         public IActionResult OnPostCheckout(int casaId, DateTime dataReserva)
         {
-            return RedirectToPage("/Checkout", new { id = casaId, data = dataReserva});
+            return RedirectToPage("/Checkout", new { id = casaId, dataReserva});
         }
 
         public class Event

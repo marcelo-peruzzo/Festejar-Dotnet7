@@ -33,7 +33,7 @@ namespace Festejar.Pages
             Imagens_casas = _imagensCasasRepository.GetAllImagensCasas().OrderBy(imagem => imagem.Ordem).ToList();
             foreach (var imagem in Imagens_casas)
             {
-                imagem.Caminho = "https://painel.globalprodutos.com/storage/" + imagem.Caminho;
+                imagem.Caminho = "https://festejar.firo.com.br/storage/" + imagem.Caminho;
             }
         }
 

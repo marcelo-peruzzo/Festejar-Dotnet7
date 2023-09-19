@@ -164,11 +164,10 @@
                         <div class="hotel-details-widget hotel-details-widget-padding widget bg-white radius-10">
                             <div class="details-sidebar">
                                 <form id="dataForm" method="post">
-                                <div class="details-sidebar-dropdown custom-form">
-                                    
+                                <div class="details-sidebar-dropdown custom-form">                                   
                                         <div class="single-input">
                                             <label class="details-sidebar-dropdown-title"> Selecione uma data: </label>
-                                            <input id="dataInput" class="form--control date-picker" type="text" name="dataReserva" placeholder="@((ViewData["DataSelecionada"] != null) ? ((DateTime)ViewData["DataSelecionada"]).ToString("dd/MM/yyy") : "Data desejada:")" />
+                                            <input id="dataInput" class="form--control date-picker" type="text" name="dataInput" placeholder="@((ViewData["DataSelecionada"] != null) ? ((DateTime)ViewData["DataSelecionada"]).ToString("dd/MM/yyy") : "Data desejada:")" />
                                         </div>                                   
                                 </div>                               
                                     <div class="details-sidebar-quantity pt-4">
@@ -188,6 +187,7 @@
                                         </div>
                                     </div>
                                     <div class="btn-wrapper mt-4">
+                                        <input type="hidden" name="dataReserva" value="@ViewData["DataSelecionada"]" />
                                         <input type="hidden" name="casaId" value="@Model.InternoCasa.Id" />
                                         <button type="submit" class="cmn-btn btn-bg-1 btn-small" asp-page-handler="Checkout"> Agendar reserva </button>
                                     </div>
@@ -311,24 +311,11 @@
 
         // Adiciona um evento para detectar quando o valor do campo é alterado
         dataInput.addEventListener("change", function () {
+            // Atualiza o valor do campo oculto 'dataReserva'
+            document.getElementsByName('dataReserva')[0].value = this.value;
             // Envia automaticamente o formulário quando o valor do campo é alterado
             document.getElementById("dataForm").submit();
         });
-
-        function setDataReserva(dataReserva) {
-            // Armazena o valor de dataReserva em um cookie
-            $.ajax({
-                url: '@Url.Action("SetDataReserva", "InternoCasas")',
-                type: 'POST',
-                data: { dataReserva: dataReserva },
-                success: function (result) {
-                    // Tratar sucesso
-                },
-                error: function (result) {
-                    // Tratar erro
-                }
-            });
-        }
     </script>
 </body>
 </html>
