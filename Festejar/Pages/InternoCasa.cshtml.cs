@@ -79,7 +79,7 @@ namespace Festejar.Pages
                     recursos => recursos.Id,
                     (casaRecurso, recursos) => new { casaRecurso.Recurso_id, recursos.Titulo, recursos.Valor, recursos.Quantidade })
                 .GroupBy(grupo => grupo.Recurso_id)
-                .Select(g => new { Titulo = g.First().Titulo, Valor = g.Sum(x => x.Valor), Quantidade = g.Sum(x => x.Quantidade) });
+                .Select(g => new { Id = g.First().Recurso_id, Titulo = g.First().Titulo, Valor = g.Sum(x => x.Valor), Quantidade = g.Sum(x => x.Quantidade) });
 
 
 
@@ -114,9 +114,9 @@ namespace Festejar.Pages
             return RedirectToPage(new { id, valorDiaria, dataSelecionada = data });
         }
 
-        public IActionResult OnPostCheckout(int casaId, DateTime dataReserva)
+        public IActionResult OnPostCheckout(int casaId, DateTime dataReserva, decimal valorDiaria, int[] recursoId)
         {
-            return RedirectToPage("/Checkout", new { id = casaId, dataReserva});
+            return RedirectToPage("/Checkout", new { casaid = casaId, dataReserva, valorDiaria, recursoId});
         }
 
         public class Event

@@ -3,7 +3,7 @@
 @{
 }
 
-@*<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <body>
     <div class="breadcrumb-area breadcrumb-padding">
         <div class="container custom-container-one">
@@ -29,7 +29,7 @@
                             <h4 class="checkout-title"> Informações pessoais </h4>
                             <div class="checkout-contents mt-3">
                                 <div class="checkout-form custom-form">
-                                    <form action="@Url.Action("Create", "Checkout")" method="post">
+                                    @*<form action="@Url.Action("Create", "Checkout")" method="post">
                                         <div class="input-flex-item">
                                             <div class="single-input mt-4">
                                                 <label class="label-title"> Nome completo </label>
@@ -78,10 +78,10 @@
                                                 <button type="submit" class="cmn-btn btn-bg-1 btn-small"> Confirmar </button>
                                             </div>
                                         </div>
-                                    </form>
+                                    </form>*@
                                 </div>
                             </div>
-                        </div>*@
+                        </div>
                         @*<div class="checkout-single bg-white radius-10">
                         <h4 class="checkout-title"> Payment </h4>
                         <div class="checkout-contents mt-4">
@@ -137,7 +137,7 @@
                         </div>
                         </div>
                         </div>*@
-@*                    </div>
+                    </div>
                 </div>
                 <div class="col-xl-4 col-lg-5">
                     <div class="sticky-top">
@@ -146,8 +146,8 @@
                                 <h4 class="checkout-sidebar-title"> Detalhes da reserva </h4>
                                 <div class="checkout-sidebar-contents">
                                     <ul class="checkout-flex-list list-style-none checkout-border-top pt-3 mt-3">
-                                        <li class="list"> <span class="regular"> Casa </span> <span class="strong"> @Model.CasaDeFesta.NomeCasa </span> </li>
-                                        <li class="list"> <span class="regular"> Data da reserva </span> <span class="strong"> @Model.Reserva.DataReserva </span> </li>
+                                        <li class="list"> <span class="regular"> Casa </span> <span class="strong"> @Model.NomeCasa </span> </li>
+                                        <li class="list"> <span class="regular"> Data da reserva </span> <span class="strong"> @Model.DataReserva </span> </li>
                                     </ul>
                                 </div>
                             </div>
@@ -157,8 +157,12 @@
                                 <h4 class="checkout-sidebar-title"> Fatura </h4>
                                 <div class="checkout-sidebar-contents">
                                     <ul class="checkout-flex-list list-style-none checkout-border-top pt-3 mt-3">
-                                        <li class="list"> <span class="regular"> Diária </span> <span class="strong"> @Model.CasaDeFesta.ValorReserva </span> </li>
-                                        <li class="list"> <span class="regular"> Adicionais </span> <span class="strong"> R$80,00 </span> </li>
+                                        <li class="list"> <span class="regular"> Diária </span> <span class="strong"> @Model.ValorDiaria </span> </li>
+                                        @foreach (var recursos in Model.Recurso)
+                                        {
+                                            <li class="list"> <span class="regular"> @recursos </span> <span class="strong"> R$80,00 </span> </li>
+                                        }
+                                        
                                     </ul>
                                     <ul class="checkout-flex-list list-style-none checkout-border-top pt-3 mt-3">
                                         <li class="list"> <span class="regular"> Total </span> <span class="strong color-one fs-20"> R$580,00 </span> </li>
@@ -172,4 +176,4 @@
         </div>
     </section>
 </body>
-</html>*@
+</html>
