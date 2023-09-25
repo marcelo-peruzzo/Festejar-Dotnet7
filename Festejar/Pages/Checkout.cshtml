@@ -158,12 +158,12 @@
                                 <div class="checkout-sidebar-contents">
                                     <ul class="checkout-flex-list list-style-none checkout-border-top pt-3 mt-3">
                                         <li class="list"> <span class="regular"> Diária </span> <span class="strong"> @Model.ValorDiaria </span> </li>
-                                        @foreach (var recursos in Model.Recurso)
+                                        @for (int i = 0; i < Model.Recurso.Length; i++)
                                         {
-                                            <li class="list"> <span class="regular"> @recursos </span> <span class="strong"> R$80,00 </span> </li>
+                                            <li class="list"> <span class="regular"> @Model.Recurso[i] </span> <span class="strong"> @Model.ValorRecurso[i] </span> </li>
                                         }
-                                        
                                     </ul>
+
                                     <ul class="checkout-flex-list list-style-none checkout-border-top pt-3 mt-3">
                                         <li class="list"> <span class="regular"> Total </span> <span class="strong color-one fs-20"> R$580,00 </span> </li>
                                     </ul>

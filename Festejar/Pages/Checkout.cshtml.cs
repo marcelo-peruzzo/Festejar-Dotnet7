@@ -17,6 +17,7 @@ namespace Festejar.Pages
         public decimal ValorDiaria { get; set; }
         public int[] Quantidade { get; set; }
         public string[] Recurso { get; set; }
+        public decimal[] ValorRecurso { get; set; }
 
         public CheckoutModel(ICasasRepository casasRepository, AppDbContext context)
         {
@@ -33,6 +34,18 @@ namespace Festejar.Pages
             ValorDiaria = valorDiaria;
             Quantidade = quantidade;
             Recurso = recursos.Select(r => r.Titulo).ToArray();
+
+            // Calcular o valor total dos recursos
+            ValorRecurso = new decimal[recursoId.Length];
+            for (int i = 0; i < recursoId.Length; i++)
+            {
+                var recurso = recursos.FirstOrDefault(r => r.Id == recursoId[i]);
+                if (recurso != null)
+                {
+                    ValorRecurso[i] = recurso.Valor * quantidade[i];
+                }
+            }
+
 
         }
 

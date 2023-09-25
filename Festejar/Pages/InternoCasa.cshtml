@@ -291,7 +291,7 @@
         const incrementButtons = document.querySelectorAll('.increment');
         const quantityInputs = document.querySelectorAll('.quantity');
         const totalValueElements = document.querySelectorAll('.total-value');
-        var recursoId = [];
+        var recursoId = {};
 
         decrementButtons.forEach((decrementButton, index) => {
             decrementButton.addEventListener('click', () => {
@@ -304,31 +304,45 @@
         });
 
         incrementButtons.forEach((incrementButton, index) => {
-            incrementButton.addEventListener('click', () => {
-                const currentValue = parseInt(quantityInputs[index].value) || 0;
-                const maxQuantity = parseInt(quantityInputs[index].dataset.max);
-                var id = incrementButton.dataset.id;
-                console.log(id);  // Imprime o valor do ID no console
-                if (currentValue < maxQuantity) {
-                    quantityInputs[index].value = currentValue + 1;
-                    totalValueElements[index].textContent = 'Valor Total: R$ ' + (currentValue + 1) * parseFloat(quantityInputs[index].dataset.valor);
+    incrementButton.addEventListener('click', () => {
+        const currentValue = parseInt(quantityInputs[index].value) || 0;
+        const maxQuantity = parseInt(quantityInputs[index].dataset.max);
+        var id = incrementButton.dataset.id;
+        console.log(id); 
+        if (currentValue < maxQuantity) {
+            quantityInputs[index].value = currentValue + 1;
+            totalValueElements[index].textContent = 'Valor Total: R$ ' + (currentValue + 1) * parseFloat(quantityInputs[index].dataset.valor);
+            console.log(currentValue);
 
-                    // Adicione o ID do recurso ao array
-                    var id = incrementButton.dataset.id;
-                    if (!recursoId.includes(id)) {
-                        recursoId.push(id);
-                        // Crie um campo oculto para o ID
-                        var input = document.createElement('input');
-                        input.type = 'hidden';
-                        input.name = 'recursoId';
-                        input.value = id;
+            // Verifiqua se um campo oculto para este ID já existe
+            var idInput = document.querySelector('input[name="recursoId"][value="' + id + '"]');
+            var quantityInput = document.querySelector('input[name="quantidade"][data-id="' + id + '"]');
 
-                        // Adicione o campo oculto ao formulário
-                        document.querySelector('form').appendChild(input);
-                    }
-                }
-            });
-        });
+            if (idInput && quantityInput) {
+                // Se existir, atualiza a quantidade
+                quantityInput.value = currentValue + 1;
+            } else {
+                // Se não existir, cria novos campos ocultos para o ID e a quantidade
+
+                idInput = document.createElement('input');
+                idInput.type = 'hidden';
+                idInput.name = 'recursoId';
+                idInput.value = id;
+
+                quantityInput = document.createElement('input');
+                quantityInput.type = 'hidden';
+                quantityInput.name = 'quantidade';
+                quantityInput.value = currentValue + 1;
+                quantityInput.dataset.id = id;
+
+                // Adiciona os campos ocultos ao formulario
+                document.querySelector('form').appendChild(idInput);
+                document.querySelector('form').appendChild(quantityInput);
+            }
+        }
+    });
+});
+
 
 
         // Função para exibir o valor total na página

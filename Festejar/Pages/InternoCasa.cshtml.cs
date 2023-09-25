@@ -114,10 +114,12 @@ namespace Festejar.Pages
             return RedirectToPage(new { id, valorDiaria, dataSelecionada = data });
         }
 
-        public IActionResult OnPostCheckout(int casaId, DateTime dataReserva, decimal valorDiaria, int[] recursoId)
+        public IActionResult OnPostCheckout(int casaId, DateTime dataReserva, decimal valorDiaria, int[] recursoId, int[] quantidade)
         {
-            return RedirectToPage("/Checkout", new { casaid = casaId, dataReserva, valorDiaria, recursoId});
+
+            return RedirectToPage("/Checkout", new { casaid = casaId, dataReserva, valorDiaria, recursoId, quantidade });
         }
+
 
         public class Event
         {
