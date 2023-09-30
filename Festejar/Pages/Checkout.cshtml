@@ -29,114 +29,114 @@
 							<h4 class="checkout-title"> Informações pessoais </h4>
 							<div class="checkout-contents mt-3">
 								<div class="checkout-form custom-form">
-									@*<form action="@Url.Action("Create", "Checkout")" method="post">
-									<div class="input-flex-item">
-									<div class="single-input mt-4">
-									<label class="label-title"> Nome completo </label>
-									<input class="form--control" type="text" asp-for="Reserva.NomeCliente" placeholder="Nome completo">
-									@Html.ValidationMessageFor(model => model.Reserva.NomeCliente)
-									</div>
-									<div class="single-input mt-4">
-									<label class="label-title"> Telefone </label>
-									<input class="form--control" type="tel" asp-for="Reserva.TelefoneCliente" placeholder="Telefone">
-									@Html.ValidationMessageFor(model => model.Reserva.TelefoneCliente)
-									</div>
-									</div>
-									<div class="input-flex-item">
-									<div class="single-input mt-4">
-									<label class="label-title"> Documento </label>
-									<input class="form--control" type="text" asp-for="Reserva.CpfCliente" placeholder="CPF">
-									@Html.ValidationMessageFor(model => model.Reserva.CpfCliente)
-									</div>
-									<div class="single-input mt-4">
-									<label class="label-title"> E-mail </label>
-									<input class="form--control" type="text" asp-for="Reserva.EmailCliente" placeholder="E-mail">
-									</div>
-									</div>
-									<div class="input-flex-item">
-									<div class="single-input mt-4">
-									<label class="label-title"> Endereço </label>
-									<input class="form--control" type="text" asp-for="Reserva.Endereco" placeholder="Endereço">
-									@Html.ValidationMessageFor(model => model.Reserva.Endereco)
-									</div>
-									</div>
-									<div class="input-flex-item">
-									<div class="single-input mt-4">
-									<label class="label-title"> Cidade </label>
-									<input class="form--control" type="text" asp-for="Reserva.Cidade" placeholder="Cidade">
-									@Html.ValidationMessageFor(model => model.Reserva.Cidade)
-									</div>
-									<div class="single-input mt-4">
-									<label class="label-title"> Estado </label>
-									<input class="form--control" type="text" asp-for="Reserva.Estado" placeholder="Estado">
-									@Html.ValidationMessageFor(model => model.Reserva.Estado)
-									</div>
+									<form method="post">
+										<div class="input-flex-item">
+											<div class="single-input mt-4">
+												<label class="label-title"> Nome completo </label>
+												<input asp-for="DadosClientes.Nome" class="form--control" type="text" placeholder="Nome completo">
+												<span asp-validation-for="DadosClientes.Nome" class="text-danger"></span>
+											</div>
+											<div class="single-input mt-4">
+												<label class="label-title"> Telefone </label>
+												<input asp-for="DadosClientes.Telefone" class="form--control" type="tel" placeholder="Telefone">
+												<span asp-validation-for="DadosClientes.Telefone" class="text-danger"></span>
+											</div>
+										</div>
+										<div class="single-input mt-4">
+											<label class="label-title"> Documento </label>
+											<input asp-for="DadosClientes.Cpf" class="form--control" type="text" placeholder="CPF">
+											<span asp-validation-for="DadosClientes.Cpf" class="text-danger"></span>
+										</div>
+										<div class="single-input mt-4">
+											<label class="label-title"> E-mail </label>
+											<input asp-for="DadosClientes.Email" class="form--control" type="text" placeholder="E-mail">
+											<span asp-validation-for="DadosClientes.Email" class="text-danger"></span>
+										</div>
 
-									</div>
-									<div class="input-flex-item">
-									<div class="btn-wrapper mt-4">
-									<button type="submit" class="cmn-btn btn-bg-1 btn-small"> Confirmar </button>
-									</div>
-									</div>
-									</form>*@
+										<div class="input-flex-item">
+											<div class="single-input mt-4">
+												<label class="label-title"> Endereço </label>
+												<input asp-for="DadosClientes.Endereco" class="form--control" type="text" placeholder="Endereço">
+
+											</div>
+										</div>
+										<div class="input-flex-item">
+											<div class="single-input mt-4">
+												<label class="label-title"> Cidade </label>
+												<input asp-for="DadosClientes.Cidade" class="form--control" type="text" placeholder="Cidade">
+
+											</div>
+											<div class="single-input mt-4">
+												<label class="label-title"> Estado </label>
+												<input asp-for="DadosClientes.Estado" class="form--control" type="text" placeholder="Estado">
+
+											</div>
+
+										</div>
+										<div class="input-flex-item">
+											<div class="btn-wrapper mt-4">
+												<button type="submit" class="cmn-btn btn-bg-1 btn-small" asp-page-handler="CreateDataClient"> Confirmar </button>
+											</div>
+										</div>
+									</form>
 								</div>
 							</div>
 						</div>
-						@*<div class="checkout-single bg-white radius-10">
-						<h4 class="checkout-title"> Payment </h4>
-						<div class="checkout-contents mt-4">
-						<div class="custom-radio custom-radio-inline">
-						<div class="custom-radio-single active">
-						<input class="radio-input" type="radio" id="radio1" name="size" checked="checked">
-						<label for="radio1"> <img src="assets/img/icons/card.svg" alt="card"> Credit/Dabit Card</label>
+						<div class="checkout-single bg-white radius-10">
+							<h4 class="checkout-title"> Payment </h4>
+							<div class="checkout-contents mt-4">
+								<div class="custom-radio custom-radio-inline">
+									<div class="custom-radio-single active">
+										<input class="radio-input" type="radio" id="radio1" name="size" checked="checked">
+										<label for="radio1"> <img src="assets/img/icons/card.svg" alt="card"> Credit/Dabit Card</label>
+									</div>
+									<div class="custom-radio-single">
+										<input class="radio-input" type="radio" name="size" id="radio2">
+										<label for="radio2"> <img src="assets/img/icons/paypal.svg" alt="Paypal"> Paypal</label>
+									</div>
+								</div>
+								<div class="checkout-form custom-form">
+									<form action="#">
+										<div class="single-input mt-4">
+											<label class="label-title"> Card Number </label>
+											<input class="form--control input-padding-left" type="text" name="name" placeholder="Type Card Number">
+											<div class="input-icon"> <img src="assets/img/icons/card.svg" alt="Icon"> </div>
+										</div>
+										<div class="input-flex-item">
+											<div class="single-input mt-4">
+												<label class="label-title"> Expire Date </label>
+												<input class="form--control input-padding-left date-picker flatpickr-input" placeholder="Select Expire Date" type="hidden"><input class="form--control input-padding-left date-picker form-control input" placeholder="Select Expire Date" tabindex="0" type="text" readonly="readonly">
+												<div class="input-icon"> <img src="assets/img/icons/calendar.svg" alt="Icon"> </div>
+											</div>
+											<div class="single-input mt-4">
+												<label class="label-title"> CVV/CVC </label>
+												<input class="form--control input-padding-left" type="number" name="name" placeholder="Type CVV/CVC">
+												<div class="input-icon"> <img src="assets/img/icons/cvc.svg" alt="Icon"> </div>
+											</div>
+										</div>
+										<div class="lock-contents mt-4">
+											<div class="lock-contents-icon">
+												<img src="assets/img/icons/lock.svg" alt="Icon">
+											</div>
+											<span class="lock-contents-para"> Information are encrypted with 256 bit SSL </span>
+										</div>
+										<div class="guaranty-cancellation radius-10 mt-4">
+											<h4 class="guaranty-cancellation-title"> Guarantee &amp; Cancellation </h4>
+											<p class="guaranty-cancellation-para"> Cancel 12 hours before checking-in time for a Free Cancellation. </p>
+										</div>
+										<div class="checkbox-wrap mt-4">
+											<div class="checkbox-inline">
+												<input class="check-input" type="checkbox" id="agree">
+												<label class="checkbox-label" for="agree"> I agree to the <a href="javascript:void(0)">Terms &amp; Conditions</a> of <a href="javascript:void(0)">Beyond Hotels</a> </label>
+											</div>
+										</div>
+										<div class="btn-wrapper mt-4">
+											<a href="javascript:void(0)" class="cmn-btn btn-bg-1 btn-small"> Pay &amp; Confirm </a>
+										</div>
+									</form>
+								</div>
+							</div>
 						</div>
-						<div class="custom-radio-single">
-						<input class="radio-input" type="radio" name="size" id="radio2">
-						<label for="radio2"> <img src="assets/img/icons/paypal.svg" alt="Paypal"> Paypal</label>
-						</div>
-						</div>
-						<div class="checkout-form custom-form">
-						<form action="#">
-						<div class="single-input mt-4">
-						<label class="label-title"> Card Number </label>
-						<input class="form--control input-padding-left" type="text" name="name" placeholder="Type Card Number">
-						<div class="input-icon"> <img src="assets/img/icons/card.svg" alt="Icon"> </div>
-						</div>
-						<div class="input-flex-item">
-						<div class="single-input mt-4">
-						<label class="label-title"> Expire Date </label>
-						<input class="form--control input-padding-left date-picker flatpickr-input" placeholder="Select Expire Date" type="hidden"><input class="form--control input-padding-left date-picker form-control input" placeholder="Select Expire Date" tabindex="0" type="text" readonly="readonly">
-						<div class="input-icon"> <img src="assets/img/icons/calendar.svg" alt="Icon"> </div>
-						</div>
-						<div class="single-input mt-4">
-						<label class="label-title"> CVV/CVC </label>
-						<input class="form--control input-padding-left" type="number" name="name" placeholder="Type CVV/CVC">
-						<div class="input-icon"> <img src="assets/img/icons/cvc.svg" alt="Icon"> </div>
-						</div>
-						</div>
-						<div class="lock-contents mt-4">
-						<div class="lock-contents-icon">
-						<img src="assets/img/icons/lock.svg" alt="Icon">
-						</div>
-						<span class="lock-contents-para"> Information are encrypted with 256 bit SSL </span>
-						</div>
-						<div class="guaranty-cancellation radius-10 mt-4">
-						<h4 class="guaranty-cancellation-title"> Guarantee &amp; Cancellation </h4>
-						<p class="guaranty-cancellation-para"> Cancel 12 hours before checking-in time for a Free Cancellation. </p>
-						</div>
-						<div class="checkbox-wrap mt-4">
-						<div class="checkbox-inline">
-						<input class="check-input" type="checkbox" id="agree">
-						<label class="checkbox-label" for="agree"> I agree to the <a href="javascript:void(0)">Terms &amp; Conditions</a> of <a href="javascript:void(0)">Beyond Hotels</a> </label>
-						</div>
-						</div>
-						<div class="btn-wrapper mt-4">
-						<a href="javascript:void(0)" class="cmn-btn btn-bg-1 btn-small"> Pay &amp; Confirm </a>
-						</div>
-						</form>
-						</div>
-						</div>
-						</div>*@
 					</div>
 				</div>
 				<div class="col-xl-4 col-lg-5">
@@ -148,6 +148,7 @@
 									<ul class="checkout-flex-list list-style-none checkout-border-top pt-3 mt-3">
 										<li class="list"> <span class="regular"> Casa </span> <span class="strong"> @Model.NomeCasa </span> </li>
 										<li class="list"> <span class="regular"> Data da reserva </span> <span class="strong"> @Model.DataReserva </span> </li>
+										<li class="list"> <span class="regular"> Quantidade convidados </span> <span class="strong"> @Model.qntConvidados </span> </li>
 									</ul>
 								</div>
 							</div>
@@ -167,23 +168,27 @@
 										</thead>
 										<tbody>
 											<tr>
-												<td> <span class="regular"> Diária </span></td>	
+												<td> <span class="regular"> Diária </span></td>
 												<td></td>
 												<td class="text-center"><span class="strong"> @Model.ValorDiaria </span></td>
 											</tr>
-											@for (int i = 0; i < Model.Recurso.Length; i++)
+											@if(Model.Recurso != null && Model.Quantidade != null && Model.ValorRecurso != null)
 											{
-												<tr>
-													<td class="list"> @Model.Recurso[i]</td>
-													<td class="text-center">
-														<button type="button" class="btn btn-danger decrement">-</button>
-														<input style="width: 30px;" type="text" class="quantity" value="@Model.Quantidade[i]">
-														<button type="button" class="btn btn-danger increment">+</button>
-													</td>
-													<td class="text-center"> @Model.ValorRecurso[i] </td>
-												</tr>
+												@for (int i = 0; i < Model.Recurso.Length; i++)
+												{
+													<tr>
+														<td class="list"> @Model.Recurso[i]</td>
+														<td class="text-center">
+															<button type="button" class="btn btn-danger decrement">-</button>
+															<input style="width: 30px;" type="text" class="quantity" value="@Model.Quantidade[i]" data-max="@Model.Quantidade[i]" data-valor="@Model.ValorRecurso[i]">
+															<button type="button" class="btn btn-danger increment">+</button>
+														</td>
+														<td class="text-center total-value"> @Model.ValorRecurso[i] </td>
+													</tr>
 
+												}
 											}
+
 										</tbody>
 									</table>
 									<ul class="checkout-flex-list list-style-none checkout-border-top pt-3 mt-3">
@@ -197,5 +202,46 @@
 			</div>
 		</div>
 	</section>
+
+	<script>
+		const decrementButtons = document.querySelectorAll('.decrement');
+		const incrementButtons = document.querySelectorAll('.increment');
+		const quantityInputs = document.querySelectorAll('.quantity');
+		const totalValueElements = document.querySelectorAll('.total-value');
+
+		const valorItem = [];
+		for (let i = 0; i < quantityInputs.length; i++) {
+			valorItem[i] = parseFloat(quantityInputs[i].dataset.valor) / parseFloat(quantityInputs[i].dataset.max);
+		}
+
+		decrementButtons.forEach((decrementButtons, index) => {
+			decrementButtons.addEventListener('click', () => {
+				const currentValue = parseInt(quantityInputs[index].value) || 0;
+				if (currentValue > 0) {
+					quantityInputs[index].value = currentValue - 1;
+					// Atualize o valor do recurso
+					var totalValue = parseFloat(totalValueElements[index].textContent.replace('R$ ', ''));
+					totalValue -= valorItem[index];
+					totalValueElements[index].textContent = 'R$ ' + totalValue.toFixed(2);
+
+				}
+			});
+		});
+
+		incrementButtons.forEach((incrementButtons, index) => {
+			incrementButtons.addEventListener('click', () => {
+				const currentValue = parseInt(quantityInputs[index].value) || 0;
+				const maxQuantity = parseInt(quantityInputs[index].dataset.max);
+				if (currentValue < maxQuantity) {
+					quantityInputs[index].value = currentValue + 1;
+
+					// Atualize o valor do recurso
+					var totalValue = parseFloat(totalValueElements[index].textContent.replace('R$ ', ''));
+					totalValue += valorItem[index];
+					totalValueElements[index].textContent = 'R$ ' + totalValue.toFixed(2);
+				}
+			});
+		});
+	</script>
 </body>
 </html>

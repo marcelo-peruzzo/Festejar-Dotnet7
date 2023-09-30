@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Net.Http;
 
@@ -28,6 +29,7 @@ namespace Festejar.Pages
         public Casas InternoCasa { get; set; }
 
         [BindProperty]
+        [Required(ErrorMessage = "*Informe a data desejada")]
        public DateTime DataReserva { get; set; }
 
         public void OnGet(int id, decimal? valorDiaria, DateTime? dataSelecionada)
@@ -114,10 +116,17 @@ namespace Festejar.Pages
             return RedirectToPage(new { id, valorDiaria, dataSelecionada = data });
         }
 
-        public IActionResult OnPostCheckout(int casaId, DateTime dataReserva, decimal valorDiaria, int[] recursoId, int[] quantidade)
+        public IActionResult OnPostCheckout(int casaId, DateTime dataReserva, decimal valorDiaria, int convidados, int criancas, int[] recursoId, int[] quantidade)
         {
-
-            return RedirectToPage("/Checkout", new { casaid = casaId, dataReserva, valorDiaria, recursoId, quantidade });
+            if(User.Identity.IsAuthenticated)
+            {
+				return RedirectToPage("/Checkout", new { casaid = casaId, dataReserva, valorDiaria, convidados, criancas, recursoId, quantidade });
+            }
+            else
+            {
+                return RedirectToPage("Login");
+            }
+            
         }
 
 

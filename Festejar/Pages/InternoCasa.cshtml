@@ -172,7 +172,8 @@
                                 <div class="details-sidebar-dropdown custom-form">                                   
                                         <div class="single-input">
                                             <label class="details-sidebar-dropdown-title"> Selecione uma data: </label>
-                                            <input id="dataInput" class="form--control date-picker" type="text" name="dataInput" placeholder="@((ViewData["DataSelecionada"] != null) ? ((DateTime)ViewData["DataSelecionada"]).ToString("dd/MM/yyy") : "Data desejada:")" />
+                                            <input id="dataInput" class="form--control date-picker" type="text" name="DataReserva" placeholder="@((ViewData["DataSelecionada"] != null) ? ((DateTime)ViewData["DataSelecionada"]).ToString("dd/MM/yyy") : "Data desejada:")" />
+                                            <span asp-validation-for="@Model.DataReserva" class="text-danger"></span>
                                         </div>                                   
                                 </div>                               
                                     <div class="details-sidebar-quantity pt-4">
@@ -180,7 +181,7 @@
                                             <div class="details-sidebar-quantity-item">
                                                 <h6 class="details-sidebar-quantity-title"> Convidados </h6>
                                                 <div class="details-sidebar-quantity-field">
-                                                    <span class="minus"><i class="las la-minus"></i></span><input class="quantity-input" type="number" name="convidados" value="1"><span class="plus"><i class="las la-plus"></i></span>
+                                                    <span class="minus"><i class="las la-minus"></i></span><input class="quantity-input" type="number" name="convidados" value="0"><span class="plus"><i class="las la-plus"></i></span>
                                                 </div>
                                             </div>
                                             <div class="details-sidebar-quantity-item">
