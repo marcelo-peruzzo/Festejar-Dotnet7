@@ -8,7 +8,8 @@ namespace Festejar.Models
         public int Id { get; set; }
 
         [ForeignKey("AspNetUsers")]
-        public string UserId { get; set; }
+		[MaxLength(36)]
+		public string UserId { get; set; }
 
         [Required(ErrorMessage = "*Informe o nome")]
         public string Nome { get; set; }

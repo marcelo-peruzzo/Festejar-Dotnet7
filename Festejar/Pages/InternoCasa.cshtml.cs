@@ -29,7 +29,6 @@ namespace Festejar.Pages
         public Casas InternoCasa { get; set; }
 
         [BindProperty]
-        [Required(ErrorMessage = "*Informe a data desejada")]
        public DateTime DataReserva { get; set; }
 
         public void OnGet(int id, decimal? valorDiaria, DateTime? dataSelecionada)

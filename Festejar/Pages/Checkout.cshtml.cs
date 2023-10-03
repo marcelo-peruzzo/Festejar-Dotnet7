@@ -52,7 +52,18 @@ namespace Festejar.Pages
                     ValorRecurso[i] = recurso.Valor * quantidade[i];
                 }
             }
-        }
+
+			if (User.Identity.IsAuthenticated)
+			{
+				var user = _userManager.GetUserAsync(User).Result;
+
+				if (user != null)
+				{
+					// Carregar os dados do cliente com base no ID do usuário logado
+					DadosClientes = _context.DadosClientes.FirstOrDefault(dc => dc.UserId == user.Id);
+				}
+			}
+		}
 
         //Metodo que cria o endereço/dados do reservista vinculando ao UserId
         public async Task<IActionResult> OnPostCreateDataClient()
