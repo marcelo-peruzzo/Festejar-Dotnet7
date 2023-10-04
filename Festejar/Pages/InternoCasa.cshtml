@@ -76,9 +76,6 @@
                                             <h4 class="hotel-view-contents-bottom-title"> @ViewData["ValorDiaria"] <sub>/Diaria</sub> </h4>
                                             <p class="hotel-view-contents-bottom-para"> (4 Nights, 2 Rooms, 4 Persons) </p>
                                         </div>
-                                        <div class="btn-wrapper">
-                                            <a href="javascript:void(0)" class="cmn-btn btn-bg-1 btn-small"> Reserve Now </a>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -146,11 +143,15 @@
                                                     <td>@casaRecurso.Titulo</td>
                                                     <td>@casaRecurso.Valor</td>
                                                     <td>@casaRecurso.Quantidade</td>
-                                                    
+
                                                     <td>
                                                         <button type="button" class="btn btn-danger decrement">-</button>
                                                         <input style="width: 30px;" type="text" class="quantity" value="0" data-max="@casaRecurso.Quantidade" data-valor="@casaRecurso.Valor">
                                                         <button data-id="@casaRecurso.Id" type="button" class="btn btn-danger increment">+</button>
+
+                                                        <!-- Adicione os campos de entrada ocultos aqui -->
+                                                        <input type="hidden" name="recursoId[]" value="@casaRecurso.Id">
+                                                        <input type="hidden" name="quantidade[]" class="hidden-quantity" value="0">
                                                     </td>
                                                     <td class="total-value">Valor Total: R$ 0.00</td>
                                                 </tr>
@@ -172,7 +173,8 @@
                                 <div class="details-sidebar-dropdown custom-form">                                   
                                         <div class="single-input">
                                             <label class="details-sidebar-dropdown-title"> Selecione uma data: </label>
-                                            <input id="dataInput" class="form--control date-picker" type="text" name="DataReserva" placeholder="@((ViewData["DataSelecionada"] != null) ? ((DateTime)ViewData["DataSelecionada"]).ToString("dd/MM/yyy") : "Data desejada:")" />
+                                            <input id="dataInput" value="@((ViewData["DataSelecionada"] != null) ? ((DateTime)ViewData["DataSelecionada"]).ToString("yyyy/MM/dd") : "")" class="form--control date-picker" type="text" name="
+" placeholder="@((ViewData["DataSelecionada"] != null) ? ((DateTime)ViewData["DataSelecionada"]).ToString("dd/MM/yyy") : "Data desejada:")" />
                                         </div>                                   
                                 </div>                               
                                     <div class="details-sidebar-quantity pt-4">
@@ -247,9 +249,6 @@
                                                 <h4 class="hotel-view-contents-bottom-title"> @ViewData["ValorDiaria"] <sub>/Diaria</sub> </h4>
                                                 <p class="hotel-view-contents-bottom-para"> (4 Nights, 2 Rooms, 4 Persons) </p>
                                             </div>
-                                            <div class="btn-wrapper">
-                                                <a href="javascript:void(0)" class="cmn-btn btn-bg-1 btn-small"> Reserve Now </a>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -304,40 +303,41 @@
         });
 
         incrementButtons.forEach((incrementButton, index) => {
-    incrementButton.addEventListener('click', () => {
-        const currentValue = parseInt(quantityInputs[index].value) || 0;
-        const maxQuantity = parseInt(quantityInputs[index].dataset.max);
-        var id = incrementButton.dataset.id;
-        console.log(id); 
-        if (currentValue < maxQuantity) {
-            quantityInputs[index].value = currentValue + 1;
-            totalValueElements[index].textContent = 'Valor Total: R$ ' + (currentValue + 1) * parseFloat(quantityInputs[index].dataset.valor);
-            console.log(currentValue);
+            incrementButton.addEventListener('click', () => {
+                let currentValue = parseInt(quantityInputs[index].value);
+                currentValue = isNaN(currentValue) ? 0 : currentValue;
+                const maxQuantity = parseInt(quantityInputs[index].dataset.max);
+                var id = incrementButton.dataset.id;
+                console.log(id);
+                if (currentValue < maxQuantity) {
+                    quantityInputs[index].value = currentValue + 1;
+                    totalValueElements[index].textContent = 'Valor Total: R$ ' + (currentValue + 1) * parseFloat(quantityInputs[index].dataset.valor);
+                    console.log(currentValue);
 
-            // Verifiqua se um campo oculto para este ID já existe
-            var idInput = document.querySelector('input[name="recursoId"][value="' + id + '"]');
-            var quantityInput = document.querySelector('input[name="quantidade"][data-id="' + id + '"]');
+                    // Verifique se um campo oculto para este ID já existe
+                    var idInput = document.querySelector('input[name="recursoId[]"][value="' + id + '"]');
+                    var quantityInput = document.querySelector('input[name="quantidade[]"][data-id="' + id + '"]');
 
-            if (idInput && quantityInput) {
-                // Se existir, atualiza a quantidade
-                quantityInput.value = currentValue + 1;
-            } else {
-                // Se não existir, cria novos campos ocultos para o ID e a quantidade
+                    if (idInput && quantityInput) {
+                        // Se existir, atualize a quantidade
+                        quantityInput.value = currentValue + 1;
+                    } else {
+                        // Se não existir, crie novos campos ocultos para o ID e a quantidade
 
-                idInput = document.createElement('input');
-                idInput.type = 'hidden';
-                idInput.name = 'recursoId';
-                idInput.value = id;
+                        idInput = document.createElement('input');
+                        idInput.type = 'hidden';
+                        idInput.name = 'recursoId[]';
+                        idInput.value = id;
 
-                quantityInput = document.createElement('input');
-                quantityInput.type = 'hidden';
-                quantityInput.name = 'quantidade';
-                quantityInput.value = currentValue + 1;
-                quantityInput.dataset.id = id;
+                        quantityInput = document.createElement('input');
+                        quantityInput.type = 'hidden';
+                        quantityInput.name = 'quantidade[]';
+                        quantityInput.value = currentValue + 1;
+                        quantityInput.dataset.id = id;
 
-                // Adiciona os campos ocultos ao formulario
-                document.querySelector('form').appendChild(idInput);
-                document.querySelector('form').appendChild(quantityInput);
+                        // Adicione os campos ocultos ao formulário
+                        document.querySelector('form').appendChild(idInput);
+                        document.querySelector('form').appendChild(quantityInput);
             }
         }
     });
