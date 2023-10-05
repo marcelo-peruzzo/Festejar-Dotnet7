@@ -18,23 +18,31 @@ namespace Festejar.Pages
         private readonly ICasasRepository _casasRepository;
         private readonly IDiariasRepository _diariasRepository;
         private readonly AppDbContext _context;
+        private readonly IImagens_casasRepository _imagensCasasRepository;
         private static readonly HttpClient client = new HttpClient();
         private static readonly CultureInfo culture = new CultureInfo("pt-BR");
-        public InternoCasaModel(ICasasRepository casasRepository, IDiariasRepository diariasRepository, AppDbContext context)
+        public InternoCasaModel(ICasasRepository casasRepository, IDiariasRepository diariasRepository, AppDbContext context, IImagens_casasRepository imagensCasasRepository)
         {
             _casasRepository = casasRepository;
             _diariasRepository = diariasRepository;
             _context = context;
+            _imagensCasasRepository = imagensCasasRepository;
         }
         public Casas InternoCasa { get; set; }
-        public int[] quantidade { get; set; }
+        public List<Imagens_casas> Imagens_casas { get; set; } = new List<Imagens_casas>();
 
         [BindProperty]
-       public DateTime DataReserva { get; set; }
+        public DateTime DataReserva { get; set; }
 
         public void OnGet(int id, decimal? valorDiaria, DateTime? dataSelecionada)
         {
             var casa = _casasRepository.Casas.FirstOrDefault(casas => casas.Id == id);
+            Imagens_casas = _imagensCasasRepository.Imagens_casas.Where(imagem => imagem.Casa_id == id).OrderBy(imagem => imagem.Ordem).ToList();
+
+            foreach (var imagem in Imagens_casas)
+            {
+                imagem.Caminho = "https://festejar.firo.com.br/storage/" + imagem.Caminho;
+            }
 
             if (casa != null)
             {
@@ -118,15 +126,15 @@ namespace Festejar.Pages
 
         public IActionResult OnPostCheckout(int casaId, DateTime dataReserva, decimal valorDiaria, int convidados, int criancas, int[] recursoId, int[] quantidade)
         {
-            if(User.Identity.IsAuthenticated)
+            if (User.Identity.IsAuthenticated)
             {
-				return RedirectToPage("/Checkout", new { casaid = casaId, dataReserva, valorDiaria, convidados, criancas, recursoId, quantidade });
+                return RedirectToPage("/Checkout", new { casaid = casaId, dataReserva, valorDiaria, convidados, criancas, recursoId, quantidade });
             }
             else
             {
                 return RedirectToPage("Login");
             }
-            
+
         }
 
 

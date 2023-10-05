@@ -33,19 +33,21 @@
                 <div class="col-xl-8 col-lg-7">
                     <div class="details-left-wrapper">
                         <div class="details-contents bg-white radius-10">
-                            <div class="details-contents-header">
-                                <div class="details-contents-thumb details-contents-main-thumb bg-image" style="background-image: url(/img/shots/img3.jpeg);">
-                                </div>
-                                <div class="mt-4 row">
-                                    <div class="details-contents-header-thumb col-lg-6 col-md-12">
-                                        <img src="/img/shots/img1.png" alt="img">
+                                <div class="details-contents-header">
+                                    <div class="details-contents-thumb details-contents-main-thumb bg-image" style="background-image: url('@Model.Imagens_casas[0].Caminho')">
                                     </div>
-                                    <div class="details-contents-header-thumb col-lg-6 col-md-12">
-                                        <img src="/img/shots/img2.png" alt="img">
-                                        <a href="javascript:void(0)" class="more-photos"> <i class="las la-plus"></i> Mais Fotos </a>
+                                    <div class="mt-4 row">
+                                        @for (int i = 1; i < Model.Imagens_casas.Count; i++)
+                                        {
+                                            <div class="details-contents-header-thumb col-lg-6 col-md-12">
+                                                <img src="@Model.Imagens_casas[i].Caminho" alt="img">
+                                            </div>
+                                        }
+                                        @*<a href="javascript:void(0)" class="more-photos"> <i class="las la-plus"></i> Mais Fotos </a>*@
                                     </div>
                                 </div>
-                            </div>
+
+
                             <div class="hotel-view-contents">
                                 <div class="hotel-view-contents-header">
                                     <span class="hotel-view-contents-review"> <i class="las la-star"></i> 4.5 <span class="hotel-view-contents-review-count"> (380) </span> </span>
@@ -297,8 +299,11 @@
                 button.addEventListener("click", function () {
                     var index = Array.from(incrementButtons).indexOf(button);
                     var newValue = parseInt(quantityInputs[index].value) + 1;
-                    quantityInputs[index].value = newValue;
-                    updateHiddenQuantity(index);
+                    var max = parseInt(quantityInputs[index].dataset.max);
+                    if (newValue <= max) { // Verifica se o novo valor não excede o máximo
+                        quantityInputs[index].value = newValue;
+                        updateHiddenQuantity(index);
+                    }
                 });
             });
 
@@ -307,17 +312,19 @@
                 button.addEventListener("click", function () {
                     var index = Array.from(decrementButtons).indexOf(button);
                     var newValue = parseInt(quantityInputs[index].value) - 1;
-                    if (newValue < 0) newValue = 0;
-                    quantityInputs[index].value = newValue;
-                    updateHiddenQuantity(index);
+                    if (newValue >= 0) { // Verifica se o novo valor não é negativo
+                        quantityInputs[index].value = newValue;
+                        updateHiddenQuantity(index);
+                    }
                 });
             });
 
             function updateHiddenQuantity(index) {
                 hiddenQuantityInputs[index].value = quantityInputs[index].value;
-                console.log(hiddenQuantityInputs[index].value);
+                //console.log(hiddenQuantityInputs[index].value);
             }
         });
+
 
 
 
