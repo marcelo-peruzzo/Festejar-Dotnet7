@@ -27,6 +27,7 @@ namespace Festejar.Pages
             _context = context;
         }
         public Casas InternoCasa { get; set; }
+        public int[] quantidade { get; set; }
 
         [BindProperty]
        public DateTime DataReserva { get; set; }

@@ -149,9 +149,10 @@
                                                         <input style="width: 30px;" type="text" class="quantity" value="0" data-max="@casaRecurso.Quantidade" data-valor="@casaRecurso.Valor">
                                                         <button data-id="@casaRecurso.Id" type="button" class="btn btn-danger increment">+</button>
 
-                                                        <!-- Adicione os campos de entrada ocultos aqui -->
+                                                        <!-- recebe os valores dos recursoId incrementado -->
                                                         <input type="hidden" name="recursoId[]" value="@casaRecurso.Id">
-                                                        <input type="hidden" name="quantidade[]" class="hidden-quantity" value="0">
+                                                        <input type="hidden" id="quantidade" name="quantidade[]" value="">
+
                                                     </td>
                                                     <td class="total-value">Valor Total: R$ 0.00</td>
                                                 </tr>
@@ -285,63 +286,39 @@
     <div class="mouse-move mouse-inner"></div>
 
     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var incrementButtons = document.querySelectorAll(".increment");
+            var decrementButtons = document.querySelectorAll(".decrement");
+            var quantityInputs = document.querySelectorAll(".quantity");
+            var hiddenQuantityInputs = document.querySelectorAll("#quantidade");
 
-        const decrementButtons = document.querySelectorAll('.decrement');
-        const incrementButtons = document.querySelectorAll('.increment');
-        const quantityInputs = document.querySelectorAll('.quantity');
-        const totalValueElements = document.querySelectorAll('.total-value');
-        var recursoId = {};
-
-        decrementButtons.forEach((decrementButton, index) => {
-            decrementButton.addEventListener('click', () => {
-                const currentValue = parseInt(quantityInputs[index].value) || 0;
-                if (currentValue > 0) {
-                    quantityInputs[index].value = currentValue - 1;
-                    totalValueElements[index].textContent = 'Valor Total: R$ ' + (currentValue - 1) * parseFloat(quantityInputs[index].dataset.valor);
-                }
+            // Adicionar manipuladores de eventos aos botões "increment"
+            incrementButtons.forEach(function (button) {
+                button.addEventListener("click", function () {
+                    var index = Array.from(incrementButtons).indexOf(button);
+                    var newValue = parseInt(quantityInputs[index].value) + 1;
+                    quantityInputs[index].value = newValue;
+                    updateHiddenQuantity(index);
+                });
             });
+
+            // Adicionar manipuladores de eventos aos botões "decrement"
+            decrementButtons.forEach(function (button) {
+                button.addEventListener("click", function () {
+                    var index = Array.from(decrementButtons).indexOf(button);
+                    var newValue = parseInt(quantityInputs[index].value) - 1;
+                    if (newValue < 0) newValue = 0;
+                    quantityInputs[index].value = newValue;
+                    updateHiddenQuantity(index);
+                });
+            });
+
+            function updateHiddenQuantity(index) {
+                hiddenQuantityInputs[index].value = quantityInputs[index].value;
+                console.log(hiddenQuantityInputs[index].value);
+            }
         });
 
-        incrementButtons.forEach((incrementButton, index) => {
-            incrementButton.addEventListener('click', () => {
-                let currentValue = parseInt(quantityInputs[index].value);
-                currentValue = isNaN(currentValue) ? 0 : currentValue;
-                const maxQuantity = parseInt(quantityInputs[index].dataset.max);
-                var id = incrementButton.dataset.id;
-                console.log(id);
-                if (currentValue < maxQuantity) {
-                    quantityInputs[index].value = currentValue + 1;
-                    totalValueElements[index].textContent = 'Valor Total: R$ ' + (currentValue + 1) * parseFloat(quantityInputs[index].dataset.valor);
-                    console.log(currentValue);
-
-                    // Verifique se um campo oculto para este ID já existe
-                    var idInput = document.querySelector('input[name="recursoId[]"][value="' + id + '"]');
-                    var quantityInput = document.querySelector('input[name="quantidade[]"][data-id="' + id + '"]');
-
-                    if (idInput && quantityInput) {
-                        // Se existir, atualize a quantidade
-                        quantityInput.value = currentValue + 1;
-                    } else {
-                        // Se não existir, crie novos campos ocultos para o ID e a quantidade
-
-                        idInput = document.createElement('input');
-                        idInput.type = 'hidden';
-                        idInput.name = 'recursoId[]';
-                        idInput.value = id;
-
-                        quantityInput = document.createElement('input');
-                        quantityInput.type = 'hidden';
-                        quantityInput.name = 'quantidade[]';
-                        quantityInput.value = currentValue + 1;
-                        quantityInput.dataset.id = id;
-
-                        // Adicione os campos ocultos ao formulário
-                        document.querySelector('form').appendChild(idInput);
-                        document.querySelector('form').appendChild(quantityInput);
-            }
-        }
-    });
-});
 
 
 
