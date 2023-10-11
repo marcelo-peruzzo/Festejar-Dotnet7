@@ -20,5 +20,7 @@ namespace Festejar.Context
         public DbSet<Recursos> Recursos { get; set; }
         public DbSet<Casa_recurso> Casa_recurso { get; set; }
         public DbSet<DadosClientes> DadosClientes { get; set; }
-    }
+        public DbSet<Contato> Contatos { get; set; }
+		public DbSet<Reservas> Reservas { get; set; }
+	}
 }

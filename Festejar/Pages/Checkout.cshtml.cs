@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Identity.Client;
+using MySqlX.XDevAPI;
+using Newtonsoft.Json;
+using System.Globalization;
 
 namespace Festejar.Pages
 {
@@ -13,18 +16,24 @@ namespace Festejar.Pages
         private readonly ICasasRepository _casasRepository;
         private readonly AppDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
-        public string NomeCasa { get; set; }
+		private static readonly HttpClient client = new HttpClient();
+		private static readonly CultureInfo culture = new CultureInfo("pt-BR");
+		public string NomeCasa { get; set; }
         public DateTime DataReserva { get; set; }
         public decimal ValorDiaria { get; set; }
         public int[] Quantidade { get; set; }
         public string[] Recurso { get; set; }
         public decimal[] ValorRecurso { get; set; }
         public int qntConvidados { get; set; }
+        public int Casa_Id { get; set; }
 
-        [BindProperty]
+		[BindProperty]
         public DadosClientes DadosClientes { get; set; }
 
-        public CheckoutModel(ICasasRepository casasRepository, AppDbContext context, UserManager<IdentityUser> userManager)
+		[BindProperty]
+		public Reservas Reservas { get; set; }
+
+		public CheckoutModel(ICasasRepository casasRepository, AppDbContext context, UserManager<IdentityUser> userManager)
         {
             _casasRepository = casasRepository;
             _context = context;
@@ -39,7 +48,8 @@ namespace Festejar.Pages
             DataReserva = dataReserva;
             ValorDiaria = valorDiaria;
             Quantidade = quantidade;
-            qntConvidados = convidados + criancas;
+            Casa_Id = casaid;
+			qntConvidados = convidados + criancas;
 			Recurso = recursos.Select(r => r.Titulo).ToArray();
 
             // Calcular o valor total dos recursos
@@ -88,5 +98,49 @@ namespace Festejar.Pages
             return RedirectToPage("./Index");
         }
 
-    }
+		public async Task<IActionResult> OnPostCreateReserva(int casaid, int qntConvidados, DateTime dataConfirm, decimal? valorDiaria, bool aceitaTermo)
+		{
+            if(aceitaTermo == true) { 
+			var user = await _userManager.GetUserAsync(User);
+			DateTime data = dataConfirm;
+			string start = data.ToString("yyyy-MM-dd");
+			string end = data.ToString("yyyy-MM-dd");
+			string url = $"https://festejar.firo.com.br/api/RetornaDiasMesByPrioridade?start={start}T00%3A00%3A00-03%3A00&end={end}T00%3A00%3A00-03%3A00";
+			try
+			{
+				var response = await client.GetAsync(url);
+				if (response.IsSuccessStatusCode)
+				{
+					var content = await response.Content.ReadAsStringAsync();
+					var apiResponse = JsonConvert.DeserializeObject<ApiResponse>(content);
+					if (apiResponse.Events.Count > 0)
+					{
+						string title = apiResponse.Events[0].Title;
+						CultureInfo culture = new CultureInfo("pt-BR");
+						culture.NumberFormat.CurrencyDecimalSeparator = ".";
+						valorDiaria = decimal.Parse(title, NumberStyles.Currency, culture);
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				return RedirectToPage("./Error", new { errorMessage = $"Ocorreu um erro ao fazer a solicitação HTTP: {ex.Message}" });
+			}
+
+			Reservas.QuantidadePessoas = qntConvidados;
+            Reservas.Casa_id = casaid;
+            Reservas.DataReserva = data;
+            Reservas.usuarioID = user.Id;
+            Reservas.Valor = (decimal)valorDiaria;
+            Reservas.StatusPagamento = "Pago";
+            Reservas.StatusReserva = "reservado";
+
+            _context.Reservas.Add(Reservas);
+           await _context.SaveChangesAsync();
+			return RedirectToPage("/MinhasReservas");
+            }
+            else { return RedirectToPage(); }
+        }
+
+	}
 }

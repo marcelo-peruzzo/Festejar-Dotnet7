@@ -127,43 +127,41 @@
                         </div>
                         <div class="hotel-view bg-white radius-20 mt-4">
                             <div class="hotel">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Item Decoração</th>
+                                                <th scope="col">Preço</th>
+                                                <th scope="col">Quantidade Disponivel</th>
+                                                <th scope="col">Quantidade Desejada</th>
+                                                <th scope="col">Valor total do item</th>
+                                            </tr>
+                                        </thead>
+                                            <tbody>
+                                                @foreach (var casaRecurso in (IEnumerable<dynamic>)ViewData["CasasRecursos"])
+                                                {
+                                                    <tr>
+                                                        <td>@casaRecurso.Titulo</td>
+                                                        <td>@casaRecurso.Valor</td>
+                                                        <td>@casaRecurso.Quantidade</td>
 
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Item Decoração</th>
-                                            <th scope="col">Preço</th>
-                                            <th scope="col">Quantidade Disponivel</th>
-                                            <th scope="col">Quantidade Desejada</th>
-                                            <th scope="col">Valor total do item</th>
-                                        </tr>
-                                    </thead>
-                                        <tbody>
-                                            @foreach (var casaRecurso in (IEnumerable<dynamic>)ViewData["CasasRecursos"])
-                                            {
-                                                <tr>
-                                                    <td>@casaRecurso.Titulo</td>
-                                                    <td>@casaRecurso.Valor</td>
-                                                    <td>@casaRecurso.Quantidade</td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-danger decrement">-</button>
+                                                            <input style="width: 30px;" type="text" class="quantity" value="0" data-max="@casaRecurso.Quantidade" data-valor="@casaRecurso.Valor">
+                                                            <button data-id="@casaRecurso.Id" type="button" class="btn btn-danger increment">+</button>
 
-                                                    <td>
-                                                        <button type="button" class="btn btn-danger decrement">-</button>
-                                                        <input style="width: 30px;" type="text" class="quantity" value="0" data-max="@casaRecurso.Quantidade" data-valor="@casaRecurso.Valor">
-                                                        <button data-id="@casaRecurso.Id" type="button" class="btn btn-danger increment">+</button>
+                                                            <!-- recebe os valores dos recursoId incrementado -->
+                                                            <input type="hidden" name="recursoId[]" value="@casaRecurso.Id">
+                                                            <input type="hidden" id="quantidade" name="quantidade[]" value="">
 
-                                                        <!-- recebe os valores dos recursoId incrementado -->
-                                                        <input type="hidden" name="recursoId[]" value="@casaRecurso.Id">
-                                                        <input type="hidden" id="quantidade" name="quantidade[]" value="">
-
-                                                    </td>
-                                                    <td class="total-value">Valor Total: R$ 0.00</td>
-                                                </tr>
-                                            }
-                                        </tbody>
-
-
-                                </table>
-
+                                                        </td>
+                                                        <td class="total-value">Valor Total: R$ 0.00</td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
 

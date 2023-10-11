@@ -117,6 +117,29 @@ namespace Festejar.Migrations
                     b.ToTable("Comodidades");
                 });
 
+            modelBuilder.Entity("Festejar.Models.Contato", b =>
+                {
+                    b.Property<int>("ContatoId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Duvidas")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("ContatoId");
+
+                    b.ToTable("Contatos");
+                });
+
             modelBuilder.Entity("Festejar.Models.DadosClientes", b =>
                 {
                     b.Property<int>("Id")
@@ -127,9 +150,11 @@ namespace Festejar.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("Cpf")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Endereco")
@@ -139,13 +164,16 @@ namespace Festejar.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("Nome")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Telefone")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .HasMaxLength(36)
+                        .HasColumnType("varchar(36)");
 
                     b.HasKey("Id");
 

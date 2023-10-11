@@ -1,8 +1,10 @@
-﻿using Festejar.Models;
+﻿using Festejar.Context;
+using Festejar.Models;
 using Festejar.Respositories.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 
 namespace Festejar.Pages
 {
@@ -13,14 +15,19 @@ namespace Festejar.Pages
         private readonly IImagens_casasRepository _imagensCasasRepository;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<LogoutModel> _logger;
-        public IndexModel(ICidadesRepository cidadeRepository, ICasasRepository casasRepository, IImagens_casasRepository imagensCasasRepository, SignInManager<IdentityUser> signInManager, ILogger<LogoutModel> logger)
+        private readonly AppDbContext _context;
+        public IndexModel(AppDbContext context, ICidadesRepository cidadeRepository, ICasasRepository casasRepository, IImagens_casasRepository imagensCasasRepository, SignInManager<IdentityUser> signInManager, ILogger<LogoutModel> logger)
         {
             _cidadeRepository = cidadeRepository;
             _casasRepository = casasRepository;
             _imagensCasasRepository = imagensCasasRepository;
             _signInManager = signInManager;
             _logger = logger;
+            _context = context;
         }
+
+        [BindProperty]
+        public Contato Contatos { get; set; }
 
         //Lista de cidades consultadas no banco pela interface ICidadesRepository
         public List<Cidades> Cidades { get; set; } = new List<Cidades>();
@@ -57,6 +64,20 @@ namespace Festejar.Pages
                 // request and the identity for the user gets updated.
                 return RedirectToPage();
             }
+        }
+
+        public IActionResult OnPostContatos()
+        {
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+            _context.Contatos.Add(Contatos);
+            _context.SaveChanges();
+
+            TempData["Alert"] = "Dados salvos com sucesso!";
+
+            return RedirectToPage("/Index");
         }
 
     }

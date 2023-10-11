@@ -106,22 +106,27 @@ namespace Festejar.Pages
             string start = data.ToString("yyyy-MM-dd");
             string end = data.ToString("yyyy-MM-dd");
             string url = $"https://festejar.firo.com.br/api/RetornaDiasMesByPrioridade?start={start}T00%3A00%3A00-03%3A00&end={end}T00%3A00%3A00-03%3A00";
-            var response = await client.GetAsync(url);
-            if (response.IsSuccessStatusCode)
-            {
-                var content = await response.Content.ReadAsStringAsync();
-                var apiResponse = JsonConvert.DeserializeObject<ApiResponse>(content);
-                if (apiResponse.Events.Count > 0)
-                {
-                    string title = apiResponse.Events[0].Title;
-                    CultureInfo culture = new CultureInfo("pt-BR");
-                    culture.NumberFormat.CurrencyDecimalSeparator = ".";
-                    valorDiaria = decimal.Parse(title, NumberStyles.Currency, culture);
-
-                }
-            }
-            //string valorFormatado = valorDiaria.Value.ToString("C", culture);
-            return RedirectToPage(new { id, valorDiaria, dataSelecionada = data });
+			try
+			{
+				var response = await client.GetAsync(url);
+				if (response.IsSuccessStatusCode)
+				{
+					var content = await response.Content.ReadAsStringAsync();
+					var apiResponse = JsonConvert.DeserializeObject<ApiResponse>(content);
+					if (apiResponse.Events.Count > 0)
+					{
+						string title = apiResponse.Events[0].Title;
+						CultureInfo culture = new CultureInfo("pt-BR");
+						culture.NumberFormat.CurrencyDecimalSeparator = ".";
+						valorDiaria = decimal.Parse(title, NumberStyles.Currency, culture);
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				return RedirectToPage("./Error", new { errorMessage = $"Ocorreu um erro ao fazer a solicitação HTTP: {ex.Message}" });
+			}
+			return RedirectToPage(new { id, valorDiaria, dataSelecionada = data });
         }
 
         public IActionResult OnPostCheckout(int casaId, DateTime dataReserva, decimal valorDiaria, int convidados, int criancas, int[] recursoId, int[] quantidade)
@@ -137,18 +142,5 @@ namespace Festejar.Pages
 
         }
 
-
-        public class Event
-        {
-            public string Title { get; set; }
-            public string Start { get; set; }
-            public string End { get; set; }
-            public bool AllDay { get; set; }
-        }
-
-        public class ApiResponse
-        {
-            public List<Event> Events { get; set; }
-        }
     }
 }

@@ -133,7 +133,7 @@
                         </div>
                         <div class="single-why-contents mt-3">
                             <h4 class="single-why-contents-title">
-                                <a href="javascript:void(0)"> Cancelamento grátis </a>
+                                <a href="javascript:void(0)"> Reservas online </a>
                             </h4>
                             <p class="single-why-contents-para mt-3">
                                 Reserve sua casa de festas em nosso site sem complicações.
@@ -449,26 +449,29 @@
                 </div>
                 <div class="col-xl-4 col-lg-5">
                     <div class="faq-question faq-question-border radius-10 sticky-top">
-                        <h3 class="faq-question-title">Still got questions?</h3>
+                        <h3 class="faq-question-title">Alguma duvida? Entre em contato</h3>
                         <div class="faq-question-form custom-form mat-20">
-                            <form action="#">
+                            <form method="post" asp-page-handler="Contatos">
                                 <div class="single-input">
                                     <label class="label-title"> Nome </label>
-                                    <input type="text"
+                                    <input asp-for="Contatos.Nome" type="text"
                                            class="form--control radius-10"
                                            placeholder="Seu Nome" />
+                                    <span asp-validation-for="Contatos.Nome" class="text-danger"></span>
                                 </div>
                                 <div class="single-input">
                                     <label class="label-title"> Email </label>
-                                    <input type="text"
+                                    <input asp-for="Contatos.Email" type="text"
                                            class="form--control radius-10"
                                            placeholder="Seu Email" />
+                                    <span asp-validation-for="Contatos.Email" class="text-danger"></span>
                                 </div>
                                 <div class="single-input">
                                     <label class="label-title"> Dúvidas </label>
-                                    <textarea name="message"
+                                    <textarea asp-for="Contatos.Duvidas" name="Contatos.Duvidas"
                                               class="form--control form-message radius-10"
                                               placeholder="Sua duvida..."></textarea>
+                                    <span asp-validation-for="Contatos.Duvidas" class="text-danger"></span>
                                 </div>
                                 <button class="submit-btn w-100 radius-10" type="submit">
                                     Enviar
@@ -481,6 +484,17 @@
         </div>
     </section>
 
+    @if (TempData["Alert"] != null)
+    {
+        <script>
+            Swal.fire(
+                'Good job!',
+                'You clicked the button!',
+                'success'
+            )
+        </script>
+    }
+
     <script>
         // Função para redirecionar para a página "Casas.cshtml" com o ID selecionado
         function searchCasa() {
@@ -490,6 +504,8 @@
             }
         }
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
 
     <div class="back-to-top">
         <span class="back-top"> <i class="las la-angle-up"></i> </span>
