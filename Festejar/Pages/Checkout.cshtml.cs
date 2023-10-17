@@ -52,8 +52,9 @@ namespace Festejar.Pages
 			qntConvidados = convidados + criancas;
 			Recurso = recursos.Select(r => r.Titulo).ToArray();
 
-            // Calcular o valor total dos recursos
-            ValorRecurso = new decimal[recursoId.Length];
+
+			// Calcular o valor total dos recursos
+			ValorRecurso = new decimal[recursoId.Length];
             for (int i = 0; i < recursoId.Length; i++)
             {
                 var recurso = recursos.FirstOrDefault(r => r.Id == recursoId[i]);
@@ -73,6 +74,18 @@ namespace Festejar.Pages
 					DadosClientes = _context.DadosClientes.FirstOrDefault(dc => dc.UserId == user.Id);
 				}
 			}
+
+			// Armazenar dados na Sessão
+			HttpContext.Session.SetString("NomeCasa", NomeCasa);
+			HttpContext.Session.SetString("DataReserva", DataReserva.ToString(culture));
+			HttpContext.Session.SetString("ValorDiaria", ValorDiaria.ToString(culture));
+			HttpContext.Session.SetString("Casa_Id", Casa_Id.ToString());
+			HttpContext.Session.SetString("qntConvidados", qntConvidados.ToString());
+			HttpContext.Session.SetString("Recurso", string.Join(",", Recurso));
+
+			// Armazenar arrays de inteiros na Sessão
+			HttpContext.Session.SetString("recursoId", JsonConvert.SerializeObject(recursoId));
+			HttpContext.Session.SetString("quantidade", JsonConvert.SerializeObject(quantidade));
 		}
 
         //Metodo que cria o endereço/dados do reservista vinculando ao UserId
@@ -139,7 +152,22 @@ namespace Festejar.Pages
            await _context.SaveChangesAsync();
 			return RedirectToPage("/MinhasReservas");
             }
-            else { return RedirectToPage(); }
+            else {
+
+				// Recuperar dados da Sessão
+				NomeCasa = HttpContext.Session.GetString("NomeCasa");
+				DataReserva = DateTime.Parse(HttpContext.Session.GetString("DataReserva"), culture);
+				ValorDiaria = decimal.Parse(HttpContext.Session.GetString("ValorDiaria"), culture);
+				Casa_Id = int.Parse(HttpContext.Session.GetString("Casa_Id"));
+				qntConvidados = int.Parse(HttpContext.Session.GetString("qntConvidados"));
+				Recurso = HttpContext.Session.GetString("Recurso").Split(',');
+
+				// Recupera arrays de inteiros da Sessão
+				int[] recursoId = JsonConvert.DeserializeObject<int[]>(HttpContext.Session.GetString("recursoId"));
+				int[] quantidade = JsonConvert.DeserializeObject<int[]>(HttpContext.Session.GetString("quantidade"));
+
+				return RedirectToPage(new { casaid = Casa_Id, dataReserva = DataReserva, valorDiaria = ValorDiaria, convidados = qntConvidados, recursoId, quantidade });
+			}
         }
 
 	}

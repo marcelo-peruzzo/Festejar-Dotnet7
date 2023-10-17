@@ -7,6 +7,15 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Configura a sessão aqui
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+	options.Cookie.Name = ".YourApp.Session";
+	options.IdleTimeout = TimeSpan.FromSeconds(3600); // Sessão expira após 1 hora
+	options.Cookie.IsEssential = true;
+});
+
 // Add services to the container.
 builder.Services.AddRazorPages();
 
@@ -34,6 +43,8 @@ builder.Services.AddScoped<IImagens_casasRepository, Imagens_casasRepository>();
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 var app = builder.Build();
+
+app.UseSession();
 
 // Ensure the database is created and migrations are applied
 using (var scope = app.Services.CreateScope())
