@@ -17,7 +17,9 @@ namespace Festejar.Models
 		[Required(ErrorMessage = "*Informe o CPF")]
 		public string Cpf { get; set; }
 
-		[Required(ErrorMessage = "*Informe o numero de telefone")]
+        public string? AsaasId { get; set; }
+
+        [Required(ErrorMessage = "*Informe o numero de telefone")]
         [Phone]
 		public string Telefone { get; set; }
 

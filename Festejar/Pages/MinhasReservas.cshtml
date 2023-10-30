@@ -50,9 +50,8 @@
 						</div>
 					</div>
 				</div>
-				@foreach (var dadosReservas in Model.Reservas.Zip(Model.Casas, (r, c) => new { Reserva = r, Casa = c }))
-				{
-
+			@foreach (var dadosReservas in Model.Reservas.Zip(Model.Casas, (r, c) => new { Reserva = r, Casa = c }))
+			{
 				<div class="dashboard-right-contents mt-4 mt-lg-0">
 					<div class="dashboard-reservation">
 						<div class="single-reservation bg-white base-padding">
@@ -85,7 +84,11 @@
 									</div>
 									<div class="single-reservation-details-item">
 										<span class="single-reservation-details-subtitle"> Quantidade convidados </span>
-										<h5 class="single-reservation-details-title"> 4 Adults, 2 Children, 3 Rooms </h5>
+										<h5 class="single-reservation-details-title"> @dadosReservas.Reserva.QuantidadePessoas </h5>
+									</div>
+									<div class="single-reservation-details-item">
+										<span class="single-reservation-details-subtitle"> Itens Reservados </span>
+										<h5 class="single-reservation-details-title"> Toalhas de mesa | Quantidade: 5 </h5>
 									</div>
 									<div class="single-reservation-details-item">
 										<span class="single-reservation-details-subtitle"> @dadosReservas.Reserva.StatusReserva </span>

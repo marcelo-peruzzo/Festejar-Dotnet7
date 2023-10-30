@@ -275,3 +275,4 @@ C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\obj\Debug\net7.0\refint\F
 C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\obj\Debug\net7.0\Festejar.pdb
 C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\obj\Debug\net7.0\Festejar.genruntimeconfig.cache
 C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\obj\Debug\net7.0\ref\Festejar.dll
+C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\bin\Debug\net7.0\RestSharp.dll

@@ -27,6 +27,9 @@ namespace Festejar.Pages
 		[BindProperty]
 		public List<Casas> Casas { get; set; }
 
+		[BindProperty]
+		public List<RecursosReservas> RecursosReservas { get; set; }
+
 		public MinhasReservasModel(ICasasRepository casasRepository, AppDbContext context, UserManager<IdentityUser> userManager)
 		{
 			_casasRepository = casasRepository;
@@ -52,7 +55,7 @@ namespace Festejar.Pages
 					{
 						var casaDeFesta = _casasRepository.Casas.FirstOrDefault();
 						Casas.Add(new Casas { Titulo = casaDeFesta.Titulo, Endereco = casaDeFesta.Endereco });
-						Reservas.Add(new Reservas { Id = reservas.Id, DataReserva = reservas.DataReserva, StatusReserva = reservas.StatusReserva });
+						Reservas.Add(new Reservas { Id = reservas.Id, DataReserva = reservas.DataReserva, StatusReserva = reservas.StatusReserva, QuantidadePessoas = reservas.QuantidadePessoas });
 					}
 				}
 				return Page();
