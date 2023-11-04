@@ -78,6 +78,7 @@ C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\bin\Debug\net7.0\NuGet.Pr
 C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\bin\Debug\net7.0\NuGet.Versioning.dll
 C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\bin\Debug\net7.0\Pomelo.EntityFrameworkCore.MySql.dll
 C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\bin\Debug\net7.0\BouncyCastle.Crypto.dll
+C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\bin\Debug\net7.0\RestSharp.dll
 C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\bin\Debug\net7.0\System.CodeDom.dll
 C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\bin\Debug\net7.0\System.Composition.AttributedModel.dll
 C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\bin\Debug\net7.0\System.Composition.Convention.dll
@@ -275,4 +276,3 @@ C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\obj\Debug\net7.0\refint\F
 C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\obj\Debug\net7.0\Festejar.pdb
 C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\obj\Debug\net7.0\Festejar.genruntimeconfig.cache
 C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\obj\Debug\net7.0\ref\Festejar.dll
-C:\Users\Marcelo Peruzzo\Desktop\Dev\Festejar\Festejar\bin\Debug\net7.0\RestSharp.dll

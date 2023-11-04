@@ -4,6 +4,10 @@
 }
 
 <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+	<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
 <body>
 	<div class="breadcrumb-area breadcrumb-padding">
 		<div class="container custom-container-one">
@@ -30,11 +34,12 @@
 								<h4 class="checkout-title"> Informações pessoais </h4>
 								<div class="checkout-contents mt-3">
 									<div class="checkout-form custom-form">
-
 										<div class="input-flex-item">
 											<div class="single-input mt-4">
 												<label class="label-title"> Nome completo </label>
-												<input asp-for="DadosClientes.Nome" name="nome" class="form--control" type="text" placeholder="Nome completo">
+												@*<input asp-for="DadosClientes.Nome" class="form-control" autocomplete="username" aria-required="true" placeholder="NOME KKK" />
+												<span asp-validation-for="DadosClientes.Nome" class="text-danger"></span>*@
+												<input asp-for="DadosClientes.Nome" name="nome" class="form--control" aria-required="true" type="text" placeholder="Nome completo">
 												<span asp-validation-for="DadosClientes.Nome" class="text-danger"></span>
 											</div>
 											<div class="single-input mt-4">
@@ -88,42 +93,49 @@
 								</div>
 							</div>
 							<div class="checkout-single bg-white radius-10">
-								<h4 class="checkout-title"> Payment </h4>
+								<h4 class="checkout-title"> Pagamento </h4>
 								<div class="checkout-contents mt-4">
 									<div class="custom-radio custom-radio-inline">
 										<div class="custom-radio-single active">
-											<input class="radio-input" type="radio" id="radio1" name="size" checked="checked">
-											<label for="radio1"> <img src="assets/img/icons/card.svg" alt="card"> Credit/Dabit Card</label>
+											<input class="radio-input" type="radio" id="radio1" name="PaymentType" value="@((int)CheckoutModel.EpaymentType.CartaoCredito)" checked="checked">
+											<i class='bx bx-credit-card'></i>
+											<label for="radio1"> Cartão de Crédito</label>
 										</div>
 										<div class="custom-radio-single">
-											<input class="radio-input" type="radio" name="size" id="radio2">
-											<label for="radio2"> <img src="assets/img/icons/paypal.svg" alt="Paypal"> Paypal</label>
+											<input class="radio-input" type="radio" name="PaymentType" id="radio2" value="@((int)CheckoutModel.EpaymentType.Pix)">
+											<label for="radio2"> <i class="fa-brands fa-pix" style="color: #4DB6AC;"></i> Pix</label>
 										</div>
 									</div>
 									<div class="checkout-form custom-form">
 
 										<div class="single-input mt-4">
-											<label class="label-title"> Card Number </label>
-											<input class="form--control input-padding-left" type="text" name="name" placeholder="Type Card Number">
-											<div class="input-icon"> <img src="assets/img/icons/card.svg" alt="Icon"> </div>
+											<label class="label-title"> Nome impresso no cartão </label>
+											<input asp-for="PagamentoCartaoCredito.NomeImpressoCartao" type="text" class="form-control" name="nomeImpressoCartao" aria-required="true" placeholder="Nome impresso no cartão" />
+											@*<span asp-validation-for="PagamentoCartaoCredito.NomeImpressoCartao" class="text-danger"></span>*@
+										</div>
+										<div class="single-input mt-4">
+											<label class="label-title"> Número do cartão </label>
+											<input asp-for="PagamentoCartaoCredito.NumeroCartao" class="form-control" name="numeroCartao" aria-required="true" placeholder="Número do cartão" />
+											@*<span asp-validation-for="PagamentoCartaoCredito.NumeroCartao" class="text-danger"></span>*@
+											<div class="input-icon"> <i class='bx bx-credit-card'></i> </div>
 										</div>
 										<div class="input-flex-item">
 											<div class="single-input mt-4">
-												<label class="label-title"> Expire Date </label>
-												<input class="form--control input-padding-left date-picker flatpickr-input" placeholder="Select Expire Date" type="hidden"><input class="form--control input-padding-left date-picker form-control input" placeholder="Select Expire Date" tabindex="0" type="text" readonly="readonly">
-												<div class="input-icon"> <img src="assets/img/icons/calendar.svg" alt="Icon"> </div>
+												<label for="validadeCartao" class="label-title">Data de validade (Mês/Ano):</label>
+												<input asp-for="PagamentoCartaoCredito.ValidadeCartao" class="form--control input-padding-left  form-control input" type="text" id="validadeCartao" name="validadeCartao" placeholder="MM/AAAA" maxlength="7">
+												<div class="input-icon"> <i class='bx bx-calendar'></i> </div>
 											</div>
 											<div class="single-input mt-4">
 												<label class="label-title"> CVV/CVC </label>
-												<input class="form--control input-padding-left" type="number" name="name" placeholder="Type CVV/CVC">
-												<div class="input-icon"> <img src="assets/img/icons/cvc.svg" alt="Icon"> </div>
+												<input asp-for="PagamentoCartaoCredito.Cvv" class="form--control input-padding-left" type="number" name="codigoSeguranca" placeholder="Código de segurança" maxlength="3">					
+												<div class="input-icon"> <i class='bx bxs-lock'></i> </div>
 											</div>
 										</div>
 										<div class="lock-contents mt-4">
 											<div class="lock-contents-icon">
-												<img src="assets/img/icons/lock.svg" alt="Icon">
+												<i class='bx bxs-lock-alt'></i>
 											</div>
-											<span class="lock-contents-para"> Information are encrypted with 256 bit SSL </span>
+											<span class="lock-contents-para"> As informações são criptografadas com SSL de 256 bits </span>
 										</div>
 										<div class="guaranty-cancellation radius-10 mt-4">
 											<h4 class="guaranty-cancellation-title"> Guarantee &amp; Cancellation </h4>
@@ -252,6 +264,23 @@
 				}
 			});
 		});
+
+		document.getElementById("validadeCartao").addEventListener("input", function () {
+			var inputValue = this.value;
+
+			// Remove caracteres não numéricos
+			inputValue = inputValue.replace(/\D/g, '');
+
+			// Insere a barra após os dois primeiros dígitos (mês)
+			if (inputValue.length > 2) {
+				inputValue = inputValue.substring(0, 2) + '/' + inputValue.substring(2);
+			}
+
+			// Atualiza o valor do input
+			this.value = inputValue;
+		});
 	</script>
+	@*Icone pix*@
+	<script src="https://kit.fontawesome.com/c5e63c95f6.js" crossorigin="anonymous"></script>
 </body>
 </html>
