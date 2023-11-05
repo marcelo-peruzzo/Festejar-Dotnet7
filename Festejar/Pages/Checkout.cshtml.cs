@@ -333,8 +333,11 @@ namespace Festejar.Pages
 
 				//Verifica se o status da criação da cobrança é 200 (OK) e pega o cobrançaId do ASAAS
 				if (result is JsonResult jsonResult && jsonResult.StatusCode == (int)System.Net.HttpStatusCode.OK)
-				{		
+				{
+					var pagarCartao = new PagamentoCartaoCredito();
 					string cobrancaCriadaId = jsonResult.Value.ToString();
+					string cobrancaId = cobrancaCriadaId;
+					await pagarCartao.Pagar(PaymentType, dadosClientes, nomeImpressoCartao, numeroCartao, validadeCartao, codigoSeguranca, cobrancaId);
 				}
 
 
@@ -395,6 +398,7 @@ namespace Festejar.Pages
 	public class Payment 
 	{
         public string CustomerId { get; set; }
+        public string CobrancaId { get; set; }
         public EpaymentType TipoPagamento { get; set; }
         public float Valor { get; set; }
         public string VencimentoCobranca { get; set; }
@@ -408,68 +412,94 @@ namespace Festejar.Pages
 
 		//[Required(ErrorMessage = "*Informe o numero do cartão")]
 		public string NumeroCartao { get; set; }
-
-		//[Required(ErrorMessage = "*Informe o mês e ano de expiração do cartão")]
-		public string ValidadeCartao { get; set; }
+        public string ExpiryMonth { get; set; }
+        public string ExpiryYear { get; set; }
 
 		//[Required(ErrorMessage = "*Informe o código de segurança do cartão")]
 		public string Cvv { get; set; }
-        public string ExpiryMonth { get; set; }
-        public string ExpiryYear { get; set; }
-        public string IpAdress { get; set; }
 
-		//public async Task<RestResponse> Pagar(EpaymentType type, DadosClientes dadosClientes, float valor, string nomeImpressoCartao, string numeroCartao, string validadeCartao, int codigoSeguranca)
-		//{
-		//	if (type == EpaymentType.CartaoCredito)
-		//	{
-				
-		//		Valor = valor;
-		//		VencimentoCobranca = DateTime.Now;
+		//[Required(ErrorMessage = "*Informe o mês e ano de expiração do cartão")]
+		public string ValidadeCartao { get; set; }
+		//public string IpAdress { get; set; }
 
-		//		string[] partes = validadeCartao.Split('/');
-		//		ExpiryMonth = partes[0]; // "mes"
-		//		ExpiryYear = partes[1]; // "ano"
-		//		NomeImpressoCartao = nomeImpressoCartao;
-		//		NumeroCartao = numeroCartao;
-		//		ValidadeCartao = validadeCartao;
-		//		Cvv = codigoSeguranca.ToString();
+		public async Task<RestResponse> Pagar(EpaymentType type, DadosClientes dadosClientes, string nomeImpressoCartao, string numeroCartao, string validadeCartao, int codigoSeguranca, string cobrancaId)
+		{
+			if (type == EpaymentType.CartaoCredito)
+			{
+
+				string[] partes = validadeCartao.Split('/');
+				CobrancaId = cobrancaId;
+				ExpiryMonth = partes[0]; // "mes"
+				ExpiryYear = partes[1]; // "ano"
+				NomeImpressoCartao = nomeImpressoCartao;
+				NumeroCartao = numeroCartao;
+				Cvv = codigoSeguranca.ToString();
 
 
-		//		//fazer o pagamento
-		//		try {
-		//			var options = new RestClientOptions("https://sandbox.asaas.com/api/v3/payments/");
-		//			var client = new RestClient(options);
-		//			var request = new RestRequest("");
-		//			request.AddHeader("accept", "application/json");
-		//			request.AddHeader("access_token", "$aact_YTU5YTE0M2M2N2I4MTliNzk0YTI5N2U5MzdjNWZmNDQ6OjAwMDAwMDAwMDAwMDAwNjgyODU6OiRhYWNoX2M2MDM0YTVjLWZiOTktNDgzNy1iMjdiLTZiOTE1M2MzYTNmNQ==");
-		//			request.AddJsonBody($"{{\"billingType\":\"CREDIT_CARD\",\"creditCard\":{{\"holderName\":\"{NomeImpressoCartao}\",\"number\":\"{NumeroCartao}\",\"expiryMonth\":\"{ExpiryMonth}\",\"expiryYear\":\"`{ExpiryYear}\",\"ccv\":\"{Cvv}\"}},\"creditCardHolderInfo\":{{\"name\":\"{dadosClientes.Nome}\",\"email\":\"{dadosClientes.Email}\",\"cpfCnpj\":\"{dadosClientes.Cpf}\",\"postalCode\":\"85640-000\",\"addressNumber\":\"N/A\",\"addressComplement\":null,\"phone\":\"{dadosClientes.Telefone}\",\"mobilePhone\":\"47998781877\"}},\"customer\":\"{dadosClientes.AsaasId}\",\"dueDate\":\"{VencimentoCobranca}\",\"value\"{Valor},\"description\":\"Pedido 056984\",\"externalReference\":\"056984\"}}", false);
-		//			var response = await client.PostAsync(request);
-		//		}
-		//		catch (Exception ex)
-		//		{
-		//			// Log da exceção
-		//			Console.WriteLine(ex.ToString());
+				var options = new RestClientOptions($"https://sandbox.asaas.com/api/v3/payments/{CobrancaId}/payWithCreditCard");
+				var client = new RestClient(options);
+				var request = new RestRequest("");
+				request.AddHeader("accept", "application/json");
+				request.AddHeader("access_token", "$aact_YTU5YTE0M2M2N2I4MTliNzk0YTI5N2U5MzdjNWZmNDQ6OjAwMDAwMDAwMDAwMDAwNjgyODU6OiRhYWNoX2M2MDM0YTVjLWZiOTktNDgzNy1iMjdiLTZiOTE1M2MzYTNmNQ==");
+				request.AddJsonBody($"{{\"creditCard\":{{\"holderName\":\"{NomeImpressoCartao}\",\"number\":\"{NumeroCartao}\",\"expiryMonth\":\"{ExpiryMonth}\",\"expiryYear\":\"{ExpiryYear}\",\"ccv\":\"{Cvv}\"}},\"creditCardHolderInfo\":{{\"name\":\"{dadosClientes.Nome}\",\"email\":\"{dadosClientes.Email}\",\"cpfCnpj\":\"{dadosClientes.Cpf}\",\"postalCode\":\"85640-000\",\"addressNumber\":\"277\",\"addressComplement\":null,\"phone\":\"{dadosClientes.Telefone}\",\"mobilePhone\":\"47998781877\"}}}}", false);
+				var response = await client.PostAsync(request);
 
-		//			// Retornar uma mensagem de erro para o usuário
-		//			// Criar uma nova resposta com a mensagem de erro
-		//			var errorResponse = new RestResponse
-		//			{
-		//				Content = "Ocorreu um erro ao processar o pagamento. Por favor, tente novamente mais tarde."
-		//			};
+				if (response.StatusCode == System.Net.HttpStatusCode.OK)
+				{
+					// Cobrança criada com sucesso
+					dynamic cobrancaCriada = JsonConvert.DeserializeObject<dynamic>(response.Content);
+					Console.WriteLine("Cobrança criada com sucesso. ID: " + cobrancaCriada.id);
+				}
+				else
+				{
+					// Tratar erro ao criar a cobrança
+					Console.WriteLine("Erro ao criar a cobrança: " + response.Content);
+				}
 
-		//			return errorResponse;
-		//		}
-
-
-			
-		//	}
-		//	return null;
-		//}
+				//fazer o pagamento
+				//try
+				//{
 
 
+				//	//var options = new RestClientOptions("https://sandbox.asaas.com/api/v3/payments/");
+				//	//var client = new RestClient(options);
+				//	//var request = new RestRequest("");
+				//	//request.AddHeader("accept", "application/json");
+				//	//request.AddHeader("access_token", "$aact_YTU5YTE0M2M2N2I4MTliNzk0YTI5N2U5MzdjNWZmNDQ6OjAwMDAwMDAwMDAwMDAwNjgyODU6OiRhYWNoX2M2MDM0YTVjLWZiOTktNDgzNy1iMjdiLTZiOTE1M2MzYTNmNQ==");
+				//	//request.AddJsonBody($"{{\"billingType\":\"CREDIT_CARD\",\"creditCard\":{{\"holderName\":\"{NomeImpressoCartao}\",\"number\":\"{NumeroCartao}\",\"expiryMonth\":\"{ExpiryMonth}\",\"expiryYear\":\"`{ExpiryYear}\",\"ccv\":\"{Cvv}\"}},\"creditCardHolderInfo\":{{\"name\":\"{dadosClientes.Nome}\",\"email\":\"{dadosClientes.Email}\",\"cpfCnpj\":\"{dadosClientes.Cpf}\",\"postalCode\":\"85640-000\",\"addressNumber\":\"N/A\",\"addressComplement\":null,\"phone\":\"{dadosClientes.Telefone}\",\"mobilePhone\":\"47998781877\"}},\"customer\":\"{dadosClientes.AsaasId}\",\"dueDate\":\"{VencimentoCobranca}\",\"value\"{Valor},\"description\":\"Pedido 056984\",\"externalReference\":\"056984\"}}", false);
+				//	//var response = await client.PostAsync(request);
+				//}
+				//catch (Exception ex)
+				//{
+				//	// Log da exceção
+				//	Console.WriteLine(ex.ToString());
+
+				//	// Retornar uma mensagem de erro para o usuário
+				//	// Criar uma nova resposta com a mensagem de erro
+				//	var errorResponse = new RestResponse
+				//	{
+				//		Content = "Ocorreu um erro ao processar o pagamento. Por favor, tente novamente mais tarde."
+				//	};
+
+				//	return errorResponse;
+				//}
+
+			}
+			return null;
+		}
 
 	}
 
+
+
+
+
+
+
+
+
+
+	//Objeto para criar nova COBRANÇA
 	public class GerarCobranca : Payment
 	{
 		public async Task<IActionResult> CriarCobranca(EpaymentType type, DadosClientes dadosClientes, float valor)
@@ -490,8 +520,8 @@ namespace Festejar.Pages
 					request.AddJsonBody($"{{\"billingType\":\"CREDIT_CARD\",\"customer\":\"{dadosClientes.AsaasId}\",\"value\":{Valor},\"dueDate\":\"{VencimentoCobranca}\"}}", false);
 					var response = await client.PostAsync(request);
 
-				
-						dynamic cobrancaCriada = JsonConvert.DeserializeObject<dynamic>(response.Content);
+
+					dynamic cobrancaCriada = JsonConvert.DeserializeObject<dynamic>(response.Content);
 						Console.WriteLine("Cobrança criada com sucesso. ID: " + cobrancaCriada.id);
 					return new JsonResult(new { StatusCode = response.StatusCode, CobrancaCriadaId = cobrancaCriada.id })
 					{
