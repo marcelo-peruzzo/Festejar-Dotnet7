@@ -16,6 +16,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Net;
+using System.Net.Http.Headers;
+using System.Text;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Festejar.Pages
 {
@@ -34,8 +37,11 @@ namespace Festejar.Pages
 		public decimal[] ValorRecurso { get; set; }
 		public int qntConvidados { get; set; }
 		public int Casa_Id { get; set; }
+        public string ErroSwal { get; set; }
 
-		public enum EpaymentType
+		public string SucessoSwal { get; set; }
+
+        public enum EpaymentType
 		{
 			CartaoCredito = 1,
 			Pix = 2
@@ -63,7 +69,7 @@ namespace Festejar.Pages
 			_userManager = userManager;
 		}
 
-		public void OnGet(int casaid, DateTime dataReserva, decimal valorDiaria, int convidados, int criancas, int[] recursoId, int[] quantidade)
+		public void OnGet(int casaid, DateTime dataReserva, decimal valorDiaria, int convidados, int[] recursoId, int[] quantidade, string ?erro)
 		{
 			var casaDeFesta = _casasRepository.Casas.FirstOrDefault(c => c.Id == casaid);
 			var recursos = _context.Recursos.Where(r => recursoId.Contains(r.Id)).ToList();
@@ -72,9 +78,9 @@ namespace Festejar.Pages
 			ValorDiaria = valorDiaria;
 			Quantidade = quantidade;
 			Casa_Id = casaid;
-			qntConvidados = convidados + criancas;
+			qntConvidados = convidados;
 			Recurso = recursos.Select(r => r.Titulo).ToArray();
-
+			ErroSwal = erro;
 
 			// Calcular o valor total dos recursos
 			ValorRecurso = new decimal[recursoId.Length];
@@ -116,6 +122,7 @@ namespace Festejar.Pages
 		{			
 			if (!ModelState.IsValid)
 			{
+				// Se o forms dos dados de cliente ñ for valido Recuperar dados da Sessão para exibir no frontend de checkout novamente
 				NomeCasa = HttpContext.Session.GetString("NomeCasa");
 				DataReserva = DateTime.Parse(HttpContext.Session.GetString("DataReserva"), culture);
 				ValorDiaria = decimal.Parse(HttpContext.Session.GetString("ValorDiaria"), culture);
@@ -126,8 +133,9 @@ namespace Festejar.Pages
 				// Recupera arrays de inteiros da Sessão
 				recursoId = JsonConvert.DeserializeObject<int[]>(HttpContext.Session.GetString("recursoId"));
 				quantidade = JsonConvert.DeserializeObject<int[]>(HttpContext.Session.GetString("quantidade"));
-
-				return RedirectToPage(new { casaid = Casa_Id, dataReserva = DataReserva, valorDiaria = ValorDiaria, convidados = qntConvidados, recursoId, quantidade });
+				ErroSwal = "Preencha todos os dados obrigatórios do formulário: Informações pessoais.";
+				OnGet(Casa_Id, DataReserva, ValorDiaria, qntConvidados, recursoId, quantidade, ErroSwal);
+				return Page();
 			}
 
 			var user = await _userManager.GetUserAsync(User);
@@ -174,7 +182,7 @@ namespace Festejar.Pages
 			return RedirectToPage(new { casaid = Casa_Id, dataReserva = DataReserva, valorDiaria = ValorDiaria, convidados = qntConvidados, recursoId, quantidade });
 		}
 
-		public async Task<IActionResult> OnPostEditDataClient(string nome, string cpf, string telefone, string email, string endereco, string cidade, string estado)
+		public async Task<IActionResult> OnPostEditDataClient()
 		{
 			if (!ModelState.IsValid)
 			{
@@ -205,13 +213,13 @@ namespace Festejar.Pages
 			}
 
 			// Atualiza apenas as informaçoes do cliente, *UserId e AsaasId não é alterado*
-			dadosCliente.Nome = nome;
-			dadosCliente.Cpf = cpf;
-			dadosCliente.Telefone = telefone;
-			dadosCliente.Email = email;
-			dadosCliente.Cidade = cidade;
-			dadosCliente.Estado = estado;
-			dadosCliente.Endereco = endereco;
+			dadosCliente.Nome = DadosClientes.Nome;
+			dadosCliente.Cpf = DadosClientes.Cpf;
+			dadosCliente.Telefone = DadosClientes.Telefone;
+			dadosCliente.Email = DadosClientes.Email;
+			dadosCliente.Cidade = DadosClientes.Cidade;
+			dadosCliente.Estado = DadosClientes.Estado;
+			dadosCliente.Endereco = DadosClientes.Endereco;
 
 			_context.DadosClientes.Update(dadosCliente);
 			await _context.SaveChangesAsync();
@@ -249,7 +257,7 @@ namespace Festejar.Pages
 			return RedirectToPage(new { casaid = Casa_Id, dataReserva = DataReserva, valorDiaria = ValorDiaria, convidados = qntConvidados, recursoId, quantidade });
 		}
 
-		public async Task<IActionResult> OnPostCreateReserva(int casaid, int qntConvidados, DateTime dataConfirm, decimal? valorDiaria, string nomeImpressoCartao, string numeroCartao, string validadeCartao, int codigoSeguranca, bool aceitaTermo)
+		public async Task<IActionResult> OnPostCreateReserva(int casaid, int qntConvidados, DateTime dataConfirm, decimal? valorDiaria, bool aceitaTermo)
 		{
 		
 			//Verifica se o forms dos dados do cliente não é valido
@@ -286,6 +294,7 @@ namespace Festejar.Pages
 			}
 			if (aceitaTermo == true)
 			{
+
 				int[] recursoId;
 				int[] quantidade;
 				var user = await _userManager.GetUserAsync(User);
@@ -326,7 +335,7 @@ namespace Festejar.Pages
 				DadosClientes dadosClientes = new DadosClientes();
 				string idUserAutenticado = User.FindFirstValue(ClaimTypes.NameIdentifier);
 				dadosClientes = await _context.DadosClientes.FirstOrDefaultAsync(dc => dc.UserId == idUserAutenticado);
-				//novaCobranca.CriarCobranca(PaymentType, dadosClientes, Reservas.Valor);
+				
 
 				// Chama o método CriarCobranca que retorna um objeto com o resultado
 				var result = await novaCobranca.CriarCobranca(PaymentType, dadosClientes, Reservas.Valor);
@@ -335,9 +344,65 @@ namespace Festejar.Pages
 				if (result is JsonResult jsonResult && jsonResult.StatusCode == (int)System.Net.HttpStatusCode.OK)
 				{
 					var pagarCartao = new PagamentoCartaoCredito();
+					//Aqui eu instancio um novo objeto de PagamentoCartaoCredito para obter os dados do cartao enviados do formulario
+					var dadosDoCartao = new PagamentoCartaoCredito();
 					string cobrancaCriadaId = jsonResult.Value.ToString();
 					string cobrancaId = cobrancaCriadaId;
-					await pagarCartao.Pagar(PaymentType, dadosClientes, nomeImpressoCartao, numeroCartao, validadeCartao, codigoSeguranca, cobrancaId);
+					//Aqui eu passo os valores do forms para o objeto criado anteriormente
+					dadosDoCartao.NomeImpressoCartao = PagamentoCartaoCredito.NomeImpressoCartao;
+					dadosDoCartao.NumeroCartao = PagamentoCartaoCredito.NumeroCartao;
+					dadosDoCartao.ValidadeCartao = PagamentoCartaoCredito.ValidadeCartao;
+					dadosDoCartao.Cvv = PagamentoCartaoCredito.Cvv;
+					//chamo o metodo pagar da classe "PagamentoCartaoCredito" passando como parametro
+					//os objetos dadosClientes e dadosDoCartao (com os dados requeridos para efetuar um pagamento pelo ASAAS)
+					var (sucesso, respostaPagamento) = await pagarCartao.Pagar(PaymentType, dadosClientes, dadosDoCartao, cobrancaId);
+
+					if(sucesso == true)
+					{
+						var sucessoPgmt = respostaPagamento;
+						Console.WriteLine(respostaPagamento);
+						//_context.Reservas.Add(Reservas);
+						//await _context.SaveChangesAsync();
+					}
+					else
+
+					{
+						dynamic errorResponse = JsonConvert.DeserializeObject(respostaPagamento);
+						string descricaoErro = errorResponse.errors[0].description;
+						ErroSwal = descricaoErro;
+
+						//montando objeto checkout quando ocorre erro ao efetuar pagamento
+						NomeCasa = HttpContext.Session.GetString("NomeCasa");
+						DataReserva = DateTime.Parse(HttpContext.Session.GetString("DataReserva"), culture);
+						ValorDiaria = decimal.Parse(HttpContext.Session.GetString("ValorDiaria"), culture);
+						Casa_Id = int.Parse(HttpContext.Session.GetString("Casa_Id"));
+						qntConvidados = int.Parse(HttpContext.Session.GetString("qntConvidados"));
+						Recurso = HttpContext.Session.GetString("Recurso").Split(',');
+
+						// Recupera arrays dos recursos e da quantidade mantidos na Sessão
+						recursoId = JsonConvert.DeserializeObject<int[]>(HttpContext.Session.GetString("recursoId"));
+						quantidade = JsonConvert.DeserializeObject<int[]>(HttpContext.Session.GetString("quantidade"));
+
+						return RedirectToPage(new { casaid = Casa_Id, dataReserva = DataReserva, valorDiaria = ValorDiaria, convidados = qntConvidados, recursoId, quantidade, erro = ErroSwal });
+					}
+
+				}
+				else
+				{
+					//erro ao gerar cobrança
+					NomeCasa = HttpContext.Session.GetString("NomeCasa");
+					DataReserva = DateTime.Parse(HttpContext.Session.GetString("DataReserva"), culture);
+					ValorDiaria = decimal.Parse(HttpContext.Session.GetString("ValorDiaria"), culture);
+					Casa_Id = int.Parse(HttpContext.Session.GetString("Casa_Id"));
+					qntConvidados = int.Parse(HttpContext.Session.GetString("qntConvidados"));
+					Recurso = HttpContext.Session.GetString("Recurso").Split(',');
+
+					// Recupera arrays de inteiros da Sessão
+					recursoId = JsonConvert.DeserializeObject<int[]>(HttpContext.Session.GetString("recursoId"));
+					quantidade = JsonConvert.DeserializeObject<int[]>(HttpContext.Session.GetString("quantidade"));
+
+					ErroSwal = "Ocorreu um erro ao gerar a cobrança";
+					return RedirectToPage(new { casaid = Casa_Id, dataReserva = DataReserva, valorDiaria = ValorDiaria, convidados = qntConvidados, recursoId, quantidade, erro = ErroSwal });
 				}
 
 
@@ -407,86 +472,71 @@ namespace Festejar.Pages
 
 	public class PagamentoCartaoCredito : Payment
 	{
-		//[Required(ErrorMessage = "*Informe o nome impresso no cartão")]
+		[Required(ErrorMessage = "*Informe o nome impresso no cartão")]
 		public string NomeImpressoCartao { get; set; }
 
-		//[Required(ErrorMessage = "*Informe o numero do cartão")]
+		[Required(ErrorMessage = "*Informe o numero do cartão")]
 		public string NumeroCartao { get; set; }
         public string ExpiryMonth { get; set; }
         public string ExpiryYear { get; set; }
 
-		//[Required(ErrorMessage = "*Informe o código de segurança do cartão")]
+		[Required(ErrorMessage = "*Informe o código de segurança do cartão")]
 		public string Cvv { get; set; }
 
-		//[Required(ErrorMessage = "*Informe o mês e ano de expiração do cartão")]
+		[Required(ErrorMessage = "*Informe o mês e ano de expiração do cartão")]
 		public string ValidadeCartao { get; set; }
 		//public string IpAdress { get; set; }
 
-		public async Task<RestResponse> Pagar(EpaymentType type, DadosClientes dadosClientes, string nomeImpressoCartao, string numeroCartao, string validadeCartao, int codigoSeguranca, string cobrancaId)
+		public async Task<(bool, string)> Pagar(EpaymentType type, DadosClientes dadosClientes, PagamentoCartaoCredito dadosDoCartao, string cobrancaId)
 		{
 			if (type == EpaymentType.CartaoCredito)
 			{
-
-				string[] partes = validadeCartao.Split('/');
+				string[] partes = dadosDoCartao.ValidadeCartao.Split('/');
 				CobrancaId = cobrancaId;
 				ExpiryMonth = partes[0]; // "mes"
 				ExpiryYear = partes[1]; // "ano"
-				NomeImpressoCartao = nomeImpressoCartao;
-				NumeroCartao = numeroCartao;
-				Cvv = codigoSeguranca.ToString();
+				NomeImpressoCartao = dadosDoCartao.NomeImpressoCartao;
+				NumeroCartao = dadosDoCartao.NumeroCartao;
+				Cvv = dadosDoCartao.Cvv;
 
-
-				var options = new RestClientOptions($"https://sandbox.asaas.com/api/v3/payments/{CobrancaId}/payWithCreditCard");
-				var client = new RestClient(options);
-				var request = new RestRequest("");
-				request.AddHeader("accept", "application/json");
-				request.AddHeader("access_token", "$aact_YTU5YTE0M2M2N2I4MTliNzk0YTI5N2U5MzdjNWZmNDQ6OjAwMDAwMDAwMDAwMDAwNjgyODU6OiRhYWNoX2M2MDM0YTVjLWZiOTktNDgzNy1iMjdiLTZiOTE1M2MzYTNmNQ==");
-				request.AddJsonBody($"{{\"creditCard\":{{\"holderName\":\"{NomeImpressoCartao}\",\"number\":\"{NumeroCartao}\",\"expiryMonth\":\"{ExpiryMonth}\",\"expiryYear\":\"{ExpiryYear}\",\"ccv\":\"{Cvv}\"}},\"creditCardHolderInfo\":{{\"name\":\"{dadosClientes.Nome}\",\"email\":\"{dadosClientes.Email}\",\"cpfCnpj\":\"{dadosClientes.Cpf}\",\"postalCode\":\"85640-000\",\"addressNumber\":\"277\",\"addressComplement\":null,\"phone\":\"{dadosClientes.Telefone}\",\"mobilePhone\":\"47998781877\"}}}}", false);
-				var response = await client.PostAsync(request);
-
-				if (response.StatusCode == System.Net.HttpStatusCode.OK)
+				try
 				{
-					// Cobrança criada com sucesso
-					dynamic cobrancaCriada = JsonConvert.DeserializeObject<dynamic>(response.Content);
-					Console.WriteLine("Cobrança criada com sucesso. ID: " + cobrancaCriada.id);
+					var client = new HttpClient();
+					client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+					client.DefaultRequestHeaders.Add("access_token", "$aact_YTU5YTE0M2M2N2I4MTliNzk0YTI5N2U5MzdjNWZmNDQ6OjAwMDAwMDAwMDAwMDAwNjgyODU6OiRhYWNoX2M2MDM0YTVjLWZiOTktNDgzNy1iMjdiLTZiOTE1M2MzYTNmNQ==");
+
+					var json = $"{{\"creditCard\":{{\"holderName\":\"{NomeImpressoCartao}\",\"number\":\"{NumeroCartao}\",\"expiryMonth\":\"{ExpiryMonth}\",\"expiryYear\":\"{ExpiryYear}\",\"ccv\":\"{Cvv}\"}},\"creditCardHolderInfo\":{{\"name\":\"{dadosClientes.Nome}\",\"email\":\"{dadosClientes.Email}\",\"cpfCnpj\":\"{dadosClientes.Cpf}\",\"postalCode\":\"85640-000\",\"addressNumber\":\"277\",\"addressComplement\":null,\"phone\":\"{dadosClientes.Telefone}\",\"mobilePhone\":\"47998781877\"}}}}";
+					var data = new StringContent(json, Encoding.UTF8, "application/json");
+
+					HttpResponseMessage response = await client.PostAsync($"https://sandbox.asaas.com/api/v3/payments/{CobrancaId}/payWithCreditCard", data);
+
+					if (response.IsSuccessStatusCode)
+					{
+						// Cobrança criada com sucesso
+						string responseContent = await response.Content.ReadAsStringAsync();
+						dynamic pagamentoCriado = JsonConvert.DeserializeObject<dynamic>(responseContent);
+						Console.WriteLine("Pagamento efetuado com sucesso. ID: " + pagamentoCriado.id);
+						return (true, pagamentoCriado.id);
+					}
+					else
+					{
+						// Tratar erros aqui
+						string errorContent = await response.Content.ReadAsStringAsync();
+						Console.WriteLine("Erro ao efetuado o pagamento: " + errorContent);
+						return (false, errorContent);
+					}
+					
 				}
-				else
+				catch (Exception ex)
 				{
-					// Tratar erro ao criar a cobrança
-					Console.WriteLine("Erro ao criar a cobrança: " + response.Content);
+					Console.WriteLine("Exceção ao fazer a requisição: " + ex.Message);
+					return (false, "Erro ao criar a cobrança: " + ex.Message);
 				}
-
-				//fazer o pagamento
-				//try
-				//{
-
-
-				//	//var options = new RestClientOptions("https://sandbox.asaas.com/api/v3/payments/");
-				//	//var client = new RestClient(options);
-				//	//var request = new RestRequest("");
-				//	//request.AddHeader("accept", "application/json");
-				//	//request.AddHeader("access_token", "$aact_YTU5YTE0M2M2N2I4MTliNzk0YTI5N2U5MzdjNWZmNDQ6OjAwMDAwMDAwMDAwMDAwNjgyODU6OiRhYWNoX2M2MDM0YTVjLWZiOTktNDgzNy1iMjdiLTZiOTE1M2MzYTNmNQ==");
-				//	//request.AddJsonBody($"{{\"billingType\":\"CREDIT_CARD\",\"creditCard\":{{\"holderName\":\"{NomeImpressoCartao}\",\"number\":\"{NumeroCartao}\",\"expiryMonth\":\"{ExpiryMonth}\",\"expiryYear\":\"`{ExpiryYear}\",\"ccv\":\"{Cvv}\"}},\"creditCardHolderInfo\":{{\"name\":\"{dadosClientes.Nome}\",\"email\":\"{dadosClientes.Email}\",\"cpfCnpj\":\"{dadosClientes.Cpf}\",\"postalCode\":\"85640-000\",\"addressNumber\":\"N/A\",\"addressComplement\":null,\"phone\":\"{dadosClientes.Telefone}\",\"mobilePhone\":\"47998781877\"}},\"customer\":\"{dadosClientes.AsaasId}\",\"dueDate\":\"{VencimentoCobranca}\",\"value\"{Valor},\"description\":\"Pedido 056984\",\"externalReference\":\"056984\"}}", false);
-				//	//var response = await client.PostAsync(request);
-				//}
-				//catch (Exception ex)
-				//{
-				//	// Log da exceção
-				//	Console.WriteLine(ex.ToString());
-
-				//	// Retornar uma mensagem de erro para o usuário
-				//	// Criar uma nova resposta com a mensagem de erro
-				//	var errorResponse = new RestResponse
-				//	{
-				//		Content = "Ocorreu um erro ao processar o pagamento. Por favor, tente novamente mais tarde."
-				//	};
-
-				//	return errorResponse;
-				//}
-
 			}
-			return null;
+
+			return (false, "Erro ao selecionar forma de pagamento ");
 		}
+
 
 	}
 
@@ -533,7 +583,7 @@ namespace Festejar.Pages
 				}
 				catch (Exception ex) 
 				{
-					// Tratar a exceção, se necessário, e retornar o StatusCode
+					// Tratar a exceção
 					Console.WriteLine("Exceção ao criar a cobrança: " + ex.Message);
 					return new JsonResult(new { StatusCode = System.Net.HttpStatusCode.InternalServerError, Error = ex.Message });
 				}

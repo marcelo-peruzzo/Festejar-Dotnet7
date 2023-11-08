@@ -37,42 +37,40 @@
 										<div class="input-flex-item">
 											<div class="single-input mt-4">
 												<label class="label-title"> Nome completo </label>
-												@*<input asp-for="DadosClientes.Nome" class="form-control" autocomplete="username" aria-required="true" placeholder="NOME KKK" />
-												<span asp-validation-for="DadosClientes.Nome" class="text-danger"></span>*@
-												<input asp-for="DadosClientes.Nome" name="nome" class="form--control" aria-required="true" type="text" placeholder="Nome completo">
+												<input asp-for="DadosClientes.Nome" class="form-control" autocomplete="username" aria-required="true" placeholder="Nome completo" />
 												<span asp-validation-for="DadosClientes.Nome" class="text-danger"></span>
 											</div>
 											<div class="single-input mt-4">
 												<label class="label-title"> Telefone </label>
-												<input asp-for="DadosClientes.Telefone" name="telefone" class="form--control" type="tel" placeholder="Telefone">
+												<input asp-for="DadosClientes.Telefone" class="form-control" type="tel" placeholder="Telefone">
 												<span asp-validation-for="DadosClientes.Telefone" class="text-danger"></span>
 											</div>
 										</div>
 										<div class="single-input mt-4">
 											<label class="label-title"> Documento </label>
-											<input asp-for="DadosClientes.Cpf" name="cpf" class="form--control" type="text" placeholder="CPF">
+											<input asp-for="DadosClientes.Cpf" class="form-control" type="text" placeholder="CPF">
 											<span asp-validation-for="DadosClientes.Cpf" class="text-danger"></span>
 										</div>
 										<div class="single-input mt-4">
 											<label class="label-title"> E-mail </label>
-											<input asp-for="DadosClientes.Email" name="email" class="form--control" type="text" placeholder="E-mail">
+											<input asp-for="DadosClientes.Email" class="form-control" type="text" placeholder="E-mail">
 											<span asp-validation-for="DadosClientes.Email" class="text-danger"></span>
 										</div>
 
 										<div class="input-flex-item">
 											<div class="single-input mt-4">
 												<label class="label-title"> Endereço </label>
-												<input asp-for="DadosClientes.Endereco" name="endereco" class="form--control" type="text" placeholder="Endereço">
+												<input asp-for="DadosClientes.Endereco" class="form-control" type="text" placeholder="Endereço">
 											</div>
 										</div>
 										<div class="input-flex-item">
 											<div class="single-input mt-4">
 												<label class="label-title"> Cidade </label>
-												<input asp-for="DadosClientes.Cidade" name="cidade" class="form--control" type="text" placeholder="Cidade">
+												<input asp-for="DadosClientes.Cidade" class="form-control" type="text" placeholder="Cidade">
 											</div>
 											<div class="single-input mt-4">
 												<label class="label-title"> Estado </label>
-												<input asp-for="DadosClientes.Estado" name="estado" class="form--control" type="text" placeholder="Estado">
+												<input asp-for="DadosClientes.Estado" name="estado" class="form-control" type="text" placeholder="Estado">
 											</div>
 										</div>
 										<div class="input-flex-item">
@@ -110,24 +108,26 @@
 
 										<div class="single-input mt-4">
 											<label class="label-title"> Nome impresso no cartão </label>
-											<input asp-for="PagamentoCartaoCredito.NomeImpressoCartao" type="text" class="form-control" name="nomeImpressoCartao" aria-required="true" placeholder="Nome impresso no cartão" />
-											@*<span asp-validation-for="PagamentoCartaoCredito.NomeImpressoCartao" class="text-danger"></span>*@
+											<input asp-for="PagamentoCartaoCredito.NomeImpressoCartao" type="text" class="form-control" aria-required="true" placeholder="Nome impresso no cartão" />
+											<span asp-validation-for="PagamentoCartaoCredito.NomeImpressoCartao" class="text-danger"></span>
 										</div>
 										<div class="single-input mt-4">
 											<label class="label-title"> Número do cartão </label>
-											<input asp-for="PagamentoCartaoCredito.NumeroCartao" class="form-control" name="numeroCartao" aria-required="true" placeholder="Número do cartão" />
-											@*<span asp-validation-for="PagamentoCartaoCredito.NumeroCartao" class="text-danger"></span>*@
+											<input asp-for="PagamentoCartaoCredito.NumeroCartao" class="form-control" aria-required="true" placeholder="Número do cartão" />
+											<span asp-validation-for="PagamentoCartaoCredito.NumeroCartao" class="text-danger"></span>
 											<div class="input-icon"> <i class='bx bx-credit-card'></i> </div>
 										</div>
 										<div class="input-flex-item">
 											<div class="single-input mt-4">
 												<label for="validadeCartao" class="label-title">Data de validade (Mês/Ano):</label>
-												<input asp-for="PagamentoCartaoCredito.ValidadeCartao" class="form--control input-padding-left  form-control input" type="text" id="validadeCartao" name="validadeCartao" placeholder="MM/AAAA" maxlength="7">
+												<input asp-for="PagamentoCartaoCredito.ValidadeCartao" class="form-control input-padding-left" type="text" id="validadeCartao" placeholder="MM/AAAA" maxlength="7">
+												<span asp-validation-for="PagamentoCartaoCredito.ValidadeCartao" class="text-danger"></span>
 												<div class="input-icon"> <i class='bx bx-calendar'></i> </div>
 											</div>
 											<div class="single-input mt-4">
 												<label class="label-title"> CVV/CVC </label>
-												<input asp-for="PagamentoCartaoCredito.Cvv" class="form--control input-padding-left" type="number" name="codigoSeguranca" placeholder="Código de segurança" maxlength="3">					
+												<input asp-for="PagamentoCartaoCredito.Cvv" class="form-control input-padding-left" type="number" placeholder="Código de segurança" maxlength="3">					
+												<span asp-validation-for="PagamentoCartaoCredito.Cvv" class="text-danger"></span>
 												<div class="input-icon"> <i class='bx bxs-lock'></i> </div>
 											</div>
 										</div>
@@ -280,6 +280,27 @@
 			this.value = inputValue;
 		});
 	</script>
+	@if (!String.IsNullOrEmpty(Model.ErroSwal))
+	{
+		<script>
+			document.addEventListener('DOMContentLoaded', function () {
+				Swal.fire({
+					icon: 'error',
+					title: 'Oops...',
+					text: '@Html.Raw(Model.ErroSwal)',
+				})
+			});
+		</script>
+	}
+
+@*	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			Swal.fire('Olá', 'Este é um teste do SweetAlert', 'error');
+		});
+	</script>*@
+
+
+
 	@*Icone pix*@
 	<script src="https://kit.fontawesome.com/c5e63c95f6.js" crossorigin="anonymous"></script>
 </body>
