@@ -42,8 +42,7 @@
                             <li class="menu-item-has-children current-menu-item">
                             <a class="nav-link text-dark" asp-page="Index">Home</a>
                             </li>
-                            <li><a asp-page="About"> Sobre-nós </a></li>
-                            <li><a href="checkout.html"> Pagamento </a></li>
+                            <li><a asp-page="About"> Sobre-nós </a></li>                           
                             <li class="menu-item-has-children current-menu-item">
                                 <a href="javascript:void(0)">Casas</a>
                                 <ul class="sub-menu">
@@ -55,7 +54,11 @@
                             </li>
                             <li><a href="contact.html"> Contate-nos </a></li>
                             <li><a class="nav-link text-dark" asp-page="MinhasReservas">Minhas Reservas</a></li>
-                        </ul>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li><a class="nav-link text-dark" asp-page="DadosDoCliente">Dados do Cadastro</a></li>
+                        }
+                    </ul>
                     </div>
                 
                     @if (User.Identity.IsAuthenticated)

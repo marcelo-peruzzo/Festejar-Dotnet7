@@ -2,6 +2,7 @@ using Festejar.Context;
 using Festejar.Models;
 using Festejar.Respositories.Interfaces;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -21,13 +22,18 @@ namespace Festejar.Pages
         private readonly IImagens_casasRepository _imagensCasasRepository;
         private static readonly HttpClient client = new HttpClient();
         private static readonly CultureInfo culture = new CultureInfo("pt-BR");
-        public InternoCasaModel(ICasasRepository casasRepository, IDiariasRepository diariasRepository, AppDbContext context, IImagens_casasRepository imagensCasasRepository)
+		private readonly UserManager<IdentityUser> _userManager;
+
+		[BindProperty]
+		public DadosClientes DadosClientes { get; set; }
+		public InternoCasaModel(ICasasRepository casasRepository, UserManager<IdentityUser> userManager, IDiariasRepository diariasRepository, AppDbContext context, IImagens_casasRepository imagensCasasRepository)
         {
             _casasRepository = casasRepository;
             _diariasRepository = diariasRepository;
             _context = context;
             _imagensCasasRepository = imagensCasasRepository;
-        }
+			_userManager = userManager;
+		}
         public Casas InternoCasa { get; set; }
         public List<Imagens_casas> Imagens_casas { get; set; } = new List<Imagens_casas>();
 
@@ -133,7 +139,19 @@ namespace Festejar.Pages
         {
             if (User.Identity.IsAuthenticated)
             {
-                return RedirectToPage("/Checkout", new { casaid = casaId, dataReserva, valorDiaria, convidados, criancas, recursoId, quantidade });
+				var user = _userManager.GetUserAsync(User).Result;
+
+				// Carregar os dados do cliente com base no ID do usuário logado
+				DadosClientes = _context.DadosClientes.FirstOrDefault(dc => dc.UserId == user.Id);
+
+                if(DadosClientes != null)
+                {
+					return RedirectToPage("/Checkout", new { casaid = casaId, dataReserva, valorDiaria, convidados, criancas, recursoId, quantidade });
+                }
+                else
+                {
+                    return RedirectToPage("/DadosDoCliente", new { casaid = casaId, dataReserva, valorDiaria, convidados, criancas, recursoId, quantidade });
+                }					
             }
             else
             {

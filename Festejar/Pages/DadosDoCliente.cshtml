@@ -1,0 +1,245 @@
+﻿@page
+@model Festejar.Pages.DadosDoClienteModel
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+	<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+	<div class="breadcrumb-area breadcrumb-padding">
+		<div class="container custom-container-one">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="breadcrumb-contents">
+						<h4 class="breadcrumb-contents-title"> Detalhes da reserva </h4>
+						<ul class="breadcrumb-contents-list list-style-none">
+							<li class="breadcrumb-contents-list-item"> <a asp-page="Index" class="breadcrumb-contents-list-item-link"> Home </a> </li>
+							<li class="breadcrumb-contents-list-item"> Reserva </li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<section class="Checkout-area section-bg-2 pat-100 pab-100">
+		<div class="container">
+			<div class="row g-4">
+				<div class="col-xl-8 col-lg-7">
+
+					<div class="checkout-wrapper">
+						<form method="post">
+							<div class="checkout-single bg-white radius-10">
+								<h4 class="checkout-title"> Informações pessoais </h4>
+								<div class="checkout-contents mt-3">
+									<div class="checkout-form custom-form">
+										<div class="input-flex-item">
+											<div class="single-input mt-4">
+												<label class="label-title"> Nome completo </label>
+												<input asp-for="DadosClientes.Nome" class="form-control" autocomplete="username" aria-required="true" placeholder="Nome completo" />
+												<span asp-validation-for="DadosClientes.Nome" class="text-danger"></span>
+											</div>
+											<div class="single-input mt-4">
+												<label class="label-title"> Telefone </label>
+												<input asp-for="DadosClientes.Telefone" class="form-control" type="tel" placeholder="Telefone">
+												<span asp-validation-for="DadosClientes.Telefone" class="text-danger"></span>
+											</div>
+										</div>
+										<div class="single-input mt-4">
+											<label class="label-title"> Documento </label>
+											<input asp-for="DadosClientes.Cpf" class="form-control" type="text" placeholder="CPF">
+											<span asp-validation-for="DadosClientes.Cpf" class="text-danger"></span>
+										</div>
+										<div class="single-input mt-4">
+											<label class="label-title"> E-mail </label>
+											<input asp-for="DadosClientes.Email" class="form-control" type="text" placeholder="E-mail">
+											<span asp-validation-for="DadosClientes.Email" class="text-danger"></span>
+										</div>
+
+										<div class="input-flex-item">
+											<div class="single-input mt-4">
+												<label class="label-title"> Endereço </label>
+												<input asp-for="DadosClientes.Endereco" class="form-control" type="text" placeholder="Endereço">
+											</div>
+										</div>
+										<div class="input-flex-item">
+											<div class="single-input mt-4">
+												<label class="label-title"> Cidade </label>
+												<input asp-for="DadosClientes.Cidade" class="form-control" type="text" placeholder="Cidade">
+											</div>
+											<div class="single-input mt-4">
+												<label class="label-title"> Estado </label>
+												<input asp-for="DadosClientes.Estado" name="estado" class="form-control" type="text" placeholder="Estado">
+											</div>
+										</div>
+										<div class="input-flex-item">
+											@if (Model.DadosClientes != null)
+											{
+												<div class="btn-wrapper mt-4">
+													<button type="submit" class="cmn-btn btn-bg-1 btn-small" asp-page-handler="EditDataClient"> Editar </button>
+												</div>
+											}
+											else
+											{
+												<div class="btn-wrapper mt-4">
+													<button type="submit" class="cmn-btn btn-bg-1 btn-small" asp-page-handler="CreateDataClient"> Confirmar e ir para pagamento </button>
+												</div>
+											}
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>						
+					</div>
+
+				</div>
+				@if (Model.Casa_Id != 0)
+				{
+					<div class="col-xl-4 col-lg-5">
+						<div class="sticky-top">
+							<div class="checkout-widget checkout-widget-padding widget bg-white radius-10">
+								<div class="checkout-sidebar">
+									<h4 class="checkout-sidebar-title"> Detalhes da reserva </h4>
+									<div class="checkout-sidebar-contents">
+										<ul class="checkout-flex-list list-style-none checkout-border-top pt-3 mt-3">
+											<li class="list"> <span class="regular"> Casa </span> <span class="strong"> @Model.NomeCasa </span> </li>
+											<li class="list"> <span class="regular"> Data da reserva </span> <span class="strong"> @Model.DataReserva </span> </li>
+											<li class="list"> <span class="regular"> Quantidade convidados </span> <span class="strong"> @Model.qntConvidados </span> </li>
+										</ul>
+									</div>
+								</div>
+							</div>
+							<div class="checkout-widget checkout-widget-padding widget bg-white radius-10">
+								<div class="checkout-sidebar">
+									<h4 class="checkout-sidebar-title"> Fatura </h4>
+									<div class="checkout-sidebar-contents">
+
+										<table class="table checkout-flex-list list-style-none checkout-border-top pt-3 mt-3">
+											<thead>
+												<tr>
+													<th scope="col">Itens da reserva</th>
+													<th class="text-center" scope="col">Quantidade</th>
+													<th class="text-center" scope="col">Preço</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td> <span class="regular"> Diária </span></td>
+													<td></td>
+													<td class="text-center"><span class="strong"> @Model.ValorDiaria </span></td>
+												</tr>
+												@if (Model.Recurso != null && Model.Quantidade != null && Model.ValorRecurso != null)
+												{
+													@for (int i = 0; i < Model.Recurso.Length; i++)
+													{
+														<tr>
+															<td class="list"> @Model.Recurso[i]</td>
+															<td class="text-center">
+																<button type="button" class="btn btn-danger decrement">-</button>
+																<input style="width: 30px;" type="text" class="quantity" value="@Model.Quantidade[i]" data-max="@Model.Quantidade[i]" data-valor="@Model.ValorRecurso[i]">
+																<button type="button" class="btn btn-danger increment">+</button>
+															</td>
+															<td class="text-center total-value"> @Model.ValorRecurso[i] </td>
+														</tr>
+
+													}
+												}
+
+											</tbody>
+										</table>
+										<ul class="checkout-flex-list list-style-none checkout-border-top pt-3 mt-3">
+											<li class="list"> <span class="regular"> Total </span> <span class="strong color-one fs-20"> R$580,00 </span> </li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				}
+				
+			</div>
+		</div>
+	</section>
+
+	<script>
+		const decrementButtons = document.querySelectorAll('.decrement');
+		const incrementButtons = document.querySelectorAll('.increment');
+		const quantityInputs = document.querySelectorAll('.quantity');
+		const totalValueElements = document.querySelectorAll('.total-value');
+
+		const valorItem = [];
+		for (let i = 0; i < quantityInputs.length; i++) {
+			valorItem[i] = parseFloat(quantityInputs[i].dataset.valor) / parseFloat(quantityInputs[i].dataset.max);
+		}
+
+		decrementButtons.forEach((decrementButtons, index) => {
+			decrementButtons.addEventListener('click', () => {
+				const currentValue = parseInt(quantityInputs[index].value) || 0;
+				if (currentValue > 0) {
+					quantityInputs[index].value = currentValue - 1;
+					// Atualize o valor do recurso
+					var totalValue = parseFloat(totalValueElements[index].textContent.replace('R$ ', ''));
+					totalValue -= valorItem[index];
+					totalValueElements[index].textContent = 'R$ ' + totalValue.toFixed(2);
+
+				}
+			});
+		});
+
+		incrementButtons.forEach((incrementButtons, index) => {
+			incrementButtons.addEventListener('click', () => {
+				const currentValue = parseInt(quantityInputs[index].value) || 0;
+				const maxQuantity = parseInt(quantityInputs[index].dataset.max);
+				if (currentValue < maxQuantity) {
+					quantityInputs[index].value = currentValue + 1;
+
+					// Atualize o valor do recurso
+					var totalValue = parseFloat(totalValueElements[index].textContent.replace('R$ ', ''));
+					totalValue += valorItem[index];
+					totalValueElements[index].textContent = 'R$ ' + totalValue.toFixed(2);
+				}
+			});
+		});
+
+		document.getElementById("validadeCartao").addEventListener("input", function () {
+			var inputValue = this.value;
+
+			// Remove caracteres não numéricos
+			inputValue = inputValue.replace(/\D/g, '');
+
+			// Insere a barra após os dois primeiros dígitos (mês)
+			if (inputValue.length > 2) {
+				inputValue = inputValue.substring(0, 2) + '/' + inputValue.substring(2);
+			}
+
+			// Atualiza o valor do input
+			this.value = inputValue;
+		});
+	</script>
+@*	@if (!String.IsNullOrEmpty(Model.ErroSwal))
+	{
+		<script>
+			document.addEventListener('DOMContentLoaded', function () {
+				Swal.fire({
+					icon: 'error',
+					title: 'Oops...',
+					text: '@Html.Raw(Model.ErroSwal)',
+				})
+			});
+		</script>*@
+	}
+
+	@*	<script>
+	document.addEventListener('DOMContentLoaded', function () {
+	Swal.fire('Olá', 'Este é um teste do SweetAlert', 'error');
+	});
+	</script>*@
+
+
+
+	@*Icone pix*@
+	<script src="https://kit.fontawesome.com/c5e63c95f6.js" crossorigin="anonymous"></script>
+</body>
+</html>

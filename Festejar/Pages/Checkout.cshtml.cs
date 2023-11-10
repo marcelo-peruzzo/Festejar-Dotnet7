@@ -56,7 +56,6 @@ namespace Festejar.Pages
 		[BindProperty]
 		public PagamentoCartaoCredito PagamentoCartaoCredito { get; set; }
 
-		[BindProperty]
 		public DadosClientes DadosClientes { get; set; }
 
 		[BindProperty]
@@ -91,18 +90,7 @@ namespace Festejar.Pages
 				{
 					ValorRecurso[i] = recurso.Valor * quantidade[i];
 				}
-			}
-
-			if (User.Identity.IsAuthenticated)
-			{
-				var user = _userManager.GetUserAsync(User).Result;
-
-				if (user != null)
-				{
-					// Carregar os dados do cliente com base no ID do usuário logado
-					DadosClientes = _context.DadosClientes.FirstOrDefault(dc => dc.UserId == user.Id);
-				}
-			}
+			}			
 
 			// Armazenar dados na Sessão
 			HttpContext.Session.SetString("NomeCasa", NomeCasa);
@@ -117,149 +105,21 @@ namespace Festejar.Pages
 			HttpContext.Session.SetString("quantidade", JsonConvert.SerializeObject(quantidade));
 		}
 
-		//Metodo que cria o endereço/dados do reservista vinculando ao UserId
-		public async Task<IActionResult> OnPostCreateDataClient()
-		{			
-			if (!ModelState.IsValid)
-			{
-				// Se o forms dos dados de cliente ñ for valido Recuperar dados da Sessão para exibir no frontend de checkout novamente
-				NomeCasa = HttpContext.Session.GetString("NomeCasa");
-				DataReserva = DateTime.Parse(HttpContext.Session.GetString("DataReserva"), culture);
-				ValorDiaria = decimal.Parse(HttpContext.Session.GetString("ValorDiaria"), culture);
-				Casa_Id = int.Parse(HttpContext.Session.GetString("Casa_Id"));
-				qntConvidados = int.Parse(HttpContext.Session.GetString("qntConvidados"));
-				Recurso = HttpContext.Session.GetString("Recurso").Split(',');
-
-				// Recupera arrays de inteiros da Sessão
-				recursoId = JsonConvert.DeserializeObject<int[]>(HttpContext.Session.GetString("recursoId"));
-				quantidade = JsonConvert.DeserializeObject<int[]>(HttpContext.Session.GetString("quantidade"));
-				ErroSwal = "Preencha todos os dados obrigatórios do formulário: Informações pessoais.";
-				OnGet(Casa_Id, DataReserva, ValorDiaria, qntConvidados, recursoId, quantidade, ErroSwal);
-				return Page();
-			}
-
-			var user = await _userManager.GetUserAsync(User);
-
-			if (user == null)
-			{
-				return NotFound($"Não foi possível carregar o usuário com o ID '{_userManager.GetUserId(User)}'.");
-			}
-
-			//API ASAAS
-			try {
-				var options = new RestClientOptions("https://sandbox.asaas.com/api/v3/customers");
-				var clients = new RestClient(options);
-				var request = new RestRequest("");
-				request.AddHeader("accept", "application/json");
-				request.AddHeader("access_token", "$aact_YTU5YTE0M2M2N2I4MTliNzk0YTI5N2U5MzdjNWZmNDQ6OjAwMDAwMDAwMDAwMDAwNjgyODU6OiRhYWNoX2M2MDM0YTVjLWZiOTktNDgzNy1iMjdiLTZiOTE1M2MzYTNmNQ==");
-				request.AddJsonBody($"{{\"name\":\"{DadosClientes.Nome}\",\"email\":\"{DadosClientes.Email}\",\"mobilePhone\":\"{DadosClientes.Telefone}\",\"cpfCnpj\":\"{DadosClientes.Cpf}\"}}", false);
-				var response = await clients.PostAsync(request);
-				var asaasResponse = JsonConvert.DeserializeObject<AsaasResponse>(response.Content);
-				if (asaasResponse.Id != null)
-				{
-					DadosClientes.UserId = user.Id;
-					DadosClientes.AsaasId = asaasResponse.Id;
-				}
-				_context.DadosClientes.Add(DadosClientes);
-				await _context.SaveChangesAsync();
-			}
-			catch (Exception ex)
-			{
-				return RedirectToPage("./Error", new { errorMessage = $"Ocorreu um erro ao fazer a solicitação HTTP: {ex.Message}" });
-			}
-
-			NomeCasa = HttpContext.Session.GetString("NomeCasa");
-			DataReserva = DateTime.Parse(HttpContext.Session.GetString("DataReserva"), culture);
-			ValorDiaria = decimal.Parse(HttpContext.Session.GetString("ValorDiaria"), culture);
-			Casa_Id = int.Parse(HttpContext.Session.GetString("Casa_Id"));
-			qntConvidados = int.Parse(HttpContext.Session.GetString("qntConvidados"));
-			Recurso = HttpContext.Session.GetString("Recurso").Split(',');
-
-			// Recupera arrays de inteiros da Sessão
-			recursoId = JsonConvert.DeserializeObject<int[]>(HttpContext.Session.GetString("recursoId"));
-			quantidade = JsonConvert.DeserializeObject<int[]>(HttpContext.Session.GetString("quantidade"));
-
-			return RedirectToPage(new { casaid = Casa_Id, dataReserva = DataReserva, valorDiaria = ValorDiaria, convidados = qntConvidados, recursoId, quantidade });
-		}
-
-		public async Task<IActionResult> OnPostEditDataClient()
-		{
-			if (!ModelState.IsValid)
-			{
-				NomeCasa = HttpContext.Session.GetString("NomeCasa");
-				DataReserva = DateTime.Parse(HttpContext.Session.GetString("DataReserva"), culture);
-				ValorDiaria = decimal.Parse(HttpContext.Session.GetString("ValorDiaria"), culture);
-				Casa_Id = int.Parse(HttpContext.Session.GetString("Casa_Id"));
-				qntConvidados = int.Parse(HttpContext.Session.GetString("qntConvidados"));
-				Recurso = HttpContext.Session.GetString("Recurso").Split(',');
-
-				// Recupera arrays de inteiros da Sessão
-				recursoId = JsonConvert.DeserializeObject<int[]>(HttpContext.Session.GetString("recursoId"));
-				quantidade = JsonConvert.DeserializeObject<int[]>(HttpContext.Session.GetString("quantidade"));
-
-				return RedirectToPage(new { casaid = Casa_Id, dataReserva = DataReserva, valorDiaria = ValorDiaria, convidados = qntConvidados, recursoId, quantidade });
-			}
-
-			var user = await _userManager.GetUserAsync(User);
-			if (user == null)
-			{
-				return NotFound($"Não foi possível carregar o usuário com o ID '{_userManager.GetUserId(User)}'.");
-			}
-			// Cria um objeto dos dados existentes do cliente a ser editado com base no usuario Id logado
-			var dadosCliente = await _context.DadosClientes.FirstOrDefaultAsync(dc => dc.UserId == user.Id);
-			if (dadosCliente == null)
-			{
-				return NotFound();
-			}
-
-			// Atualiza apenas as informaçoes do cliente, *UserId e AsaasId não é alterado*
-			dadosCliente.Nome = DadosClientes.Nome;
-			dadosCliente.Cpf = DadosClientes.Cpf;
-			dadosCliente.Telefone = DadosClientes.Telefone;
-			dadosCliente.Email = DadosClientes.Email;
-			dadosCliente.Cidade = DadosClientes.Cidade;
-			dadosCliente.Estado = DadosClientes.Estado;
-			dadosCliente.Endereco = DadosClientes.Endereco;
-
-			_context.DadosClientes.Update(dadosCliente);
-			await _context.SaveChangesAsync();
-
-			//REQUISIÇÃO PUT PARA O ASAAS TMB ATUALIZAR OS DADOS DO CLIENTE NO EDITAR
-			try
-			{
-				var asaasId = dadosCliente.AsaasId; //Recuperar o AsaasId para indexar na url da requisição
-				var url = $"https://sandbox.asaas.com/api/v3/customers/{asaasId}";
-				var options = new RestClientOptions(url);
-				var client = new RestClient(options);
-				var request = new RestRequest("");
-				request.AddHeader("accept", "application/json");
-				request.AddHeader("access_token", "$aact_YTU5YTE0M2M2N2I4MTliNzk0YTI5N2U5MzdjNWZmNDQ6OjAwMDAwMDAwMDAwMDAwNjgyODU6OiRhYWNoX2M2MDM0YTVjLWZiOTktNDgzNy1iMjdiLTZiOTE1M2MzYTNmNQ==");
-				request.AddJsonBody($"{{\"name\":\"{dadosCliente.Nome}\",\"email\":\"{dadosCliente.Email}\",\"mobilePhone\":\"{dadosCliente.Telefone}\",\"cpfCnpj\":\"{dadosCliente.Cpf}\"}}", false);
-				var response = await client.PutAsync(request);
-
-			}
-			catch (Exception ex)
-			{
-				return RedirectToPage("./Error", new { errorMessage = $"Ocorreu um erro ao fazer a solicitação HTTP: {ex.Message}" });
-			}
-
-			NomeCasa = HttpContext.Session.GetString("NomeCasa");
-			DataReserva = DateTime.Parse(HttpContext.Session.GetString("DataReserva"), culture);
-			ValorDiaria = decimal.Parse(HttpContext.Session.GetString("ValorDiaria"), culture);
-			Casa_Id = int.Parse(HttpContext.Session.GetString("Casa_Id"));
-			qntConvidados = int.Parse(HttpContext.Session.GetString("qntConvidados"));
-			Recurso = HttpContext.Session.GetString("Recurso").Split(',');
-
-			// Recupera arrays de inteiros da Sessão
-			recursoId = JsonConvert.DeserializeObject<int[]>(HttpContext.Session.GetString("recursoId"));
-			quantidade = JsonConvert.DeserializeObject<int[]>(HttpContext.Session.GetString("quantidade"));
-
-			return RedirectToPage(new { casaid = Casa_Id, dataReserva = DataReserva, valorDiaria = ValorDiaria, convidados = qntConvidados, recursoId, quantidade });
-		}
+		
 
 		public async Task<IActionResult> OnPostCreateReserva(int casaid, int qntConvidados, DateTime dataConfirm, decimal? valorDiaria, bool aceitaTermo)
 		{
-		
+			if (User.Identity.IsAuthenticated)
+			{
+				var user = _userManager.GetUserAsync(User).Result;
+
+				if (user != null)
+				{
+					// Carregar os dados do cliente com base no ID do usuário logado
+					DadosClientes = _context.DadosClientes.FirstOrDefault(dc => dc.UserId == user.Id);
+				}
+			}
+
 			//Verifica se o forms dos dados do cliente não é valido
 			if (!ModelState.IsValid)
 			{
