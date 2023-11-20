@@ -17,7 +17,7 @@
 						<h4 class="breadcrumb-contents-title"> Detalhes da reserva </h4>
 						<ul class="breadcrumb-contents-list list-style-none">
 							<li class="breadcrumb-contents-list-item"> <a asp-page="Index" class="breadcrumb-contents-list-item-link"> Home </a> </li>
-							<li class="breadcrumb-contents-list-item"> Reserva </li>
+							<li class="breadcrumb-contents-list-item"> Cadastro </li>
 						</ul>
 					</div>
 				</div>
@@ -75,7 +75,7 @@
 											</div>
 										</div>
 										<div class="input-flex-item">
-											@if (Model.DadosClientes != null)
+											@if (!string.IsNullOrEmpty(Model.DadosClientes?.Nome) && !string.IsNullOrEmpty(Model.DadosClientes?.Cpf) && !string.IsNullOrEmpty(Model.DadosClientes?.Telefone) && !string.IsNullOrEmpty(Model.DadosClientes?.Email))
 											{
 												<div class="btn-wrapper mt-4">
 													<button type="submit" class="cmn-btn btn-bg-1 btn-small" asp-page-handler="EditDataClient"> Editar </button>
@@ -84,7 +84,7 @@
 											else
 											{
 												<div class="btn-wrapper mt-4">
-													<button type="submit" class="cmn-btn btn-bg-1 btn-small" asp-page-handler="CreateDataClient"> Confirmar e ir para pagamento </button>
+													<button type="submit" class="cmn-btn btn-bg-1 btn-small" asp-page-handler="CreateDataClient"> Confirmar </button>
 												</div>
 											}
 										</div>
@@ -101,7 +101,7 @@
 						<div class="sticky-top">
 							<div class="checkout-widget checkout-widget-padding widget bg-white radius-10">
 								<div class="checkout-sidebar">
-									<h4 class="checkout-sidebar-title"> Detalhes da reserva </h4>
+									<h4 class="checkout-sidebar-title"> Dados do cadastro </h4>
 									<div class="checkout-sidebar-contents">
 										<ul class="checkout-flex-list list-style-none checkout-border-top pt-3 mt-3">
 											<li class="list"> <span class="regular"> Casa </span> <span class="strong"> @Model.NomeCasa </span> </li>

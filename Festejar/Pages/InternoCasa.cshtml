@@ -16,7 +16,7 @@
                         <h4 class="breadcrumb-contents-title"> Detalhes da casa </h4>
                         <ul class="breadcrumb-contents-list list-style-none">
                             <li class="breadcrumb-contents-list-item"> <a href="index.html" class="breadcrumb-contents-list-item-link"> Home </a> </li>
-                            <li class="breadcrumb-contents-list-item"> <a href="listing.html" class="breadcrumb-contents-list-item-link"> Hotels </a> </li>
+                            <li class="breadcrumb-contents-list-item"> <a href="listing.html" class="breadcrumb-contents-list-item-link"> Casas </a> </li>
                             <li class="breadcrumb-contents-list-item"> Detalhes do espaço </li>
                         </ul>
                     </div>
@@ -127,8 +127,10 @@
                         </div>
                             <div class="decoration">
                                 <div class="row">
-                                    @foreach (var casaRecurso in (IEnumerable<dynamic>)ViewData["CasasRecursos"])
+                                    @for (int i = 0; i < ((IEnumerable<dynamic>)ViewData["CasasRecursos"]).Count(); i++)
                                     {
+                                        var casaRecurso = ((IEnumerable<dynamic>)ViewData["CasasRecursos"]).ElementAt(i);
+
                                         <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
                                             <div class="deco_box">
                                                 <input type="hidden" name="recursoId[]" value="@casaRecurso.Id">
@@ -140,7 +142,14 @@
                                                 <span class="price_one">Valor Und.: R$@casaRecurso.Valor</span>
                                                 <div class="deco_qtd">
                                                     <button type="button" class="btn btn-danger decrement">-</button>
-                                                    <input type="text" class="quantity" value="0" data-max="@casaRecurso.Quantidade" data-valor="@casaRecurso.Valor">
+                                                    @if (Model.QuantidadeRecursos != null && Model.RecrusosReload != null)
+                                                    {
+                                                        <input type="text" class="quantity" value="@Model.QuantidadeRecursos[i]" data-max="@casaRecurso.Quantidade" data-valor="@casaRecurso.Valor">
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="text" class="quantity" value="0" data-max="@casaRecurso.Quantidade" data-valor="@casaRecurso.Valor">
+                                                    }
                                                     <button data-id="@casaRecurso.Id" type="button" class="btn btn-danger increment">+</button>
                                                 </div>
                                                 <div class="deco_foot">
@@ -150,6 +159,7 @@
                                             </div>
                                         </div>
                                     }
+
                                 </div>
                             </div>
 
@@ -279,6 +289,7 @@
             var decrementButtons = document.querySelectorAll(".decrement");
             var quantityInputs = document.querySelectorAll(".quantity");
             var hiddenQuantityInputs = document.querySelectorAll("#quantidade");
+            var totalValueElements = document.querySelectorAll(".total-value");
 
             // Adicionar manipuladores de eventos aos botões "increment"
             incrementButtons.forEach(function (button) {
@@ -289,6 +300,7 @@
                     if (newValue <= max) { // Verifica se o novo valor não excede o máximo
                         quantityInputs[index].value = newValue;
                         updateHiddenQuantity(index);
+                        updateTotalValue(index);
                     }
                 });
             });
@@ -301,6 +313,7 @@
                     if (newValue >= 0) { // Verifica se o novo valor não é negativo
                         quantityInputs[index].value = newValue;
                         updateHiddenQuantity(index);
+                        updateTotalValue(index);
                     }
                 });
             });
@@ -308,6 +321,13 @@
             function updateHiddenQuantity(index) {
                 hiddenQuantityInputs[index].value = quantityInputs[index].value;
                 //console.log(hiddenQuantityInputs[index].value);
+            }
+
+            function updateTotalValue(index) {
+                var valor = parseFloat(quantityInputs[index].dataset.valor);
+                var quantidade = parseInt(quantityInputs[index].value);
+                var totalValue = valor * quantidade;
+                totalValueElements[index].textContent = 'Total: R$' + totalValue.toFixed(2);
             }
         });
 
@@ -332,5 +352,18 @@
             document.getElementById("dataForm").submit();
         });
     </script>
+
+    @if (!String.IsNullOrEmpty(Model.ErroSwal))
+    {
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: '@Html.Raw(Model.ErroSwal)',
+                })
+            });
+        </script>
+    }
 </body>
 </html>

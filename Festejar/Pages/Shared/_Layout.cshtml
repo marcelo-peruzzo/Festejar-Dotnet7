@@ -46,10 +46,13 @@
                             <li class="menu-item-has-children current-menu-item">
                                 <a href="javascript:void(0)">Casas</a>
                                 <ul class="sub-menu">
-                                    <li><a href="listing.html">Ampére</a></li>
-                                    <li><a href="hotel_details.html"> Santo Antônio </a></li>
-                                    <li><a href="confirmation.html"> Navegantes - SC </a></li>
-                                    <li><a href="dashboard.html"> Realeza </a></li>
+                                @foreach (var casas in Model.Casas)
+                                {
+                                    <li>
+                                        <a asp-page-handler="RedirectCasa" asp-route-casaId="@casas.Id" value="@casas.Id">@casas.Titulo</a>
+                                    </li>                                   
+                                }
+                                    
                                 </ul>
                             </li>
                             <li><a href="contact.html"> Contate-nos </a></li>

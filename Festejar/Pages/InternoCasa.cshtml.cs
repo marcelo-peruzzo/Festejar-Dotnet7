@@ -35,15 +35,20 @@ namespace Festejar.Pages
 			_userManager = userManager;
 		}
         public Casas InternoCasa { get; set; }
+        public List<Casas> Casas { get; set; } = new List<Casas>();
         public List<Imagens_casas> Imagens_casas { get; set; } = new List<Imagens_casas>();
-
+        public string ErroSwal { get; set; }
         [BindProperty]
         public DateTime DataReserva { get; set; }
+        public int[] RecrusosReload { get; set; }
+        public int[] QuantidadeRecursos { get; set; }
 
-        public void OnGet(int id, decimal? valorDiaria, DateTime? dataSelecionada)
+        public void OnGet(int id, decimal? valorDiaria, DateTime? dataSelecionada, int[] recursoId, int[] quantidade, string? erro)
         {
+            Casas = _casasRepository.GetAllCasas();
             var casa = _casasRepository.Casas.FirstOrDefault(casas => casas.Id == id);
             Imagens_casas = _imagensCasasRepository.Imagens_casas.Where(imagem => imagem.Casa_id == id).OrderBy(imagem => imagem.Ordem).ToList();
+            ErroSwal = erro;
 
             foreach (var imagem in Imagens_casas)
             {
@@ -98,15 +103,23 @@ namespace Festejar.Pages
                 .Select(g => new { Id = g.First().Recurso_id, Titulo = g.First().Titulo, Valor = g.Sum(x => x.Valor), Quantidade = g.Sum(x => x.Quantidade) });
 
 
+            if (recursoId != null && recursoId.Length > 0 && quantidade != null && quantidade.Length > 0)
+            {
+                RecrusosReload = recursoId;
+                QuantidadeRecursos = quantidade;
+            }
 
 
             ViewData["Comodidades"] = comodidades;
             ViewData["CasasRecursos"] = casasRecursos;
         }
 
+        public IActionResult OnGetRedirectCasa(int casaId)
+        {
+            return RedirectToPage("/InternoCasa", new { id = casaId });
+        }
 
-
-        public async Task<IActionResult> OnPost(int id, decimal? valorDiaria)
+        public async Task<IActionResult> OnPost(int id, decimal? valorDiaria, int[] recursoId, int[] quantidade)
         {
             DateTime data = DataReserva;
             string start = data.ToString("yyyy-MM-dd");
@@ -132,25 +145,31 @@ namespace Festejar.Pages
 			{
 				return RedirectToPage("./Error", new { errorMessage = $"Ocorreu um erro ao fazer a solicitação HTTP: {ex.Message}" });
 			}
-			return RedirectToPage(new { id, valorDiaria, dataSelecionada = data });
+			return RedirectToPage(new { id, valorDiaria, dataSelecionada = data, recursoId, quantidade });
         }
 
-        public IActionResult OnPostCheckout(int casaId, DateTime dataReserva, decimal valorDiaria, int convidados, int criancas, int[] recursoId, int[] quantidade)
+        public IActionResult OnPostCheckout(int casaId, DateTime dataReserva, decimal valorDiaria, int convidados, int[] recursoId, int[] quantidade)
         {
             if (User.Identity.IsAuthenticated)
             {
 				var user = _userManager.GetUserAsync(User).Result;
 
-				// Carregar os dados do cliente com base no ID do usuário logado
-				DadosClientes = _context.DadosClientes.FirstOrDefault(dc => dc.UserId == user.Id);
+                // Carregar os dados do cliente com base no ID do usuário logado
+                DadosClientes = _context.DadosClientes.FirstOrDefault(dc => dc.UserId == user.Id);
 
-                if(DadosClientes != null)
+                if (dataReserva == DateTime.MinValue)
                 {
-					return RedirectToPage("/Checkout", new { casaid = casaId, dataReserva, valorDiaria, convidados, criancas, recursoId, quantidade });
+                    ErroSwal = "Para prosseguir selecione uma dada";
+                    return RedirectToPage("/InternoCasa", new { id = casaId, erro = ErroSwal, recursoId, quantidade });
+                }
+
+                if (DadosClientes != null)
+                {                   
+                    return RedirectToPage("/Checkout", new { casaid = casaId, dataReserva, valorDiaria, convidados, recursoId, quantidade });
                 }
                 else
                 {
-                    return RedirectToPage("/DadosDoCliente", new { casaid = casaId, dataReserva, valorDiaria, convidados, criancas, recursoId, quantidade });
+                    return RedirectToPage("/DadosDoCliente", new { casaid = casaId, dataReserva, valorDiaria, convidados, recursoId, quantidade });
                 }					
             }
             else

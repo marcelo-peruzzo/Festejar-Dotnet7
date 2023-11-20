@@ -20,12 +20,12 @@ namespace Festejar.Pages
 		private readonly AppDbContext _context;
 		private readonly UserManager<IdentityUser> _userManager;
 
-
+        public List<Casas> Casas { get; set; } = new List<Casas>();
         [BindProperty]
 		public List<Reservas> Reservas { get; set; }
 
-		[BindProperty]
-		public List<Casas> Casas { get; set; }
+		//[BindProperty]
+		//public List<Casas> Casa { get; set; }
 
 		[BindProperty]
 		public List<RecursosReservas> RecursosReservas { get; set; }
@@ -37,17 +37,19 @@ namespace Festejar.Pages
 			_userManager = userManager;
 		}
 
+
         public async Task<IActionResult> OnGet()
         {
-            if(User.Identity.IsAuthenticated)
-            {
-				var user = _userManager.GetUserAsync(User).Result;
+            Casas = _casasRepository.GetAllCasas();
+            if (User.Identity.IsAuthenticated)
+            {               
+                var user = _userManager.GetUserAsync(User).Result;
                 var userId = user.Id;
 
                 var reserva = await _context.Reservas.Where(r => r.usuarioID == userId).ToListAsync();
 
 				Reservas = new List<Reservas>();
-				Casas = new List<Casas>();
+				//Casas = new List<Casas>();
 
 				if (reserva != null && reserva.Any())
                 {
@@ -64,6 +66,10 @@ namespace Festejar.Pages
             {
 				return RedirectToPage("Login");
             }
+        }
+        public IActionResult OnGetRedirectCasa(int casaId)
+        {
+            return RedirectToPage("/InternoCasa", new { id = casaId });
         }
     }
 }

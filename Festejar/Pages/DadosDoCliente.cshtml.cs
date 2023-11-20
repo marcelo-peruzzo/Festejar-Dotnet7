@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using RestSharp;
 using System.Globalization;
 using System.Text.RegularExpressions;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Festejar.Pages
 {
@@ -20,7 +21,9 @@ namespace Festejar.Pages
 		private readonly UserManager<IdentityUser> _userManager;
 		private static readonly HttpClient client = new HttpClient();
 		private static readonly CultureInfo culture = new CultureInfo("pt-BR");
-		public string NomeCasa { get; set; }
+
+        public List<Casas> Casas { get; set; } = new List<Casas>();
+        public string NomeCasa { get; set; }
 		public DateTime DataReserva { get; set; }
 		public decimal ValorDiaria { get; set; }
 		public int[] Quantidade { get; set; }
@@ -54,6 +57,7 @@ namespace Festejar.Pages
 
 		public void OnGet(int casaid, DateTime dataReserva, decimal valorDiaria, int convidados, int[] recursoId, int[] quantidade, string? erro)
 		{
+            Casas = _casasRepository.GetAllCasas();
             if (User.Identity.IsAuthenticated)
             {
                 var user = _userManager.GetUserAsync(User).Result;
@@ -77,6 +81,17 @@ namespace Festejar.Pages
 				Recurso = recursos.Select(r => r.Titulo).ToArray();
 				ErroSwal = erro;
 
+				// Calcular o valor total dos recursos
+				ValorRecurso = new decimal[recursoId.Length];
+				for (int i = 0; i < recursoId.Length; i++)
+				{
+					var recurso = recursos.FirstOrDefault(r => r.Id == recursoId[i]);
+					if (recurso != null)
+					{
+						ValorRecurso[i] = recurso.Valor * quantidade[i];
+					}
+				}
+
 				// Armazenar dados na Sessão
 				HttpContext.Session.SetString("NomeCasa", NomeCasa);
 				HttpContext.Session.SetString("DataReserva", DataReserva.ToString(culture));
@@ -91,26 +106,58 @@ namespace Festejar.Pages
 			}
 		}
 
-		//Metodo que cria o endereço/dados do reservista vinculando ao UserId
-		public async Task<IActionResult> OnPostCreateDataClient()
+        public IActionResult OnGetRedirectCasa(int casaId)
+        {
+            return RedirectToPage("/InternoCasa", new { id = casaId });
+        }
+
+        //Metodo que cria o endereço/dados do reservista vinculando ao UserId
+        public async Task<IActionResult> OnPostCreateDataClient()
 		{
 
 			if (!ModelState.IsValid)
 			{
-				foreach (var modelStateEntry in ModelState)
-				{
-					//Verifica os erros do ModelState
-					var key = modelStateEntry.Key;
-					var errors = modelStateEntry.Value.Errors;
+				//foreach (var modelStateEntry in ModelState)
+				//{
+				//	//Verifica os erros do ModelState
+				//	var key = modelStateEntry.Key;
+				//	var errors = modelStateEntry.Value.Errors;
 
-					if (errors.Any())
+				//	if (errors.Any())
+				//	{
+				//		Console.WriteLine($"Erros no campo: {key}");
+				//		foreach (var error in errors)
+				//		{
+				//			var errorMessage = error.ErrorMessage;
+				//			Console.WriteLine($"- {errorMessage}");
+				//		}
+				//	}
+				//}
+
+				// Se o forms dos dados de cliente ñ for valido Recuperar dados da Sessão para exibir no frontend de checkout novamente
+				NomeCasa = HttpContext.Session.GetString("NomeCasa");
+				DataReserva = DateTime.Parse(HttpContext.Session.GetString("DataReserva"), culture);
+				ValorDiaria = decimal.Parse(HttpContext.Session.GetString("ValorDiaria"), culture);
+				Casa_Id = int.Parse(HttpContext.Session.GetString("Casa_Id"));
+				qntConvidados = int.Parse(HttpContext.Session.GetString("qntConvidados"));
+				Recurso = HttpContext.Session.GetString("Recurso").Split(',');
+
+				// Recupera arrays de inteiros da Sessão
+				recursoId = JsonConvert.DeserializeObject<int[]>(HttpContext.Session.GetString("recursoId"));
+				quantidade = JsonConvert.DeserializeObject<int[]>(HttpContext.Session.GetString("quantidade"));
+
+				var casaDeFesta = _casasRepository.Casas.FirstOrDefault(c => c.Id == Casa_Id);
+				var recursos = _context.Recursos.Where(r => recursoId.Contains(r.Id)).ToList();
+
+
+				// Calcular o valor total dos recursos
+				ValorRecurso = new decimal[recursoId.Length];
+				for (int i = 0; i < recursoId.Length; i++)
+				{
+					var recurso = recursos.FirstOrDefault(r => r.Id == recursoId[i]);
+					if (recurso != null)
 					{
-						Console.WriteLine($"Erros no campo: {key}");
-						foreach (var error in errors)
-						{
-							var errorMessage = error.ErrorMessage;
-							Console.WriteLine($"- {errorMessage}");
-						}
+						ValorRecurso[i] = recurso.Valor * quantidade[i];
 					}
 				}
 				return Page();
@@ -158,7 +205,7 @@ namespace Festejar.Pages
 			recursoId = JsonConvert.DeserializeObject<int[]>(HttpContext.Session.GetString("recursoId"));
 			quantidade = JsonConvert.DeserializeObject<int[]>(HttpContext.Session.GetString("quantidade"));
 
-			return RedirectToPage("/Checkout", new { casaid = Casa_Id, dataReserva = DataReserva, valorDiaria = ValorDiaria, convidados = qntConvidados, recursoId, quantidade });
+			return Page();
 		}
 
 		public async Task<IActionResult> OnPostEditDataClient()

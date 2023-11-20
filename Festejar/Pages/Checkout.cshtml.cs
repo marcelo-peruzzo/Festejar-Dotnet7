@@ -35,7 +35,8 @@ namespace Festejar.Pages
 		public int[] Quantidade { get; set; }
 		public string[] Recurso { get; set; }
 		public decimal[] ValorRecurso { get; set; }
-		public int qntConvidados { get; set; }
+        public decimal ValorTotal { get; set; }
+        public int qntConvidados { get; set; }
 		public int Casa_Id { get; set; }
         public string ErroSwal { get; set; }
 
@@ -82,6 +83,7 @@ namespace Festejar.Pages
 			ErroSwal = erro;
 
 			// Calcular o valor total dos recursos
+			decimal somaValorRecurso = 0;
 			ValorRecurso = new decimal[recursoId.Length];
 			for (int i = 0; i < recursoId.Length; i++)
 			{
@@ -89,8 +91,10 @@ namespace Festejar.Pages
 				if (recurso != null)
 				{
 					ValorRecurso[i] = recurso.Valor * quantidade[i];
+					somaValorRecurso += ValorRecurso[i];
 				}
-			}			
+			}
+			ValorTotal = somaValorRecurso + valorDiaria;
 
 			// Armazenar dados na Sessão
 			HttpContext.Session.SetString("NomeCasa", NomeCasa);

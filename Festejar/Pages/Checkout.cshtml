@@ -133,7 +133,7 @@
 											<tr>
 												<td> <span class="regular"> Diária </span></td>
 												<td></td>
-												<td class="text-center"><span class="strong"> @Model.ValorDiaria </span></td>
+												<td class="text-center"><span class="strong" id="valorDiaria"> @Model.ValorDiaria </span></td>
 											</tr>
 											@if (Model.Recurso != null && Model.Quantidade != null && Model.ValorRecurso != null)
 											{
@@ -155,7 +155,7 @@
 										</tbody>
 									</table>
 									<ul class="checkout-flex-list list-style-none checkout-border-top pt-3 mt-3">
-										<li class="list"> <span class="regular"> Total </span> <span class="strong color-one fs-20"> R$580,00 </span> </li>
+										<li class="list"> <span class="regular"> Total </span> <span class="strong color-one fs-20 total-checkout"> R$@Model.ValorTotal </span> </li>
 									</ul>
 								</div>
 							</div>
@@ -167,44 +167,61 @@
 	</section>
 
 	<script>
-		const decrementButtons = document.querySelectorAll('.decrement');
-		const incrementButtons = document.querySelectorAll('.increment');
-		const quantityInputs = document.querySelectorAll('.quantity');
-		const totalValueElements = document.querySelectorAll('.total-value');
+		document.addEventListener("DOMContentLoaded", function () {
+			var incrementButtons = document.querySelectorAll(".increment");
+			var decrementButtons = document.querySelectorAll(".decrement");
+			var quantityInputs = document.querySelectorAll(".quantity");
+			var totalValueElements = document.querySelectorAll(".total-value");
+			var totalCheckoutElement = document.querySelector(".total-checkout");
 
-		const valorItem = [];
-		for (let i = 0; i < quantityInputs.length; i++) {
-			valorItem[i] = parseFloat(quantityInputs[i].dataset.valor) / parseFloat(quantityInputs[i].dataset.max);
-		}
+			const valorItem = [];
+			for (let i = 0; i < quantityInputs.length; i++) {
+				valorItem[i] = parseFloat(quantityInputs[i].dataset.valor) / parseFloat(quantityInputs[i].dataset.max);
+			}
 
-		decrementButtons.forEach((decrementButtons, index) => {
-			decrementButtons.addEventListener('click', () => {
-				const currentValue = parseInt(quantityInputs[index].value) || 0;
-				if (currentValue > 0) {
-					quantityInputs[index].value = currentValue - 1;
-					// Atualize o valor do recurso
-					var totalValue = parseFloat(totalValueElements[index].textContent.replace('R$ ', ''));
-					totalValue -= valorItem[index];
-					totalValueElements[index].textContent = 'R$ ' + totalValue.toFixed(2);
-
-				}
+			// Adicionar manipuladores de eventos aos botões "increment"
+			incrementButtons.forEach(function (button, index) {
+				button.addEventListener("click", function () {
+					var newValue = parseInt(quantityInputs[index].value) + 1;
+					var max = parseInt(quantityInputs[index].dataset.max);
+					if (newValue <= max) { // Verifica se o novo valor não excede o máximo
+						quantityInputs[index].value = newValue;
+						updateTotalValue(index);
+						updateTotalCheckout();
+					}
+				});
 			});
+
+			// Adicionar manipuladores de eventos aos botões "decrement"
+			decrementButtons.forEach(function (button, index) {
+				button.addEventListener("click", function () {
+					var newValue = parseInt(quantityInputs[index].value) - 1;
+					if (newValue >= 0) { // Verifica se o novo valor não é negativo
+						quantityInputs[index].value = newValue;
+						updateTotalValue(index);
+						updateTotalCheckout();
+					}
+				});
+			});
+
+			function updateTotalValue(index) {
+				var totalValue = parseFloat(totalValueElements[index].textContent.replace('R$ ', ''));
+				var newValue = valorItem[index] * quantityInputs[index].value;
+				totalValueElements[index].textContent = 'R$ ' + newValue.toFixed(2);
+			}
+
+			function updateTotalCheckout() {
+				var totalCheckout = 0;
+				totalValueElements.forEach(function (element) {
+					totalCheckout += parseFloat(element.textContent.replace('R$ ', ''));
+				});
+				totalCheckoutElement.textContent = 'R$ ' + totalCheckout.toFixed(2);
+				totalCheckout += valorDiaria;
+			}
 		});
 
-		incrementButtons.forEach((incrementButtons, index) => {
-			incrementButtons.addEventListener('click', () => {
-				const currentValue = parseInt(quantityInputs[index].value) || 0;
-				const maxQuantity = parseInt(quantityInputs[index].dataset.max);
-				if (currentValue < maxQuantity) {
-					quantityInputs[index].value = currentValue + 1;
 
-					// Atualize o valor do recurso
-					var totalValue = parseFloat(totalValueElements[index].textContent.replace('R$ ', ''));
-					totalValue += valorItem[index];
-					totalValueElements[index].textContent = 'R$ ' + totalValue.toFixed(2);
-				}
-			});
-		});
+
 
 		document.getElementById("validadeCartao").addEventListener("input", function () {
 			var inputValue = this.value;
