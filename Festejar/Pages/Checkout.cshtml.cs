@@ -69,8 +69,11 @@ namespace Festejar.Pages
 			_userManager = userManager;
 		}
 
+		public List<Casas> Casas { get; set; } = new List<Casas>();
+
 		public void OnGet(int casaid, DateTime dataReserva, decimal valorDiaria, int convidados, int[] recursoId, int[] quantidade, string ?erro)
 		{
+			Casas = _casasRepository.GetAllCasas();
 			var casaDeFesta = _casasRepository.Casas.FirstOrDefault(c => c.Id == casaid);
 			var recursos = _context.Recursos.Where(r => recursoId.Contains(r.Id)).ToList();
 			NomeCasa = casaDeFesta.Titulo;
@@ -82,20 +85,27 @@ namespace Festejar.Pages
 			Recurso = recursos.Select(r => r.Titulo).ToArray();
 			ErroSwal = erro;
 
-			// Calcular o valor total dos recursos
-			decimal somaValorRecurso = 0;
-			ValorRecurso = new decimal[recursoId.Length];
-			for (int i = 0; i < recursoId.Length; i++)
+			if (recursoId != null && recursoId.Length > 0 && quantidade != null && quantidade.Length > 0)
 			{
-				var recurso = recursos.FirstOrDefault(r => r.Id == recursoId[i]);
-				if (recurso != null)
+				// Calcular o valor total dos recursos
+				decimal somaValorRecurso = 0;
+				ValorRecurso = new decimal[recursoId.Length];
+				for (int i = 0; i < recursoId.Length; i++)
 				{
-					ValorRecurso[i] = recurso.Valor * quantidade[i];
-					somaValorRecurso += ValorRecurso[i];
+					var recurso = recursos.FirstOrDefault(r => r.Id == recursoId[i]);
+					if (recurso != null)
+					{
+						ValorRecurso[i] = recurso.Valor * quantidade[i];
+						somaValorRecurso += ValorRecurso[i];
+					}
 				}
+				ValorTotal = somaValorRecurso + valorDiaria;
 			}
-			ValorTotal = somaValorRecurso + valorDiaria;
+			else
+			{
+				ValorTotal = valorDiaria;
 
+            }
 			// Armazenar dados na Sessão
 			HttpContext.Session.SetString("NomeCasa", NomeCasa);
 			HttpContext.Session.SetString("DataReserva", DataReserva.ToString(culture));
@@ -225,8 +235,8 @@ namespace Festejar.Pages
 					{
 						var sucessoPgmt = respostaPagamento;
 						Console.WriteLine(respostaPagamento);
-						//_context.Reservas.Add(Reservas);
-						//await _context.SaveChangesAsync();
+						_context.Reservas.Add(Reservas);
+						await _context.SaveChangesAsync();
 					}
 					else
 

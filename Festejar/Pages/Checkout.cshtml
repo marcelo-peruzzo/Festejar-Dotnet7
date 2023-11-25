@@ -139,15 +139,18 @@
 											{
 												@for (int i = 0; i < Model.Recurso.Length; i++)
 												{
-													<tr>
-														<td class="list"> @Model.Recurso[i]</td>
-														<td class="text-center">
-															<button type="button" class="btn btn-danger decrement">-</button>
-															<input style="width: 30px;" type="text" class="quantity" value="@Model.Quantidade[i]" data-max="@Model.Quantidade[i]" data-valor="@Model.ValorRecurso[i]">
-															<button type="button" class="btn btn-danger increment">+</button>
-														</td>
-														<td class="text-center total-value"> @Model.ValorRecurso[i] </td>
-													</tr>
+													@if(Model.Quantidade[i] != 0)
+													{
+														<tr>
+															<td class="list"> @Model.Recurso[i]</td>
+															<td class="text-center">
+																<button type="button" class="btn btn-danger decrement">-</button>
+																<input style="width: 30px;" type="text" class="quantity" value="@Model.Quantidade[i]" data-max="@Model.Quantidade[i]" data-valor="@Model.ValorRecurso[i]">
+																<button type="button" class="btn btn-danger increment">+</button>
+															</td>
+															<td class="text-center total-value"> @Model.ValorRecurso[i] </td>
+														</tr>
+													}
 
 												}
 											}
@@ -173,7 +176,7 @@
 			var quantityInputs = document.querySelectorAll(".quantity");
 			var totalValueElements = document.querySelectorAll(".total-value");
 			var totalCheckoutElement = document.querySelector(".total-checkout");
-
+			console.log(123);
 			const valorItem = [];
 			for (let i = 0; i < quantityInputs.length; i++) {
 				valorItem[i] = parseFloat(quantityInputs[i].dataset.valor) / parseFloat(quantityInputs[i].dataset.max);
@@ -217,6 +220,7 @@
 				});
 				totalCheckoutElement.textContent = 'R$ ' + totalCheckout.toFixed(2);
 				totalCheckout += valorDiaria;
+				
 			}
 		});
 

@@ -2,6 +2,8 @@ using Festejar.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.WebUtilities;
+using Newtonsoft.Json;
 
 namespace Festejar.Pages
 {
@@ -17,35 +19,50 @@ namespace Festejar.Pages
             _signInManager = signInManager;
             _logger = logger;
         }
+        public string ReturnUrl { get; set; }
 
-        public void OnGetLogin(string returnUrl)
+        public void OnGet(string returnUrl, int[]? recursoId, int[]? quantidade)
         {
+            returnUrl ??= Url.Content("~/");
+            ReturnUrl = returnUrl;
+            // Armazenar arrays de inteiros na Sessão
+            HttpContext.Session.SetString("recursoId", JsonConvert.SerializeObject(recursoId));
+            HttpContext.Session.SetString("quantidade", JsonConvert.SerializeObject(quantidade));
+
         }
 
-        public async Task<IActionResult> OnPostLogin(string returnUrl = null)
+        public async Task<IActionResult> OnPostLogin(string returnUrl, int[]? recursoId, int[]? quantidade)
         {
             if (ModelState.IsValid)
             {
-                returnUrl ??= Url.Content("~/");
+                var recursoIdInSession = HttpContext.Session.GetString("recursoId");
+                var quantidadeInSession = HttpContext.Session.GetString("quantidade");
+                ReturnUrl = returnUrl;
 
+                //verifica se existe recursos selecionados e a quantidade.
+                if (!string.IsNullOrEmpty(recursoIdInSession) && !string.IsNullOrEmpty(quantidadeInSession))
+                {
+                    recursoId = JsonConvert.DeserializeObject<int[]>(recursoIdInSession);
+                    quantidade = JsonConvert.DeserializeObject<int[]>(quantidadeInSession);
+
+                    // Armazenar arrays de inteiros em TempData que usa a sessão por baixo dos panos
+                    TempData["recursoId"] = JsonConvert.SerializeObject(recursoId);
+                    TempData["quantidade"] = JsonConvert.SerializeObject(quantidade);
+                }
+              
                 var result = await _signInManager.PasswordSignInAsync(LoginInput.UserName, LoginInput.Password, LoginInput.RememberMe, false);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("Usuario logado");
-                    return LocalRedirect(returnUrl);
+
+                    return LocalRedirect(ReturnUrl);
                 }
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Dados incorretos, falha ao realizar login!");
                     return Page();
                 }
-                    //if (string.IsNullOrEmpty(LoginInput.ReturnUrl))
-                    //    {
-                    //        return RedirectToPage("Index");
-                    //    }
-                    //    return Redirect(LoginInput.ReturnUrl);
             }
-            //ModelState.AddModelError("", "Dados incorretos, falha ao realizar login!");
             return Page();
         }
 

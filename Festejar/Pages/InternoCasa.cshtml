@@ -133,8 +133,8 @@
 
                                         <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
                                             <div class="deco_box">
-                                                <input type="hidden" name="recursoId[]" value="@casaRecurso.Id">
-                                                <input type="hidden" id="quantidade" name="quantidade[]" value="">
+                                                @*<input type="hidden" name="recursoId" value="">*@
+                                                @*<input type="hidden" id="quantidade" name="quantidade" value="">*@
                                                 <label class="deco_title">@casaRecurso.Titulo</label>
                                                 <figure>
                                                     <img src="https://cdn.icon-icons.com/icons2/1744/PNG/512/3643766-album-image-landscape-photo-photos-picture_113407.png" alt="Item">
@@ -272,6 +272,7 @@
                 </div>
             </div>
         </div>
+            <input type="hidden" name="returnUrl" value="@Request.Path@Request.QueryString" />
         </form>
     </section>
 
@@ -291,32 +292,100 @@
             var hiddenQuantityInputs = document.querySelectorAll("#quantidade");
             var totalValueElements = document.querySelectorAll(".total-value");
 
-            // Adicionar manipuladores de eventos aos botões "increment"
-            incrementButtons.forEach(function (button) {
-                button.addEventListener("click", function () {
-                    var index = Array.from(incrementButtons).indexOf(button);
-                    var newValue = parseInt(quantityInputs[index].value) + 1;
-                    var max = parseInt(quantityInputs[index].dataset.max);
-                    if (newValue <= max) { // Verifica se o novo valor não excede o máximo
-                        quantityInputs[index].value = newValue;
-                        updateHiddenQuantity(index);
-                        updateTotalValue(index);
-                    }
-                });
-            });
+
+
+
+
+            // campos de entrada ocultos para todos os recursos
+    for (var i = 0; i < incrementButtons.length; i++) {
+        var recursoId = incrementButtons[i].dataset.id;
+
+        var recursoIdInput = document.createElement("input");
+        recursoIdInput.type = "hidden";
+        recursoIdInput.name = "recursoId";
+        recursoIdInput.value = recursoId;
+        document.getElementById("dataForm").appendChild(recursoIdInput);
+
+        var quantidadeInput = document.createElement("input");
+        quantidadeInput.type = "hidden";
+        quantidadeInput.name = "quantidade";
+        quantidadeInput.value = 0;
+        document.getElementById("dataForm").appendChild(quantidadeInput);
+    }
+          
+
+             // Adicionar manipuladores de eventos aos botões "increment"
+    incrementButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+            var index = Array.from(incrementButtons).indexOf(button);
+            var newValue = parseInt(quantityInputs[index].value) + 1;
+            var max = parseInt(quantityInputs[index].dataset.max);
+            if (newValue <= max) { // Verifica se o novo valor não excede o máximo
+                quantityInputs[index].value = newValue;
+                document.getElementsByName("quantidade")[index].value = newValue; // Atualiza o valor do campo de entrada oculto
+                updateTotalValue(index);
+            }
+        });
+    });
+
+            function addHiddenRecursoId(index) {
+                var recursoId = incrementButtons[index].dataset.id;
+                // Verifica se um campo de entrada oculto para este ID de recurso já existe
+                var existingInput = document.querySelector('input[name="recursoId"][value="' + recursoId + '"]');
+                if (!existingInput) {
+                    // Se não existir, cria um novo campo de entrada oculto
+                    var recursoIdInput = document.createElement("input");
+                    recursoIdInput.type = "hidden";
+                    recursoIdInput.name = "recursoId";
+                    recursoIdInput.value = recursoId;
+                    document.getElementById("dataForm").appendChild(recursoIdInput);
+
+
+                    // Cria um novo campo de entrada oculto para a quantidade
+                    var quantidadeInput = document.createElement("input");
+                    quantidadeInput.type = "hidden";
+                    quantidadeInput.name = "quantidadeRecurso";
+                    quantidadeInput.id = "quantidade";
+                    quantidadeInput.value = quantityInputs[index].value;
+                    document.getElementById("dataForm").appendChild(quantidadeInput);
+                }
+            }
+
 
             // Adicionar manipuladores de eventos aos botões "decrement"
             decrementButtons.forEach(function (button) {
-                button.addEventListener("click", function () {
-                    var index = Array.from(decrementButtons).indexOf(button);
-                    var newValue = parseInt(quantityInputs[index].value) - 1;
-                    if (newValue >= 0) { // Verifica se o novo valor não é negativo
-                        quantityInputs[index].value = newValue;
-                        updateHiddenQuantity(index);
-                        updateTotalValue(index);
-                    }
-                });
-            });
+    button.addEventListener("click", function () {
+        var index = Array.from(decrementButtons).indexOf(button);
+        var newValue = parseInt(quantityInputs[index].value) - 1;
+        if (newValue >= 0) { // Verifica se o novo valor não é negativo
+            quantityInputs[index].value = newValue;
+            updateTotalValue(index);
+            if (newValue > 0) {
+                document.getElementsByName("quantidade")[index].value = newValue; // Atualiza o valor do campo de entrada oculto
+            } else {
+                removeHiddenRecursoId(index);
+            }
+        }
+    });
+});
+
+
+            
+            function removeHiddenRecursoId(index) {
+    var recursoId = incrementButtons[index].dataset.id;
+    // Seleciona o campo de entrada oculto para este ID de recurso
+    var inputToRemove = document.querySelector('input[name="recursoId"][value="' + recursoId + '"]');
+    if (inputToRemove) {
+        // Se existir, remove o campo de entrada oculto
+        inputToRemove.remove();
+    }
+    // Seleciona o campo de entrada oculto para esta quantidade
+    var quantityInputToRemove = document.querySelector('input[name="quantidade"][id="quantidade' + recursoId + '"]');
+    if (quantityInputToRemove) {
+        // Se existir, remove o campo de entrada oculto
+        quantityInputToRemove.remove();
+    }
+}
 
             function updateHiddenQuantity(index) {
                 hiddenQuantityInputs[index].value = quantityInputs[index].value;
@@ -329,8 +398,11 @@
                 var totalValue = valor * quantidade;
                 totalValueElements[index].textContent = 'Total: R$' + totalValue.toFixed(2);
             }
-        });
 
+            quantityInputs.forEach(function (input, index) {
+                updateTotalValue(index);
+            });
+        });
 
 
 

@@ -1,6 +1,7 @@
 using Festejar.Context;
 using Festejar.Models;
 using Festejar.Respositories.Interfaces;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -43,7 +44,7 @@ namespace Festejar.Pages
         public int[] RecrusosReload { get; set; }
         public int[] QuantidadeRecursos { get; set; }
 
-        public void OnGet(int id, decimal? valorDiaria, DateTime? dataSelecionada, int[] recursoId, int[] quantidade, string? erro)
+        public void OnGet(int id, decimal? valorDiaria, DateTime? dataSelecionada, int[]? recursoId, int[]? quantidade, string? erro)
         {
             Casas = _casasRepository.GetAllCasas();
             var casa = _casasRepository.Casas.FirstOrDefault(casas => casas.Id == id);
@@ -102,7 +103,14 @@ namespace Festejar.Pages
                 .GroupBy(grupo => grupo.Recurso_id)
                 .Select(g => new { Id = g.First().Recurso_id, Titulo = g.First().Titulo, Valor = g.Sum(x => x.Valor), Quantidade = g.Sum(x => x.Quantidade) });
 
+            //caso o usuario selecione algum recurso e tente reservar uma casa sem fazer login... aqui recupero o tempData dos recursos selecionados passados para razorPage login
+            if (TempData["recursoId"] != null && TempData["quantidade"] != null)
+            {
+                recursoId = JsonConvert.DeserializeObject<int[]>(TempData["recursoId"].ToString());
+                quantidade = JsonConvert.DeserializeObject<int[]>(TempData["quantidade"].ToString());
+            }
 
+            //verifica se o usuario selecionou algum recurso ao recarregar a pagina selecionando alguma data no metodo PostCheckout
             if (recursoId != null && recursoId.Length > 0 && quantidade != null && quantidade.Length > 0)
             {
                 RecrusosReload = recursoId;
@@ -114,11 +122,13 @@ namespace Festejar.Pages
             ViewData["CasasRecursos"] = casasRecursos;
         }
 
+        // metodo envia o usuario para casa selecionada no menu "Casas"
         public IActionResult OnGetRedirectCasa(int casaId)
         {
             return RedirectToPage("/InternoCasa", new { id = casaId });
         }
 
+        //metodo que consulta a API com valores de cada data, e retorna o id da casa, valor da diaria, data selecionada e os recursos selecionados
         public async Task<IActionResult> OnPost(int id, decimal? valorDiaria, int[] recursoId, int[] quantidade)
         {
             DateTime data = DataReserva;
@@ -148,8 +158,9 @@ namespace Festejar.Pages
 			return RedirectToPage(new { id, valorDiaria, dataSelecionada = data, recursoId, quantidade });
         }
 
-        public IActionResult OnPostCheckout(int casaId, DateTime dataReserva, decimal valorDiaria, int convidados, int[] recursoId, int[] quantidade)
+        public IActionResult OnPostCheckout(int casaId, DateTime dataReserva, decimal valorDiaria, int convidados, int[] recursoId, int[] quantidade, string returnUrl)
         {
+
             if (User.Identity.IsAuthenticated)
             {
 				var user = _userManager.GetUserAsync(User).Result;
@@ -157,6 +168,7 @@ namespace Festejar.Pages
                 // Carregar os dados do cliente com base no ID do usuário logado
                 DadosClientes = _context.DadosClientes.FirstOrDefault(dc => dc.UserId == user.Id);
 
+                //verifica se o usuario selecionou alguma data e também ja retorna os recursos caso selecionados
                 if (dataReserva == DateTime.MinValue)
                 {
                     ErroSwal = "Para prosseguir selecione uma dada";
@@ -174,7 +186,7 @@ namespace Festejar.Pages
             }
             else
             {
-                return RedirectToPage("Login");
+                return RedirectToPage("Login", new { returnUrl = returnUrl, recursoId, quantidade });
             }
 
         }
