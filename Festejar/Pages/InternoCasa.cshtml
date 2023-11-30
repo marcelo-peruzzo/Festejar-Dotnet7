@@ -144,7 +144,7 @@
                                                     <button type="button" class="btn btn-danger decrement">-</button>
                                                     @if (Model.QuantidadeRecursos != null && Model.RecrusosReload != null)
                                                     {
-                                                        <input type="text" class="quantity" value="@Model.QuantidadeRecursos[i]" data-max="@casaRecurso.Quantidade" data-valor="@casaRecurso.Valor">
+                                                        <input type="text" class="recarregaQuantidade quantity" value="@Model.QuantidadeRecursos[i]" data-max="@casaRecurso.Quantidade" data-valor="@casaRecurso.Valor">
                                                     }
                                                     else
                                                     {
@@ -293,9 +293,6 @@
             var totalValueElements = document.querySelectorAll(".total-value");
 
 
-
-
-
             // campos de entrada ocultos para todos os recursos
     for (var i = 0; i < incrementButtons.length; i++) {
         var recursoId = incrementButtons[i].dataset.id;
@@ -309,7 +306,14 @@
         var quantidadeInput = document.createElement("input");
         quantidadeInput.type = "hidden";
         quantidadeInput.name = "quantidade";
-        quantidadeInput.value = 0;
+           // verifica se o valor de recarregaQuantidade eh diferente de zero
+        var recarregaQuantidadeElement = document.getElementsByClassName("recarregaQuantidade")[i];
+        var recarregaQuantidade = recarregaQuantidadeElement ? recarregaQuantidadeElement.value : 0;
+            if (recarregaQuantidade != 0) {
+                    quantidadeInput.value = recarregaQuantidade;
+            } else {
+                    quantidadeInput.value = 0;
+            }
         document.getElementById("dataForm").appendChild(quantidadeInput);
     }
           
