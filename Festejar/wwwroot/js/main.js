@@ -212,6 +212,7 @@
             $(this).siblings().removeClass("active");
             $(this).addClass("active");
         });
+        
         $(".date-picker").flatpickr({
             mode: "single",
             enableTime: true,
@@ -230,7 +231,8 @@
             },
             altInput: true,
             altFormat: "j \\d\\e F, Y",
-            time_12hr: true
+            time_12hr: true,
+            disable: typeof formattedDates !== "undefined" ? formattedDates : []
         });
 
         $(".newsletter-area .container").length &&

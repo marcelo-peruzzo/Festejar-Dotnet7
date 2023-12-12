@@ -4,7 +4,7 @@
     {
         public int Id { get; set; }
         public int Casa_id { get; set; }
-		public float Valor { get; set; }
+        public float Valor { get; set; }
         public int QuantidadePessoas { get; set; }
         public string usuarioID { get; set; }
         public string StatusPagamento { get; set; }

@@ -23,18 +23,18 @@ namespace Festejar.Pages
         private readonly IImagens_casasRepository _imagensCasasRepository;
         private static readonly HttpClient client = new HttpClient();
         private static readonly CultureInfo culture = new CultureInfo("pt-BR");
-		private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<IdentityUser> _userManager;
 
-		[BindProperty]
-		public DadosClientes DadosClientes { get; set; }
-		public InternoCasaModel(ICasasRepository casasRepository, UserManager<IdentityUser> userManager, IDiariasRepository diariasRepository, AppDbContext context, IImagens_casasRepository imagensCasasRepository)
+        [BindProperty]
+        public DadosClientes DadosClientes { get; set; }
+        public InternoCasaModel(ICasasRepository casasRepository, UserManager<IdentityUser> userManager, IDiariasRepository diariasRepository, AppDbContext context, IImagens_casasRepository imagensCasasRepository)
         {
             _casasRepository = casasRepository;
             _diariasRepository = diariasRepository;
             _context = context;
             _imagensCasasRepository = imagensCasasRepository;
-			_userManager = userManager;
-		}
+            _userManager = userManager;
+        }
         public Casas InternoCasa { get; set; }
         public List<Casas> Casas { get; set; } = new List<Casas>();
         public List<Imagens_casas> Imagens_casas { get; set; } = new List<Imagens_casas>();
@@ -117,6 +117,13 @@ namespace Festejar.Pages
                 QuantidadeRecursos = quantidade;
             }
 
+            var reservasFuturas = _context.Reservas
+                .Where(r => r.Casa_id == casa.Id && r.DataReserva > DateTime.Now)
+                .Select(r => r.DataReserva)
+                .ToList();
+
+            ViewData["ReservasFuturas"] = reservasFuturas;
+
 
             ViewData["Comodidades"] = comodidades;
             ViewData["CasasRecursos"] = casasRecursos;
@@ -135,27 +142,27 @@ namespace Festejar.Pages
             string start = data.ToString("yyyy-MM-dd");
             string end = data.ToString("yyyy-MM-dd");
             string url = $"https://festejar.firo.com.br/api/RetornaDiasMesByPrioridade?start={start}T00%3A00%3A00-03%3A00&end={end}T00%3A00%3A00-03%3A00";
-			try
-			{
-				var response = await client.GetAsync(url);
-				if (response.IsSuccessStatusCode)
-				{
-					var content = await response.Content.ReadAsStringAsync();
-					var apiResponse = JsonConvert.DeserializeObject<ApiResponse>(content);
-					if (apiResponse.Events.Count > 0)
-					{
-						string title = apiResponse.Events[0].Title;
-						CultureInfo culture = new CultureInfo("pt-BR");
-						culture.NumberFormat.CurrencyDecimalSeparator = ".";
-						valorDiaria = decimal.Parse(title, NumberStyles.Currency, culture);
-					}
-				}
-			}
-			catch (Exception ex)
-			{
-				return RedirectToPage("./Error", new { errorMessage = $"Ocorreu um erro ao fazer a solicitação HTTP: {ex.Message}" });
-			}
-			return RedirectToPage(new { id, valorDiaria, dataSelecionada = data, recursoId, quantidade });
+            try
+            {
+                var response = await client.GetAsync(url);
+                if (response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    var apiResponse = JsonConvert.DeserializeObject<ApiResponse>(content);
+                    if (apiResponse.Events.Count > 0)
+                    {
+                        string title = apiResponse.Events[0].Title;
+                        CultureInfo culture = new CultureInfo("pt-BR");
+                        culture.NumberFormat.CurrencyDecimalSeparator = ".";
+                        valorDiaria = decimal.Parse(title, NumberStyles.Currency, culture);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return RedirectToPage("./Error", new { errorMessage = $"Ocorreu um erro ao fazer a solicitação HTTP: {ex.Message}" });
+            }
+            return RedirectToPage(new { id, valorDiaria, dataSelecionada = data, recursoId, quantidade });
         }
 
         public IActionResult OnPostCheckout(int casaId, DateTime dataReserva, decimal valorDiaria, int convidados, int[] recursoId, int[] quantidade, string returnUrl)
@@ -163,7 +170,7 @@ namespace Festejar.Pages
 
             if (User.Identity.IsAuthenticated)
             {
-				var user = _userManager.GetUserAsync(User).Result;
+                var user = _userManager.GetUserAsync(User).Result;
 
                 // Carregar os dados do cliente com base no ID do usuário logado
                 DadosClientes = _context.DadosClientes.FirstOrDefault(dc => dc.UserId == user.Id);
@@ -176,13 +183,13 @@ namespace Festejar.Pages
                 }
 
                 if (DadosClientes != null)
-                {                   
+                {
                     return RedirectToPage("/Checkout", new { casaid = casaId, dataReserva, valorDiaria, convidados, recursoId, quantidade });
                 }
                 else
                 {
                     return RedirectToPage("/DadosDoCliente", new { casaid = casaId, dataReserva, valorDiaria, convidados, recursoId, quantidade });
-                }					
+                }
             }
             else
             {

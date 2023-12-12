@@ -2,7 +2,21 @@
 @model Festejar.Pages.InternoCasaModel
 @{
 }
-﻿
+<script>
+    var disabledDates = @Html.Raw(Json.Serialize(ViewData["ReservasFuturas"]));
+
+// Converte as datas para o formato desejado
+var formattedDates = disabledDates.map(function(date) {
+    var d = new Date(date);
+    var day = ("0" + d.getDate()).slice(-2);
+    var month = ("0" + (d.getMonth() + 1)).slice(-2);
+    var year = d.getFullYear();
+    var hours = ("0" + d.getHours()).slice(-2);
+    var minutes = ("0" + d.getMinutes()).slice(-2);
+    return day + '-' + month + '-' + year + ' ' + hours + ':' + minutes;
+});
+
+</script>﻿
 ﻿
 <!DOCTYPE html>
 <html lang="en">
@@ -292,6 +306,23 @@
             var hiddenQuantityInputs = document.querySelectorAll("#quantidade");
             var totalValueElements = document.querySelectorAll(".total-value");
 
+             // Recupera as datas do ViewData
+            var disabledDates = @Html.Raw(Json.Serialize(ViewData["ReservasFuturas"]));
+
+            // Converte as datas para o formato ISO
+            var formattedDates = disabledDates.map(date => new Date(date).toISOString().slice(0,10));
+
+            // Inicializa o Flatpickr
+            // Inicializa o Flatpickr
+            flatpickr("#dataInput", {
+                disable: formattedDates,
+                dateFormat: "Y-m-d"
+            });
+
+
+
+            console.log(disabledDates);
+
 
             // campos de entrada ocultos para todos os recursos
     for (var i = 0; i < incrementButtons.length; i++) {
@@ -441,5 +472,6 @@
             });
         </script>
     }
+
 </body>
 </html>
