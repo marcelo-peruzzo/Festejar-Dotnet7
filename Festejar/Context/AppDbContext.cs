@@ -23,5 +23,5 @@ namespace Festejar.Context
         public DbSet<Contato> Contatos { get; set; }
 		public DbSet<Reservas> Reservas { get; set; }
 		public DbSet<RecursosReservas> RecursosReservas { get; set; }
-	}
+    }
 }

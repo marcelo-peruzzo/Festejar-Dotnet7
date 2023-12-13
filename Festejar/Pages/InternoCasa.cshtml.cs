@@ -43,6 +43,7 @@ namespace Festejar.Pages
         public DateTime DataReserva { get; set; }
         public int[] RecrusosReload { get; set; }
         public int[] QuantidadeRecursos { get; set; }
+        public string[] ImagensRecursos { get; set; }
 
         public void OnGet(int id, decimal? valorDiaria, DateTime? dataSelecionada, int[]? recursoId, int[]? quantidade, string? erro)
         {
@@ -94,14 +95,34 @@ namespace Festejar.Pages
                 .AsEnumerable() // Avalia a consulta no lado do cliente
                 .GroupBy(grupo => grupo.Casa_id);
 
+            //Join para recuperar os recursos das casas acessadas
             var casasRecursos = _context.Casa_recurso
                 .Where(cr => cr.Casa_id == id)
                 .Join(_context.Recursos,
-                    casaRecurso => casaRecurso.Id,
+                    casaRecurso => casaRecurso.Recurso_id, 
                     recursos => recursos.Id,
                     (casaRecurso, recursos) => new { casaRecurso.Recurso_id, recursos.Titulo, recursos.Valor, recursos.Quantidade })
                 .GroupBy(grupo => grupo.Recurso_id)
                 .Select(g => new { Id = g.First().Recurso_id, Titulo = g.First().Titulo, Valor = g.Sum(x => x.Valor), Quantidade = g.Sum(x => x.Quantidade) });
+
+
+            //Join para recuperar as imagens de cada recurso das casas acessadas
+            var fotosRecursos = _context.Casa_recurso
+                .Where(cr => cr.Casa_id == id)
+                .Join(_context.Recursos,
+                    casaRecurso => casaRecurso.Recurso_id,
+                    recursos => recursos.Id,
+                    (casaRecurso, recursos) => new { casaRecurso.Recurso_id, recursos.Foto })
+                .Select(g => new { Id = g.Recurso_id, Foto = g.Foto });
+
+            ImagensRecursos = fotosRecursos.Select(fr => fr.Foto).ToArray();
+
+            for (int i = 0; i < ImagensRecursos.Length; i++)
+            {
+                ImagensRecursos[i] = "https://festejar.firo.com.br/storage/" + ImagensRecursos[i];
+            }
+
+
 
             //caso o usuario selecione algum recurso e tente reservar uma casa sem fazer login... aqui recupero o tempData dos recursos selecionados passados para razorPage login
             if (TempData["recursoId"] != null && TempData["quantidade"] != null)
@@ -123,10 +144,9 @@ namespace Festejar.Pages
                 .ToList();
 
             ViewData["ReservasFuturas"] = reservasFuturas;
-
-
             ViewData["Comodidades"] = comodidades;
             ViewData["CasasRecursos"] = casasRecursos;
+            
         }
 
         // metodo envia o usuario para casa selecionada no menu "Casas"

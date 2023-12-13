@@ -144,14 +144,14 @@ var formattedDates = disabledDates.map(function(date) {
                                     @for (int i = 0; i < ((IEnumerable<dynamic>)ViewData["CasasRecursos"]).Count(); i++)
                                     {
                                         var casaRecurso = ((IEnumerable<dynamic>)ViewData["CasasRecursos"]).ElementAt(i);
-
+                                        var imagemRecurso = Model.ImagensRecursos[i];
                                         <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
                                             <div class="deco_box">
                                                 @*<input type="hidden" name="recursoId" value="">*@
                                                 @*<input type="hidden" id="quantidade" name="quantidade" value="">*@
                                                 <label class="deco_title">@casaRecurso.Titulo</label>
                                                 <figure>
-                                                    <img src="https://cdn.icon-icons.com/icons2/1744/PNG/512/3643766-album-image-landscape-photo-photos-picture_113407.png" alt="Item">
+                                                    <img src="@imagemRecurso" alt="Item">
                                                 </figure>
                                                 <span class="price_one">Valor Und.: R$@casaRecurso.Valor</span>
                                                 <div class="deco_qtd">
@@ -305,23 +305,6 @@ var formattedDates = disabledDates.map(function(date) {
             var quantityInputs = document.querySelectorAll(".quantity");
             var hiddenQuantityInputs = document.querySelectorAll("#quantidade");
             var totalValueElements = document.querySelectorAll(".total-value");
-
-             // Recupera as datas do ViewData
-            var disabledDates = @Html.Raw(Json.Serialize(ViewData["ReservasFuturas"]));
-
-            // Converte as datas para o formato ISO
-            var formattedDates = disabledDates.map(date => new Date(date).toISOString().slice(0,10));
-
-            // Inicializa o Flatpickr
-            // Inicializa o Flatpickr
-            flatpickr("#dataInput", {
-                disable: formattedDates,
-                dateFormat: "Y-m-d"
-            });
-
-
-
-            console.log(disabledDates);
 
 
             // campos de entrada ocultos para todos os recursos
