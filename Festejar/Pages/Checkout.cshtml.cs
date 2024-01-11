@@ -19,6 +19,7 @@ using System.Net;
 using System.Net.Http.Headers;
 using System.Text;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using Azure;
 
 namespace Festejar.Pages
 {
@@ -35,17 +36,17 @@ namespace Festejar.Pages
 		public int[] Quantidade { get; set; }
 		public string[] Recurso { get; set; }
 		public decimal[] ValorRecurso { get; set; }
-        public decimal ValorTotal { get; set; }
-        public int qntConvidados { get; set; }
+		public decimal ValorTotal { get; set; }
+		public int qntConvidados { get; set; }
 		public int Casa_Id { get; set; }
-        public string ErroSwal { get; set; }
+		public string ErroSwal { get; set; }
 
 		public string SucessoSwal { get; set; }
 
-        public enum EpaymentType
+		public enum EpaymentType
 		{
-			CartaoCredito = 1,
-			Pix = 2
+			CREDIT_CARD = 1,
+			PIX = 2
 		}
 
 		int[] recursoId;
@@ -71,7 +72,7 @@ namespace Festejar.Pages
 
 		public List<Casas> Casas { get; set; } = new List<Casas>();
 
-		public void OnGet(int casaid, DateTime dataReserva, decimal valorDiaria, int convidados, int[] recursoId, int[] quantidade, string ?erro)
+		public void OnGet(int casaid, DateTime dataReserva, decimal valorDiaria, int convidados, int[] recursoId, int[] quantidade, string? erro, string? encodedImagePix, string? payloadPix)
 		{
 			Casas = _casasRepository.GetAllCasas();
 			var casaDeFesta = _casasRepository.Casas.FirstOrDefault(c => c.Id == casaid);
@@ -84,6 +85,9 @@ namespace Festejar.Pages
 			qntConvidados = convidados;
 			Recurso = recursos.Select(r => r.Titulo).ToArray();
 			ErroSwal = erro;
+
+			ViewData["EncodedImage"] = encodedImagePix;
+			ViewData["Payload"] = payloadPix;
 
 			if (recursoId != null && recursoId.Length > 0 && quantidade != null && quantidade.Length > 0)
 			{
@@ -105,7 +109,7 @@ namespace Festejar.Pages
 			{
 				ValorTotal = valorDiaria;
 
-            }
+			}
 			// Armazenar dados na Sessão
 			HttpContext.Session.SetString("NomeCasa", NomeCasa);
 			HttpContext.Session.SetString("DataReserva", DataReserva.ToString(culture));
@@ -119,7 +123,7 @@ namespace Festejar.Pages
 			HttpContext.Session.SetString("quantidade", JsonConvert.SerializeObject(quantidade));
 		}
 
-		
+
 
 		public async Task<IActionResult> OnPostCreateReserva(int casaid, int qntConvidados, DateTime dataConfirm, decimal? valorDiaria, bool aceitaTermo)
 		{
@@ -135,7 +139,7 @@ namespace Festejar.Pages
 			}
 
 			//Verifica se o forms dos dados do cliente não é valido
-			if (!ModelState.IsValid)
+			if (!ModelState.IsValid && PaymentType == EpaymentType.CREDIT_CARD)
 			{
 				foreach (var modelStateEntry in ModelState)
 				{
@@ -209,7 +213,7 @@ namespace Festejar.Pages
 				DadosClientes dadosClientes = new DadosClientes();
 				string idUserAutenticado = User.FindFirstValue(ClaimTypes.NameIdentifier);
 				dadosClientes = await _context.DadosClientes.FirstOrDefaultAsync(dc => dc.UserId == idUserAutenticado);
-				
+
 
 				// Chama o método CriarCobranca que retorna um objeto com o resultado
 				var result = await novaCobranca.CriarCobranca(PaymentType, dadosClientes, Reservas.Valor);
@@ -217,49 +221,87 @@ namespace Festejar.Pages
 				//Verifica se o status da criação da cobrança é 200 (OK) e pega o cobrançaId do ASAAS
 				if (result is JsonResult jsonResult && jsonResult.StatusCode == (int)System.Net.HttpStatusCode.OK)
 				{
-					var pagarCartao = new PagamentoCartaoCredito();
-					//Aqui eu instancio um novo objeto de PagamentoCartaoCredito para obter os dados do cartao enviados do formulario
-					var dadosDoCartao = new PagamentoCartaoCredito();
+					var resultadoJsonCobranca = jsonResult.Value as Newtonsoft.Json.Linq.JToken;
+					var jsonString = resultadoJsonCobranca.Root.ToString();
+					var dadosJson = Newtonsoft.Json.Linq.JObject.Parse(jsonString);
+					var billingType = dadosJson["billingType"];
 					string cobrancaCriadaId = jsonResult.Value.ToString();
 					string cobrancaId = cobrancaCriadaId;
-					//Aqui eu passo os valores do forms para o objeto criado anteriormente
-					dadosDoCartao.NomeImpressoCartao = PagamentoCartaoCredito.NomeImpressoCartao;
-					dadosDoCartao.NumeroCartao = PagamentoCartaoCredito.NumeroCartao;
-					dadosDoCartao.ValidadeCartao = PagamentoCartaoCredito.ValidadeCartao;
-					dadosDoCartao.Cvv = PagamentoCartaoCredito.Cvv;
-					//chamo o metodo pagar da classe "PagamentoCartaoCredito" passando como parametro
-					//os objetos dadosClientes e dadosDoCartao (com os dados requeridos para efetuar um pagamento pelo ASAAS)
-					var (sucesso, respostaPagamento) = await pagarCartao.Pagar(PaymentType, dadosClientes, dadosDoCartao, cobrancaId);
 
-					if(sucesso == true)
+					var billingTypeString = billingType.ToString();
+					EpaymentType billingTypeEnum;
+
+					if (Enum.TryParse(billingTypeString, out billingTypeEnum))
 					{
-						var sucessoPgmt = respostaPagamento;
-						Console.WriteLine(respostaPagamento);
-						_context.Reservas.Add(Reservas);
-						await _context.SaveChangesAsync();
+						if (billingTypeEnum == EpaymentType.PIX)
+						{
+							//GERAR QRCode
+							var pagarPix = new PagamentoPix();
+							var resultadoPagamentoPix = await pagarPix.GerarQRCode(cobrancaId); // Chama o método GerarQRCode()
+							var encodedImagePix = resultadoPagamentoPix.EncodedImage;
+							var payloadPix = resultadoPagamentoPix.Payload;
+
+							//ViewData["EncodedImage"] = encodedImage;
+							//ViewData["Payload"] = payload;
+
+							//montando objeto checkout quando ocorre erro ao efetuar pagamento
+							NomeCasa = HttpContext.Session.GetString("NomeCasa");
+							DataReserva = DateTime.Parse(HttpContext.Session.GetString("DataReserva"), culture);
+							ValorDiaria = decimal.Parse(HttpContext.Session.GetString("ValorDiaria"), culture);
+							Casa_Id = int.Parse(HttpContext.Session.GetString("Casa_Id"));
+							qntConvidados = int.Parse(HttpContext.Session.GetString("qntConvidados"));
+							Recurso = HttpContext.Session.GetString("Recurso").Split(',');
+
+							recursoId = JsonConvert.DeserializeObject<int[]>(HttpContext.Session.GetString("recursoId"));
+							quantidade = JsonConvert.DeserializeObject<int[]>(HttpContext.Session.GetString("quantidade"));
+							// Retorna a view com os dados
+							return RedirectToPage(new { casaid = Casa_Id, dataReserva = DataReserva, valorDiaria = ValorDiaria, convidados = qntConvidados, recursoId, quantidade, encodedImagePix, payloadPix});
+						}
+						else if (billingTypeEnum == EpaymentType.CREDIT_CARD)
+						{
+							var pagarCartao = new PagamentoCartaoCredito();
+							//Aqui eu instancio um novo objeto de PagamentoCartaoCredito para obter os dados do cartao enviados do formulario
+							var dadosDoCartao = new PagamentoCartaoCredito();
+			
+							//Aqui eu passo os valores do forms para o objeto criado anteriormente
+							dadosDoCartao.NomeImpressoCartao = PagamentoCartaoCredito.NomeImpressoCartao;
+							dadosDoCartao.NumeroCartao = PagamentoCartaoCredito.NumeroCartao;
+							dadosDoCartao.ValidadeCartao = PagamentoCartaoCredito.ValidadeCartao;
+							dadosDoCartao.Cvv = PagamentoCartaoCredito.Cvv;
+							//chamo o metodo pagar da classe "PagamentoCartaoCredito" passando como parametro
+							//os objetos dadosClientes e dadosDoCartao (com os dados requeridos para efetuar um pagamento pelo ASAAS)
+							var (sucesso, respostaPagamento) = await pagarCartao.Pagar(PaymentType, dadosClientes, dadosDoCartao, cobrancaId);
+
+							if (sucesso == true)
+							{
+								var sucessoPgmt = respostaPagamento;
+								Console.WriteLine(respostaPagamento);
+								_context.Reservas.Add(Reservas);
+								await _context.SaveChangesAsync();
+							}
+							else
+
+							{
+								dynamic errorResponse = JsonConvert.DeserializeObject(respostaPagamento);
+								string descricaoErro = errorResponse.errors[0].description;
+								ErroSwal = descricaoErro;
+
+								//montando objeto checkout quando ocorre erro ao efetuar pagamento
+								NomeCasa = HttpContext.Session.GetString("NomeCasa");
+								DataReserva = DateTime.Parse(HttpContext.Session.GetString("DataReserva"), culture);
+								ValorDiaria = decimal.Parse(HttpContext.Session.GetString("ValorDiaria"), culture);
+								Casa_Id = int.Parse(HttpContext.Session.GetString("Casa_Id"));
+								qntConvidados = int.Parse(HttpContext.Session.GetString("qntConvidados"));
+								Recurso = HttpContext.Session.GetString("Recurso").Split(',');
+
+								// Recupera arrays dos recursos e da quantidade mantidos na Sessão
+								recursoId = JsonConvert.DeserializeObject<int[]>(HttpContext.Session.GetString("recursoId"));
+								quantidade = JsonConvert.DeserializeObject<int[]>(HttpContext.Session.GetString("quantidade"));
+
+								return RedirectToPage(new { casaid = Casa_Id, dataReserva = DataReserva, valorDiaria = ValorDiaria, convidados = qntConvidados, recursoId, quantidade, erro = ErroSwal });
+							}
+						}
 					}
-					else
-
-					{
-						dynamic errorResponse = JsonConvert.DeserializeObject(respostaPagamento);
-						string descricaoErro = errorResponse.errors[0].description;
-						ErroSwal = descricaoErro;
-
-						//montando objeto checkout quando ocorre erro ao efetuar pagamento
-						NomeCasa = HttpContext.Session.GetString("NomeCasa");
-						DataReserva = DateTime.Parse(HttpContext.Session.GetString("DataReserva"), culture);
-						ValorDiaria = decimal.Parse(HttpContext.Session.GetString("ValorDiaria"), culture);
-						Casa_Id = int.Parse(HttpContext.Session.GetString("Casa_Id"));
-						qntConvidados = int.Parse(HttpContext.Session.GetString("qntConvidados"));
-						Recurso = HttpContext.Session.GetString("Recurso").Split(',');
-
-						// Recupera arrays dos recursos e da quantidade mantidos na Sessão
-						recursoId = JsonConvert.DeserializeObject<int[]>(HttpContext.Session.GetString("recursoId"));
-						quantidade = JsonConvert.DeserializeObject<int[]>(HttpContext.Session.GetString("quantidade"));
-
-						return RedirectToPage(new { casaid = Casa_Id, dataReserva = DataReserva, valorDiaria = ValorDiaria, convidados = qntConvidados, recursoId, quantidade, erro = ErroSwal });
-					}
-
 				}
 				else
 				{
@@ -284,7 +326,7 @@ namespace Festejar.Pages
 				//await _context.SaveChangesAsync();
 
 				int reservaId = Reservas.Id; // Obtenha o ID da reserva que acabou de ser criada
-				//recupera da sessão os IDs dos recursos e as quantidade
+											 //recupera da sessão os IDs dos recursos e as quantidade
 				recursoId = JsonConvert.DeserializeObject<int[]>(HttpContext.Session.GetString("recursoId"));
 				quantidade = JsonConvert.DeserializeObject<int[]>(HttpContext.Session.GetString("quantidade"));
 
@@ -334,13 +376,13 @@ namespace Festejar.Pages
 		public string Email { get; set; }
 	}
 
-	public class Payment 
+	public class Payment
 	{
-        public string CustomerId { get; set; }
-        public string CobrancaId { get; set; }
-        public EpaymentType TipoPagamento { get; set; }
-        public float Valor { get; set; }
-        public string VencimentoCobranca { get; set; }
+		public string CustomerId { get; set; }
+		public string CobrancaId { get; set; }
+		public EpaymentType TipoPagamento { get; set; }
+		public float Valor { get; set; }
+		public string VencimentoCobranca { get; set; }
 
 	}
 
@@ -351,8 +393,8 @@ namespace Festejar.Pages
 
 		[Required(ErrorMessage = "*Informe o numero do cartão")]
 		public string NumeroCartao { get; set; }
-        public string ExpiryMonth { get; set; }
-        public string ExpiryYear { get; set; }
+		public string ExpiryMonth { get; set; }
+		public string ExpiryYear { get; set; }
 
 		[Required(ErrorMessage = "*Informe o código de segurança do cartão")]
 		public string Cvv { get; set; }
@@ -363,7 +405,7 @@ namespace Festejar.Pages
 
 		public async Task<(bool, string)> Pagar(EpaymentType type, DadosClientes dadosClientes, PagamentoCartaoCredito dadosDoCartao, string cobrancaId)
 		{
-			if (type == EpaymentType.CartaoCredito)
+			if (type == EpaymentType.CREDIT_CARD)
 			{
 				string[] partes = dadosDoCartao.ValidadeCartao.Split('/');
 				CobrancaId = cobrancaId;
@@ -399,7 +441,7 @@ namespace Festejar.Pages
 						Console.WriteLine("Erro ao efetuado o pagamento: " + errorContent);
 						return (false, errorContent);
 					}
-					
+
 				}
 				catch (Exception ex)
 				{
@@ -410,12 +452,93 @@ namespace Festejar.Pages
 
 			return (false, "Erro ao selecionar forma de pagamento ");
 		}
-
-
 	}
 
 
+	public class PagamentoPix : Payment
+	{
+		public string ChavePix { get; set; }
+		public string FormatoPix { get; set; }
+		public string EncodedImage { get; set; }
+		public string Payload { get; set; }
+		public HttpStatusCode StatusCode { get; set; }
+		public string CobrancaCriadaId { get; set; }
 
+		public async Task<PagamentoPix> GerarQRCode(string cobrancaId)
+		{
+			CobrancaId = cobrancaId;
+			try
+			{
+
+				var client = new HttpClient();
+				var request = new HttpRequestMessage
+				{
+					Method = HttpMethod.Get,
+					RequestUri = new Uri($"https://sandbox.asaas.com/api/v3/payments/{CobrancaId}/pixQrCode"),
+					Headers =
+						{
+							{ "accept", "application/json" },
+							{ "access_token", "$aact_YTU5YTE0M2M2N2I4MTliNzk0YTI5N2U5MzdjNWZmNDQ6OjAwMDAwMDAwMDAwMDAwNjgyODU6OiRhYWNoX2M2MDM0YTVjLWZiOTktNDgzNy1iMjdiLTZiOTE1M2MzYTNmNQ==" },
+						},
+				};
+				using (var responsePix = await client.SendAsync(request))
+				{
+					responsePix.EnsureSuccessStatusCode();
+					var body = await responsePix.Content.ReadAsStringAsync();
+					Console.WriteLine(body);
+					dynamic cobrancaCriada = JsonConvert.DeserializeObject<dynamic>(body);
+
+					this.StatusCode = responsePix.StatusCode;
+					this.CobrancaCriadaId = cobrancaCriada.id;
+					this.EncodedImage = cobrancaCriada.encodedImage;
+					this.Payload = cobrancaCriada.payload;
+
+					return this;
+				}
+
+				//var clientPix = new HttpClient();
+				//var requestPix = new HttpRequestMessage
+				//{
+				//	Method = HttpMethod.Get,
+				//	RequestUri = new Uri("https://sandbox.asaas.com/api/v3/payments/pay_sy1jl5abns8yq8v8/pixQrCode"),
+				//	Headers =
+				//	{
+				//		{ "accept", "application/json" },
+				//		{ "access_token", "$aact_YTU5YTE0M2M2N2I4MTliNzk0YTI5N2U5MzdjNWZmNDQ6OjAwMDAwMDAwMDAwMDAwNjgyODU6OiRhYWNoX2M2MDM0YTVjLWZiOTktNDgzNy1iMjdiLTZiOTE1M2MzYTNmNQ==" },
+				//	},
+				//	Content = new StringContent($"{{\"addressKey\":\"221e9827-b6b1-4592-9344-5b9a14a4ef2f\",\"value\":{Valor},\"format\":\"ALL\",\"expirationDate\":\"2024-05-05 14:20:50\",\"allowsMultiplePayments\":false}}")
+				//	{
+				//		Headers =
+				//		{
+				//			ContentType = new MediaTypeHeaderValue("application/json")
+				//		}
+				//	}
+				//};
+				//using (var responsePix = await clientPix.SendAsync(requestPix))
+				//{
+				//	responsePix.EnsureSuccessStatusCode();
+				//	var body = await responsePix.Content.ReadAsStringAsync();
+				//	Console.WriteLine(body);
+				//	dynamic cobrancaCriada = JsonConvert.DeserializeObject<dynamic>(body);
+
+				//	this.StatusCode = responsePix.StatusCode;
+				//	this.CobrancaCriadaId = cobrancaCriada.id;
+				//	this.EncodedImage = cobrancaCriada.encodedImage;
+				//	this.Payload = cobrancaCriada.payload;
+
+				//	return this;
+				//}
+
+			}
+			catch (Exception ex)
+			{
+				// Tratar a exceção
+				Console.WriteLine("Exceção ao criar a cobrança: " + ex.Message);
+				this.StatusCode = System.Net.HttpStatusCode.InternalServerError;
+				return this;
+			}
+		}
+	}
 
 
 
@@ -428,17 +551,18 @@ namespace Festejar.Pages
 	{
 		public async Task<IActionResult> CriarCobranca(EpaymentType type, DadosClientes dadosClientes, float valor)
 		{
+			var options = new RestClientOptions("https://sandbox.asaas.com/api/v3/payments");
+			var client = new RestClient(options);
+			var request = new RestRequest("");
+
 			TipoPagamento = type;
 			Valor = valor;
 			VencimentoCobranca = DateTime.Now.AddDays(3).ToString("yyyy-MM-dd"); // Formatando a data para o formato MM/YY
 
-			if (TipoPagamento == EpaymentType.CartaoCredito)
+			if (TipoPagamento == EpaymentType.CREDIT_CARD)
 			{
-				try 
+				try
 				{
-					var options = new RestClientOptions("https://sandbox.asaas.com/api/v3/payments");
-					var client = new RestClient(options);
-					var request = new RestRequest("");
 					request.AddHeader("accept", "application/json");
 					request.AddHeader("access_token", "$aact_YTU5YTE0M2M2N2I4MTliNzk0YTI5N2U5MzdjNWZmNDQ6OjAwMDAwMDAwMDAwMDAwNjgyODU6OiRhYWNoX2M2MDM0YTVjLWZiOTktNDgzNy1iMjdiLTZiOTE1M2MzYTNmNQ==");
 					request.AddJsonBody($"{{\"billingType\":\"CREDIT_CARD\",\"customer\":\"{dadosClientes.AsaasId}\",\"value\":{Valor},\"dueDate\":\"{VencimentoCobranca}\"}}", false);
@@ -446,7 +570,7 @@ namespace Festejar.Pages
 
 
 					dynamic cobrancaCriada = JsonConvert.DeserializeObject<dynamic>(response.Content);
-						Console.WriteLine("Cobrança criada com sucesso. ID: " + cobrancaCriada.id);
+					Console.WriteLine("Cobrança criada com sucesso. ID: " + cobrancaCriada.id);
 					return new JsonResult(new { StatusCode = response.StatusCode, CobrancaCriadaId = cobrancaCriada.id })
 					{
 						StatusCode = (int)response.StatusCode,
@@ -455,13 +579,13 @@ namespace Festejar.Pages
 
 
 				}
-				catch (Exception ex) 
+				catch (Exception ex)
 				{
 					// Tratar a exceção
 					Console.WriteLine("Exceção ao criar a cobrança: " + ex.Message);
 					return new JsonResult(new { StatusCode = System.Net.HttpStatusCode.InternalServerError, Error = ex.Message });
 				}
-				
+
 				//if (response.StatusCode == System.Net.HttpStatusCode.OK)
 				//{
 				//	// Cobrança criada com sucesso
@@ -474,6 +598,35 @@ namespace Festejar.Pages
 				//	Console.WriteLine("Erro ao criar a cobrança: " + response.Content);
 				//}
 
+			}
+			if (TipoPagamento == EpaymentType.PIX)
+			{
+
+				try
+				{
+					request.AddHeader("accept", "application/json");
+					request.AddHeader("access_token", "$aact_YTU5YTE0M2M2N2I4MTliNzk0YTI5N2U5MzdjNWZmNDQ6OjAwMDAwMDAwMDAwMDAwNjgyODU6OiRhYWNoX2M2MDM0YTVjLWZiOTktNDgzNy1iMjdiLTZiOTE1M2MzYTNmNQ==");
+					request.AddJsonBody($"{{\"billingType\":\"PIX\",\"customer\":\"{dadosClientes.AsaasId}\",\"value\":{Valor},\"dueDate\":\"{VencimentoCobranca}\"}}", false);
+					var response = await client.PostAsync(request);
+
+
+					dynamic cobrancaCriada = JsonConvert.DeserializeObject<dynamic>(response.Content);
+					Console.WriteLine("Cobrança criada com sucesso. ID: " + cobrancaCriada.id);
+					return new JsonResult(new { StatusCode = response.StatusCode, CobrancaCriadaId = cobrancaCriada.id })
+					{
+						StatusCode = (int)response.StatusCode,
+						Value = cobrancaCriada.id
+					};
+
+
+				}
+				catch (Exception ex)
+				{
+					// Tratar a exceção
+					Console.WriteLine("Exceção ao criar a cobrança: " + ex.Message);
+					return new JsonResult(new { StatusCode = System.Net.HttpStatusCode.InternalServerError, Error = ex.Message });
+				}
+				
 			}
 			return new JsonResult(new { StatusCode = System.Net.HttpStatusCode.BadRequest, Error = "Tipo de pagamento inválido" });
 

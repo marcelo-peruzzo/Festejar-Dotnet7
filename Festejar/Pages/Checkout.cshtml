@@ -36,15 +36,22 @@
 								<div class="checkout-contents mt-4">
 									<div class="custom-radio custom-radio-inline">
 										<div class="custom-radio-single active">
-											<input class="radio-input" type="radio" id="radio1" name="PaymentType" value="@((int)CheckoutModel.EpaymentType.CartaoCredito)" checked="checked">
+											<input class="radio-input" type="radio" id="radio1" name="PaymentType" value="@((int)CheckoutModel.EpaymentType.CREDIT_CARD)" checked="checked">
 											<i class='bx bx-credit-card'></i>
 											<label for="radio1"> Cartão de Crédito</label>
 										</div>
 										<div class="custom-radio-single">
-											<input class="radio-input" type="radio" name="PaymentType" id="radio2" value="@((int)CheckoutModel.EpaymentType.Pix)">
+											<input class="radio-input" type="radio" name="PaymentType" id="radio2" value="@((int)CheckoutModel.EpaymentType.PIX)">
 											<label for="radio2"> <i class="fa-brands fa-pix" style="color: #4DB6AC;"></i> Pix</label>
 										</div>
 									</div>
+									@if (ViewData["EncodedImage"] != null)
+									{
+										<div id="pixInfo">
+											<img src="data:image/png;base64,@ViewData["EncodedImage"]" alt="Imagem Pix" />
+											<p>Pix Copia e cola: @ViewData["Payload"]</p>
+										</div>
+									}
 									<div class="checkout-form custom-form">
 
 										<div class="single-input mt-4">
@@ -93,7 +100,7 @@
 											<input type="hidden" name="dataConfirm" value="@Model.DataReserva" />
 											<input type="hidden" name="qntConvidados" value="@Model.qntConvidados" />
 											<input type="hidden" name="casaid" value="@Model.Casa_Id" />
-											<button href="javascript:void(0)" asp-page-handler="CreateReserva" class="cmn-btn btn-bg-1 btn-small"> Pay &amp; Confirm </button>
+											<button id="btnGeraCobranca" asp-page-handler="CreateReserva" class="cmn-btn btn-bg-1 btn-small"> Pay &amp; Confirm </button>
 										</div>
 									</div>
 								</div>
@@ -178,6 +185,86 @@
 			var totalCheckoutElement = document.querySelector(".total-checkout");
 			console.log(123);
 			const valorItem = [];
+
+
+
+			// Seleciona os elementos do DOM
+			var radioCartao = document.getElementById('radio1');
+			var radioPix = document.getElementById('radio2');
+			var botao = document.getElementById('btnGeraCobranca');
+			var camposCartao = document.querySelectorAll('.single-input');
+			var pixInfo = document.getElementById('pixInfo');
+
+
+			// Armazena o texto original do botão
+			var textoOriginal = botao.textContent;
+
+			console.log(textoOriginal);
+
+			// Adiciona o evento de clique ao botão Pix
+			radioPix.addEventListener('change', function () {
+				// Altera o texto do botão
+				botao.textContent = 'Gerar QRCode';
+
+				// Oculta os campos do cartão
+				camposCartao.forEach(function (campo) {
+					campo.style.display = 'none';
+				});
+				
+				// Armazena a seleção do usuário
+				localStorage.setItem('selectedPaymentType', 'PIX');
+				// Mostra a div Pix
+				if (pixInfo) {
+					pixInfo.style.display = 'block';
+				}
+			});
+
+			// Adiciona o evento de clique ao botão Cartão de Crédito
+			radioCartao.addEventListener('change', function () {
+				// Restaura o texto original do botão
+				botao.textContent = textoOriginal;
+
+				// Mostra os campos do cartão
+				camposCartao.forEach(function (campo) {
+					campo.style.display = 'block';
+				});
+				
+				// Armazena a seleção do usuário
+				localStorage.setItem('selectedPaymentType', 'CREDIT_CARD');
+				// Esconde a div Pix
+				if (pixInfo) {
+					pixInfo.style.display = 'none';
+				}
+			});
+
+			// Verifica qual botão de opção está selecionado quando a página é carregada
+			var selectedPaymentType = localStorage.getItem('selectedPaymentType');
+			if (selectedPaymentType === 'PIX') {
+				radioPix.checked = true;
+				radioCartao.checked = false;
+				console.log("radioPix marcado")
+				// Se Pix estiver selecionado, oculta os campos do cartão
+				camposCartao.forEach(function (campo) {
+					campo.style.display = 'none';
+				});
+				botao.textContent = 'Gerar QRCode';
+				if (pixInfo) {
+					pixInfo.style.display = 'block';
+				}
+			} else if (selectedPaymentType === 'CREDIT_CARD') {
+				radioPix.checked = false;
+				radioCartao.checked = true;
+				// Se Cartão de Crédito estiver selecionado, mostra os campos do cartão
+				camposCartao.forEach(function (campo) {
+					campo.style.display = 'block';
+				});
+				botao.textContent = textoOriginal;
+				if (pixInfo) {
+					pixInfo.style.display = 'none';
+				}
+			}
+
+
 			for (let i = 0; i < quantityInputs.length; i++) {
 				valorItem[i] = parseFloat(quantityInputs[i].dataset.valor) / parseFloat(quantityInputs[i].dataset.max);
 			}
